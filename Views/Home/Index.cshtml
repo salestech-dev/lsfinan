@@ -1,8 +1,1147 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "LS Finan";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0;
+        background: #070B12;
+        color: #F8FAFC;
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* =========================
+       BACKGROUND
+       ========================= */
+
+    .home-page {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 15% 20%, rgba(37, 99, 235, 0.10), transparent 28%),
+            radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 28%),
+            #070B12;
+    }
+
+    .background-glow {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        filter: blur(120px);
+        background: rgba(37, 99, 235, 0.08);
+        pointer-events: none;
+        animation: floatingGlow 8s ease-in-out infinite alternate;
+    }
+
+    .glow-one {
+        top: -250px;
+        left: -150px;
+    }
+
+    .glow-two {
+        right: -250px;
+        top: 400px;
+        animation-delay: 2s;
+    }
+
+    @@keyframes floatingGlow {
+        from {
+            transform: translateY(0) scale(1);
+        }
+
+        to {
+            transform: translateY(40px) scale(1.15);
+        }
+    }
+
+    /* =========================
+       NAVBAR
+       ========================= */
+
+    .navbar-custom {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        padding: 24px 7%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(7, 11, 18, 0.65);
+        backdrop-filter: blur(18px);
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        color: #F8FAFC;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #172554;
+        border: 1px solid #1E40AF;
+        color: #60A5FA;
+        font-size: 20px;
+        font-weight: 700;
+        box-shadow: 0 0 25px rgba(37, 99, 235, 0.18);
+    }
+
+    .brand-name {
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .nav-links a {
+        color: #94A3B8;
+        text-decoration: none;
+        font-size: 14px;
+        transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+        color: #60A5FA;
+    }
+
+    .nav-login {
+        padding: 10px 19px;
+        border: 1px solid #263244;
+        border-radius: 9px;
+        color: #CBD5E1 !important;
+    }
+
+    .nav-login:hover {
+        border-color: #3B82F6;
+        background: rgba(59, 130, 246, 0.08);
+    }
+
+    /* =========================
+       HERO
+       ========================= */
+
+    .hero {
+        position: relative;
+        z-index: 2;
+        min-height: 720px;
+        padding: 100px 7% 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 80px;
+    }
+
+    .hero-content {
+        max-width: 650px;
+        animation: fadeUp 0.9s ease forwards;
+    }
+
+    @@keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(35px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 13px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(59, 130, 246, 0.25);
+        border-radius: 50px;
+        background: rgba(59, 130, 246, 0.07);
+        color: #60A5FA;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+    }
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #3B82F6;
+        box-shadow: 0 0 12px #3B82F6;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.5;
+            transform: scale(0.75);
+        }
+    }
+
+    .hero h1 {
+        margin: 0;
+        font-size: clamp(45px, 5vw, 72px);
+        line-height: 1.02;
+        letter-spacing: -3px;
+        font-weight: 750;
+    }
+
+    .gradient-text {
+        color: #60A5FA;
+        text-shadow: 0 0 40px rgba(59, 130, 246, 0.22);
+    }
+
+    .hero-description {
+        max-width: 590px;
+        margin: 28px 0 35px;
+        color: #94A3B8;
+        font-size: 17px;
+        line-height: 1.8;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .primary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 165px;
+        padding: 14px 24px;
+        border-radius: 10px;
+        background: #2563EB;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 10px 35px rgba(37, 99, 235, 0.25);
+        transition: 0.3s ease;
+    }
+
+    .primary-button:hover {
+        background: #1D4ED8;
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(37, 99, 235, 0.38);
+    }
+
+    .secondary-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 165px;
+        padding: 14px 24px;
+        border: 1px solid #263244;
+        border-radius: 10px;
+        color: #CBD5E1;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .secondary-button:hover {
+        border-color: #3B82F6;
+        color: #60A5FA;
+        background: rgba(59, 130, 246, 0.06);
+        transform: translateY(-3px);
+    }
+
+    /* =========================
+       MOCKUP
+       ========================= */
+
+    .dashboard-preview {
+        position: relative;
+        width: 470px;
+        flex-shrink: 0;
+        animation: previewFloat 5s ease-in-out infinite;
+    }
+
+    @@keyframes previewFloat {
+        0%, 100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-12px);
+        }
+    }
+
+    .preview-card {
+        position: relative;
+        padding: 24px;
+        border: 1px solid #1F2937;
+        border-radius: 20px;
+        background: rgba(17, 24, 39, 0.85);
+        backdrop-filter: blur(20px);
+        box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.45),
+            0 0 80px rgba(37, 99, 235, 0.08);
+    }
+
+    .preview-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .preview-title {
+        color: #F8FAFC;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .preview-menu {
+        display: flex;
+        gap: 5px;
+    }
+
+    .preview-menu span {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #475569;
+    }
+
+    .balance-card {
+        padding: 22px;
+        border-radius: 15px;
+        background: linear-gradient(135deg, #172554, #1E3A8A);
+        border: 1px solid rgba(96, 165, 250, 0.15);
+        box-shadow: inset 0 1px rgba(255,255,255,0.05);
+    }
+
+    .balance-label {
+        color: #93C5FD;
+        font-size: 12px;
+    }
+
+    .balance-value {
+        margin-top: 8px;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -1px;
+    }
+
+    .balance-status {
+        margin-top: 10px;
+        color: #BFDBFE;
+        font-size: 11px;
+    }
+
+    .preview-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .stat-card {
+        padding: 18px;
+        border: 1px solid #1F2937;
+        border-radius: 14px;
+        background: #0F172A;
+        transition: 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-4px);
+        border-color: #334155;
+    }
+
+    .stat-label {
+        color: #64748B;
+        font-size: 11px;
+    }
+
+    .stat-value {
+        margin-top: 7px;
+        color: #E2E8F0;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .chart {
+        height: 95px;
+        margin-top: 15px;
+        display: flex;
+        align-items: end;
+        gap: 7px;
+    }
+
+    .bar {
+        flex: 1;
+        border-radius: 5px 5px 2px 2px;
+        background: #2563EB;
+        opacity: 0.75;
+        animation: chartGrow 1.2s ease forwards;
+        transform-origin: bottom;
+    }
+
+    .bar:nth-child(1) { height: 35%; }
+    .bar:nth-child(2) { height: 52%; }
+    .bar:nth-child(3) { height: 42%; }
+    .bar:nth-child(4) { height: 70%; }
+    .bar:nth-child(5) { height: 58%; }
+    .bar:nth-child(6) { height: 82%; }
+    .bar:nth-child(7) { height: 94%; }
+
+    @@keyframes chartGrow {
+        from {
+            transform: scaleY(0);
+        }
+
+        to {
+            transform: scaleY(1);
+        }
+    }
+
+    /* =========================
+       SECTION
+       ========================= */
+
+    .section {
+        position: relative;
+        z-index: 2;
+        padding: 110px 7%;
+    }
+
+    .section-header {
+        max-width: 650px;
+        margin-bottom: 55px;
+    }
+
+    .section-label {
+        color: #3B82F6;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .section-header h2 {
+        margin: 12px 0 15px;
+        font-size: 38px;
+        letter-spacing: -1.5px;
+    }
+
+    .section-header p {
+        margin: 0;
+        color: #64748B;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    /* =========================
+       FEATURES
+       ========================= */
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .feature-card {
+        position: relative;
+        padding: 30px;
+        border: 1px solid #1F2937;
+        border-radius: 18px;
+        background: #0F172A;
+        overflow: hidden;
+        transition: 0.35s ease;
+    }
+
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: rgba(37, 99, 235, 0.08);
+        filter: blur(50px);
+        top: -100px;
+        right: -100px;
+        opacity: 0;
+        transition: 0.4s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        border-color: #263F75;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    .feature-card:hover::before {
+        opacity: 1;
+    }
+
+    .feature-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 22px;
+        border-radius: 13px;
+        background: #172554;
+        border: 1px solid #1E40AF;
+        color: #60A5FA;
+        font-size: 20px;
+    }
+
+    .feature-card h3 {
+        margin: 0 0 12px;
+        font-size: 17px;
+    }
+
+    .feature-card p {
+        margin: 0;
+        color: #64748B;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    /* =========================
+       EXPLICAÇÃO
+       ========================= */
+
+    .about-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 100px;
+    }
+
+    .about-content h2 {
+        margin: 12px 0 20px;
+        font-size: 40px;
+        line-height: 1.15;
+        letter-spacing: -1.5px;
+    }
+
+    .about-content p {
+        color: #64748B;
+        font-size: 15px;
+        line-height: 1.9;
+        margin-bottom: 20px;
+    }
+
+    .about-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 30px;
+    }
+
+    .about-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #CBD5E1;
+        font-size: 14px;
+    }
+
+    .about-check {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #172554;
+        color: #60A5FA;
+        font-size: 11px;
+    }
+
+    /* =========================
+       FINAL CTA
+       ========================= */
+
+    .cta {
+        position: relative;
+        overflow: hidden;
+        margin: 30px 7% 100px;
+        padding: 70px 50px;
+        text-align: center;
+        border: 1px solid #1F2937;
+        border-radius: 24px;
+        background:
+            radial-gradient(circle at center, rgba(37, 99, 235, 0.12), transparent 55%),
+            #0F172A;
+    }
+
+    .cta h2 {
+        margin: 0 0 15px;
+        font-size: 36px;
+        letter-spacing: -1.2px;
+    }
+
+    .cta p {
+        max-width: 550px;
+        margin: 0 auto 30px;
+        color: #64748B;
+        line-height: 1.7;
+        font-size: 14px;
+    }
+
+    /* =========================
+       FOOTER
+       ========================= */
+
+    .footer {
+        padding: 35px 7%;
+        border-top: 1px solid #111827;
+        text-align: center;
+        color: #475569;
+        font-size: 12px;
+    }
+
+    /* =========================
+       RESPONSIVO
+       ========================= */
+
+    @@media (max-width: 1000px) {
+
+        .hero {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .dashboard-preview {
+            width: 100%;
+            max-width: 500px;
+            align-self: center;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .about-section {
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+    }
+
+    @@media (max-width: 700px) {
+
+        .navbar-custom {
+            padding: 20px 5%;
+        }
+
+        .nav-links a:not(.nav-login) {
+            display: none;
+        }
+
+        .hero {
+            padding: 70px 5%;
+        }
+
+        .hero h1 {
+            letter-spacing: -2px;
+        }
+
+        .dashboard-preview {
+            width: 100%;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section {
+            padding: 80px 5%;
+        }
+
+        .cta {
+            margin: 20px 5% 70px;
+            padding: 55px 25px;
+        }
+
+        .cta h2 {
+            font-size: 29px;
+        }
+    }
+
+    @@media (max-width: 450px) {
+
+        .hero-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .primary-button,
+        .secondary-button {
+            width: 100%;
+        }
+
+        .preview-card {
+            padding: 17px;
+        }
+    }
+</style>
+
+
+<div class="home-page">
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+   
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+                <span class="status-dot"></span>
+                CONTROLE FINANCEIRO PESSOAL
+            </div>
+
+            <h1>
+                Seu dinheiro.
+                <br />
+                Seu controle.
+                <br />
+                <span class="gradient-text">
+                    Sua evolução.
+                </span>
+            </h1>
+
+            <p class="hero-description">
+                O LS Finan foi desenvolvido para ajudar você a organizar
+                sua vida financeira de forma simples, clara e inteligente.
+                Controle entradas, saídas, contas e categorias em um único lugar.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a asp-controller="Usuario"
+                   asp-action="Cadastro"
+                   class="primary-button">
+                    Criar minha conta
+                </a>
+
+                <a href="#recursos"
+                   class="secondary-button">
+                    Conhecer o sistema
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- PREVIEW DO SISTEMA -->
+
+        <div class="dashboard-preview">
+
+            <div class="preview-card">
+
+                <div class="preview-header">
+
+                    <span class="preview-title">
+                        Visão financeira
+                    </span>
+
+                    <div class="preview-menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                </div>
+
+
+                <div class="balance-card">
+
+                    <div class="balance-label">
+                        Saldo disponível
+                    </div>
+
+                    <div class="balance-value">
+                        R$ 8.450,00
+                    </div>
+
+                    <div class="balance-status">
+                        ↑ 12,4% em relação ao mês anterior
+                    </div>
+
+                </div>
+
+
+                <div class="preview-stats">
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Entradas
+                        </div>
+
+                        <div class="stat-value">
+                            R$ 5.820
+                        </div>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Saídas
+                        </div>
+
+                        <div class="stat-value">
+                            R$ 2.130
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chart">
+
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECURSOS -->
+
+    <section class="section" id="recursos">
+
+        <div class="section-header">
+
+            <span class="section-label">
+                Recursos
+            </span>
+
+            <h2>
+                Tudo o que você precisa para organizar suas finanças.
+            </h2>
+
+            <p>
+                O LS Finan centraliza as principais informações da sua
+                vida financeira para que você tenha mais controle sobre
+                suas decisões.
+            </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    $
+                </div>
+
+                <h3>
+                    Controle de contas
+                </h3>
+
+                <p>
+                    Cadastre suas contas e acompanhe o saldo de cada
+                    uma delas em um único lugar.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ↑
+                </div>
+
+                <h3>
+                    Entradas
+                </h3>
+
+                <p>
+                    Registre seus recebimentos e tenha uma visão clara
+                    de tudo que entra no seu orçamento.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ↓
+                </div>
+
+                <h3>
+                    Saídas
+                </h3>
+
+                <p>
+                    Acompanhe seus gastos e entenda para onde seu
+                    dinheiro está indo.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    #
+                </div>
+
+                <h3>
+                    Categorias
+                </h3>
+
+                <p>
+                    Organize suas movimentações por categorias e
+                    facilite a análise das suas despesas.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    Segurança
+                </h3>
+
+                <p>
+                    Cada usuário possui seus próprios dados protegidos
+                    pelo sistema de autenticação do Identity.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ↗
+                </div>
+
+                <h3>
+                    Evolução
+                </h3>
+
+                <p>
+                    O sistema foi pensado para crescer junto com novas
+                    funcionalidades e necessidades financeiras.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SOBRE -->
+
+    <section class="section" id="sobre">
+
+        <div class="about-section">
+
+            <div class="about-content">
+
+                <span class="section-label">
+                    Sobre o LS Finan
+                </span>
+
+                <h2>
+                    Mais do que registrar gastos.
+                    <span class="gradient-text">
+                        Entender suas finanças.
+                    </span>
+                </h2>
+
+                <p>
+                    O LS Finan nasceu com uma proposta simples:
+                    transformar informações financeiras espalhadas
+                    em uma visão organizada e fácil de entender.
+                </p>
+
+                <p>
+                    A ideia é permitir que você saiba quanto possui,
+                    quanto recebe, quanto gasta e, principalmente,
+                    onde seu dinheiro está sendo utilizado.
+                </p>
+
+                <div class="about-list">
+
+                    <div class="about-item">
+                        <span class="about-check">✓</span>
+                        Organização financeira em um único lugar
+                    </div>
+
+                    <div class="about-item">
+                        <span class="about-check">✓</span>
+                        Controle individual por usuário
+                    </div>
+
+                    <div class="about-item">
+                        <span class="about-check">✓</span>
+                        Estrutura preparada para novas funcionalidades
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard-preview">
+
+                <div class="preview-card">
+
+                    <div class="preview-header">
+
+                        <span class="preview-title">
+                            Resumo mensal
+                        </span>
+
+                        <span class="stat-label">
+                            Este mês
+                        </span>
+
+                    </div>
+
+                    <div class="stat-card">
+
+                        <div class="stat-label">
+                            Total movimentado
+                        </div>
+
+                        <div class="stat-value">
+                            R$ 7.950,00
+                        </div>
+
+                    </div>
+
+                    <div class="preview-stats">
+
+                        <div class="stat-card">
+
+                            <div class="stat-label">
+                                Entradas
+                            </div>
+
+                            <div class="stat-value">
+                                R$ 5.820
+                            </div>
+
+                        </div>
+
+                        <div class="stat-card">
+
+                            <div class="stat-label">
+                                Saídas
+                            </div>
+
+                            <div class="stat-value">
+                                R$ 2.130
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta">
+
+        <h2>
+            Pronto para assumir o controle?
+        </h2>
+
+        <p>
+            Crie sua conta no LS Finan e comece a organizar
+            sua vida financeira de maneira simples e eficiente.
+        </p>
+
+        <a asp-controller="Usuario"
+           asp-action="Cadastro"
+           class="primary-button">
+            Começar agora
+        </a>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        © @DateTime.Now.Year LS Finan.
+        Controle financeiro pessoal.
+
+    </footer>
+
 </div>

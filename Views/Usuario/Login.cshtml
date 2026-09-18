@@ -1,0 +1,836 @@
+@using lsfinan.ViewModel
+@model UsuarioLoginViewModel
+
+@{
+    ViewData["Title"] = "Entrar";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+        background: #070B12;
+        color: #F8FAFC;
+        overflow-x: hidden;
+    }
+
+    /* =========================
+       PÁGINA
+       ========================= */
+
+    .login-page {
+        position: relative;
+        HEIGHT: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 20px;
+        overflow: hidden;
+
+        background:
+            radial-gradient(circle at 15% 20%,
+                rgba(37, 99, 235, 0.10),
+                transparent 28%),
+            radial-gradient(circle at 85% 80%,
+                rgba(59, 130, 246, 0.08),
+                transparent 30%),
+            #070B12;
+    }
+
+    /* =========================
+       GLOW
+       ========================= */
+
+    .background-glow {
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        border-radius: 50%;
+        background: rgba(37, 99, 235, 0.08);
+        filter: blur(120px);
+        pointer-events: none;
+        animation: floatingGlow 8s ease-in-out infinite alternate;
+    }
+
+    .glow-one {
+        top: -220px;
+        left: -150px;
+    }
+
+    .glow-two {
+        bottom: -250px;
+        right: -150px;
+        animation-delay: 2s;
+    }
+
+    @@keyframes floatingGlow {
+        from {
+            transform: translateY(0) scale(1);
+        }
+
+        to {
+            transform: translateY(35px) scale(1.12);
+        }
+    }
+
+    /* =========================
+       CONTAINER
+       ========================= */
+
+    .login-container {
+        position: relative;
+        z-index: 2;
+
+        width: 100%;
+        max-width: 1000px;
+        min-height: 610px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        background: #111827;
+        border: 1px solid #1F2937;
+        border-radius: 24px;
+        overflow: hidden;
+
+        box-shadow:
+            0 30px 90px rgba(0, 0, 0, 0.55),
+            0 0 80px rgba(37, 99, 235, 0.05);
+
+        animation: pageAppear 0.8s ease forwards;
+    }
+
+    @@keyframes pageAppear {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* =========================
+       LADO ESQUERDO
+       ========================= */
+
+    .login-brand {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        padding: 55px;
+
+        background: #080C14;
+
+        border-right: 1px solid #1F2937;
+        overflow: hidden;
+    }
+
+    .login-brand::before {
+        content: "";
+
+        position: absolute;
+
+        width: 420px;
+        height: 420px;
+
+        border-radius: 50%;
+
+        background: rgba(37, 99, 235, 0.08);
+
+        top: -190px;
+        right: -190px;
+    }
+
+    .login-brand::after {
+        content: "";
+
+        position: absolute;
+
+        width: 300px;
+        height: 300px;
+
+        border-radius: 50%;
+
+        background: rgba(37, 99, 235, 0.05);
+
+        bottom: -150px;
+        left: -120px;
+    }
+
+    .brand-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* =========================
+       LOGO
+       ========================= */
+
+    .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        margin-bottom: 70px;
+    }
+
+    .brand-icon {
+        width: 45px;
+        height: 45px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background: #172554;
+        border: 1px solid #1E40AF;
+
+        color: #60A5FA;
+
+        font-size: 21px;
+        font-weight: 700;
+
+        box-shadow:
+            0 0 25px rgba(37, 99, 235, 0.18);
+    }
+
+    .brand-name {
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    /* =========================
+       TEXTO
+       ========================= */
+
+    .brand-content h1 {
+        max-width: 420px;
+
+        margin: 0 0 20px;
+
+        font-size: 40px;
+        line-height: 1.12;
+
+        letter-spacing: -1.5px;
+    }
+
+    .gradient-text {
+        color: #60A5FA;
+
+        text-shadow:
+            0 0 35px rgba(59, 130, 246, 0.20);
+    }
+
+    .brand-content p {
+        max-width: 410px;
+
+        margin: 0;
+
+        color: #94A3B8;
+
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    /* =========================
+       FEATURES
+       ========================= */
+
+    .brand-features {
+        position: relative;
+        z-index: 2;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .feature {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        color: #CBD5E1;
+
+        font-size: 14px;
+    }
+
+    .feature-check {
+        width: 27px;
+        height: 27px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background: #172554;
+        border: 1px solid #1E40AF;
+
+        color: #60A5FA;
+
+        font-size: 12px;
+    }
+
+    /* =========================
+       ÁREA DO LOGIN
+       ========================= */
+
+    .login-form-area {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 50px 55px;
+
+        background: #111827;
+    }
+
+    .login-form {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .form-header {
+        margin-bottom: 32px;
+    }
+
+    .form-header h2 {
+        margin: 0 0 10px;
+
+        color: #F8FAFC;
+
+        font-size: 30px;
+        font-weight: 700;
+
+        letter-spacing: -0.8px;
+    }
+
+    .form-header p {
+        margin: 0;
+
+        color: #64748B;
+
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    /* =========================
+       CAMPOS
+       ========================= */
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #CBD5E1;
+
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-icon {
+        position: absolute;
+
+        left: 15px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #64748B;
+
+        font-size: 15px;
+
+        pointer-events: none;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        height: 51px;
+
+        padding: 0 15px 0 45px;
+
+        border: 1px solid #263244;
+        border-radius: 11px;
+
+        outline: none;
+
+        background: #0F172A;
+        color: #F1F5F9;
+
+        font-size: 14px;
+
+        transition: all 0.2s ease;
+    }
+
+    .form-control-custom::placeholder {
+        color: #475569;
+    }
+
+    .form-control-custom:hover {
+        border-color: #334155;
+    }
+
+    .form-control-custom:focus {
+        border-color: #3B82F6;
+
+        background: #0F172A;
+
+        box-shadow:
+            0 0 0 4px rgba(59, 130, 246, 0.12),
+            0 0 20px rgba(59, 130, 246, 0.04);
+    }
+
+    /* =========================
+       CHECKBOX / ESQUECI
+       ========================= */
+
+    .login-options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        margin: 8px 0 25px;
+
+        font-size: 13px;
+    }
+
+    .remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        color: #64748B;
+    }
+
+    .remember input {
+        accent-color: #2563EB;
+    }
+
+    .forgot-password {
+        color: #60A5FA;
+
+        text-decoration: none;
+
+        transition: 0.2s ease;
+    }
+
+    .forgot-password:hover {
+        color: #93C5FD;
+    }
+
+    /* =========================
+       ERROS
+       ========================= */
+
+    .validation-message {
+        display: block;
+
+        margin-top: 6px;
+
+        color: #F87171;
+
+        font-size: 12px;
+    }
+
+    .validation-summary {
+        margin-bottom: 20px;
+
+        padding: 12px 15px;
+
+        border-radius: 10px;
+
+        background: #2A1115;
+        border: 1px solid #7F1D1D;
+
+        color: #FCA5A5;
+
+        font-size: 13px;
+    }
+
+    /* =========================
+       BOTÃO
+       ========================= */
+
+    .login-button {
+        width: 100%;
+        height: 52px;
+
+        border: none;
+        border-radius: 11px;
+
+        background: #2563EB;
+
+        color: #FFFFFF;
+
+        font-size: 15px;
+        font-weight: 600;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 30px rgba(37, 99, 235, 0.25);
+
+        transition: all 0.25s ease;
+    }
+
+    .login-button:hover {
+        background: #1D4ED8;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 15px 35px rgba(37, 99, 235, 0.35);
+    }
+
+    .login-button:active {
+        transform: translateY(0);
+    }
+
+    /* =========================
+       CADASTRO
+       ========================= */
+
+    .register-area {
+        margin-top: 27px;
+        padding-top: 23px;
+
+        border-top: 1px solid #1F2937;
+
+        text-align: center;
+
+        color: #64748B;
+
+        font-size: 14px;
+    }
+
+    .register-link {
+        color: #60A5FA;
+
+        font-weight: 600;
+
+        text-decoration: none;
+
+        transition: 0.2s ease;
+    }
+
+    .register-link:hover {
+        color: #93C5FD;
+
+        text-decoration: underline;
+    }
+
+    /* =========================
+       RESPONSIVIDADE
+       ========================= */
+
+    @@media (max-width: 850px) {
+
+        .login-container {
+            grid-template-columns: 1fr;
+
+            max-width: 500px;
+        }
+
+        .login-brand {
+            min-height: 300px;
+
+            padding: 40px;
+
+            border-right: none;
+            border-bottom: 1px solid #1F2937;
+        }
+
+        .brand-logo {
+            margin-bottom: 40px;
+        }
+
+        .brand-content h1 {
+            font-size: 32px;
+        }
+
+        .brand-features {
+            display: none;
+        }
+
+        .login-form-area {
+            padding: 45px 35px;
+        }
+    }
+
+    @@media (max-width: 500px) {
+
+        .login-page {
+            padding: 0;
+        }
+
+        .login-container {
+            min-height: 100vh;
+
+            border: none;
+            border-radius: 0;
+
+            box-shadow: none;
+        }
+
+        .login-brand {
+            min-height: 260px;
+
+            padding: 30px 25px;
+        }
+
+        .login-form-area {
+            padding: 35px 25px;
+        }
+
+        .form-header h2 {
+            font-size: 26px;
+        }
+    }
+</style>
+
+
+<div class="login-page">
+
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+
+    <div class="login-container">
+
+        <!-- =========================
+             LADO ESQUERDO
+             ========================= -->
+
+        <section class="login-brand">
+
+            <div class="brand-content">
+
+                <div class="brand-logo">
+
+                    <div class="brand-icon">
+                        $
+                    </div>
+
+                    <span class="brand-name">
+                        LS Finan
+                    </span>
+
+                </div>
+
+
+                <h1>
+                    Tenha o controle.
+                    <br />
+
+                    <span class="gradient-text">
+                        Tome melhores decisões.
+                    </span>
+                </h1>
+
+
+                <p>
+                    Acompanhe suas entradas, saídas e contas
+                    em um único lugar e tenha uma visão mais
+                    clara da sua vida financeira.
+                </p>
+
+            </div>
+
+
+            <div class="brand-features">
+
+                <div class="feature">
+
+                    <span class="feature-check">
+                        ✓
+                    </span>
+
+                    Controle suas contas
+
+                </div>
+
+
+                <div class="feature">
+
+                    <span class="feature-check">
+                        ✓
+                    </span>
+
+                    Organize suas movimentações
+
+                </div>
+
+
+                <div class="feature">
+
+                    <span class="feature-check">
+                        ✓
+                    </span>
+
+                    Acompanhe sua evolução financeira
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FORMULÁRIO
+             ========================= -->
+
+        <section class="login-form-area">
+
+            <div class="login-form">
+
+
+                <div class="form-header">
+
+                    <h2>
+                        Bem-vindo de volta
+                    </h2>
+
+                    <p>
+                        Entre na sua conta para continuar.
+                    </p>
+
+                </div>
+
+
+               
+
+
+                <form asp-action="Login" method="post">
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group">
+
+                        <label asp-for="Email">
+                            E-mail
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+
+                            </span>
+
+
+                            <input asp-for="Email" class="form-control-custom" placeholder="seuemail@exemplo.com" />
+
+                        </div>
+
+
+                        <span asp-validation-for="Email" class="validation-message">
+                        </span>
+
+                    </div>
+
+
+                    <!-- SENHA -->
+
+                    <div class="form-group">
+
+                        <label asp-for="Senha">
+                            Senha
+                        </label>
+
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+
+                            </span>
+
+
+                            <input asp-for="Senha" type="password" class="form-control-custom"
+                                   placeholder="Digite sua senha" />
+
+                        </div>
+
+
+                        <span asp-validation-for="Senha" class="validation-message">
+                        </span>
+
+                    </div>
+
+
+                    <!-- OPÇÕES -->
+
+                    <div class="login-options">
+
+
+
+                        <a href="#" class="forgot-password">
+                            Esqueci minha senha
+                        </a>
+
+                    </div>
+
+
+                    <!-- BOTÃO -->
+
+                    <button type="submit" class="login-button">
+
+                        Entrar na minha conta
+
+                    </button>
+
+                </form>
+
+
+                <!-- CADASTRO -->
+
+                <div class="register-area">
+
+                    Ainda não possui uma conta?
+
+                    <a asp-controller="Usuario" asp-action="Cadastro" class="register-link">
+
+                        Criar conta
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>

@@ -1,50 +1,541 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - lsfinan</title>
-    <script type="importmap"></script>
+
+    <title>@ViewData["Title"] - LS Finan</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lsfinan.styles.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">lsfinan</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - lsfinan - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <style>
+
+        /* =========================================================
+           BASE
+        ========================================================= */
+
+        html {
+            font-size: 16px;
+            min-height: 100%;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(37, 99, 235, 0.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(37, 99, 235, 0.05),
+                    transparent 30%
+                ),
+                #060a12;
+
+            color: #e5e7eb;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .ls-navbar {
+            height: 72px;
+            min-height: 72px;
+
+            display: flex;
+            align-items: center;
+
+            background: rgba(5, 9, 17, 0.94);
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.20);
+
+            backdrop-filter: blur(12px);
+
+            position: relative;
+            z-index: 1000;
+        }
+
+        .ls-navbar-container {
+            width: 100%;
+            max-width: 1250px;
+
+            margin: 0 auto;
+            padding: 0 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        /* =========================================================
+           LOGO
+        ========================================================= */
+
+        .ls-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            text-decoration: none;
+
+            color: #f8fafc;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            letter-spacing: -0.4px;
+
+            transition: 0.25s ease;
+        }
+
+        .ls-logo:hover {
+            color: #60a5fa;
+        }
+
+        .ls-logo-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #1d4ed8,
+                #2563eb
+            );
+
+            color: white;
+
+            font-size: 20px;
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 22px rgba(37, 99, 235, 0.25);
+        }
+
+        .ls-logo-name {
+            color: #f8fafc;
+        }
+
+        .ls-logo-name span {
+            color: #60a5fa;
+        }
+
+
+        /* =========================================================
+           LINKS
+        ========================================================= */
+
+        .ls-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-left: 45px;
+            margin-right: auto;
+        }
+
+        .ls-nav-link {
+            padding: 9px 14px;
+
+            border-radius: 8px;
+
+            color: #94a3b8;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            transition: all 0.25s ease;
+        }
+
+        .ls-nav-link:hover {
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .ls-nav-link.active {
+            color: #60a5fa;
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+
+        /* =========================================================
+           NAVBAR BUTTONS
+        ========================================================= */
+
+        .ls-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ls-btn-login {
+            padding: 9px 17px;
+
+            border: 1px solid rgba(59, 130, 246, 0.35);
+
+            border-radius: 9px;
+
+            color: #dbeafe;
+
+            background: rgba(15, 23, 42, 0.65);
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: all 0.25s ease;
+        }
+
+        .ls-btn-login:hover {
+            color: white;
+
+            border-color: #3b82f6;
+
+            background: rgba(37, 99, 235, 0.12);
+        }
+
+        .ls-btn-register {
+            padding: 10px 18px;
+
+            border-radius: 9px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            box-shadow:
+                0 7px 18px rgba(37, 99, 235, 0.20);
+
+            transition: all 0.25s ease;
+        }
+
+        .ls-btn-register:hover {
+            background: #3b82f6;
+
+            color: white;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 25px rgba(37, 99, 235, 0.30);
+        }
+
+
+        /* =========================================================
+           CONTEÚDO
+        ========================================================= */
+
+        .ls-main {
+            flex: 1;
+
+            width: 100%;
+
+            padding: 0;
+
+            margin: 0;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .ls-footer {
+            width: 100%;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+            background: #050911;
+
+            color: #64748b;
+
+            padding: 18px 0;
+
+            font-size: 13px;
+        }
+
+        .ls-footer-container {
+            max-width: 1250px;
+
+            margin: 0 auto;
+
+            padding: 0 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ls-footer a {
+            color: #64748b;
+
+            text-decoration: none;
+
+            transition: 0.2s ease;
+        }
+
+        .ls-footer a:hover {
+            color: #60a5fa;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @@media (max-width: 768px) {
+
+            .ls-navbar {
+                height: auto;
+                min-height: 68px;
+            }
+
+            .ls-navbar-container {
+                padding: 12px 18px;
+            }
+
+            .ls-nav-links {
+                display: none;
+            }
+
+            .ls-nav-actions {
+                gap: 6px;
+            }
+
+            .ls-btn-login,
+            .ls-btn-register {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .ls-footer-container {
+                padding: 0 18px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+
+    <header class="ls-navbar">
+
+        <div class="ls-navbar-container">
+
+            <a class="ls-logo"
+               asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+
+                <div class="ls-logo-icon">
+                    $
+                </div>
+
+                <div class="ls-logo-name">
+                    LS<span>Finan</span>
+                </div>
+
+            </a>
+
+
+            <nav class="ls-nav-links">
+
+                <a class="ls-nav-link"
+                   asp-area=""
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    Início
+
+                </a>
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a class="ls-nav-link"
+                       asp-controller="Home"
+                       asp-action="Dashboard">
+
+                        Dashboard
+
+                    </a>
+
+                    <a class="ls-nav-link"
+                       asp-controller="Conta"
+                       asp-action="Index">
+
+                        Contas
+
+                    </a>
+
+                    <a class="ls-nav-link"
+                       asp-controller="Entrada"
+                       asp-action="Index">
+
+                        Entradas
+
+                    </a>
+
+                    <a class="ls-nav-link"
+                       asp-controller="Saida"
+                       asp-action="Index">
+
+                        Saídas
+
+                    </a>
+
+                    <a class="ls-nav-link"
+                       asp-controller="Categoria"
+                       asp-action="Index">
+
+                        Categorias
+
+                    </a>
+                }
+
+            </nav>
+
+
+            <div class="ls-nav-actions">
+
+                @if (User.Identity?.IsAuthenticated != true)
+                {
+                    <a class="ls-btn-login"
+                       asp-controller="Usuario"
+                       asp-action="Login">
+
+                        Entrar
+
+                    </a>
+
+                    <a class="ls-btn-register"
+                       asp-controller="Usuario"
+                       asp-action="Cadastro">
+
+                        Criar conta
+
+                    </a>
+                }
+                else
+                {
+                    <a class="ls-btn-login"
+                       asp-controller="Usuario"
+                       asp-action="Perfil">
+
+                        Minha conta
+
+                    </a>
+
+                    <a class="ls-btn-register"
+                       asp-controller="Usuario"
+                       asp-action="Logout">
+
+                        Sair
+
+                    </a>
+                }
+
+            </div>
+
         </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         CONTEÚDO DAS VIEWS
+    ========================================================= -->
+
+    <main role="main" class="ls-main">
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+
+    <footer class="ls-footer">
+
+        <div class="ls-footer-container">
+
+            <span>
+                © 2026 LS Finan
+            </span>
+
+            <span>
+                Controle financeiro simples e inteligente.
+            </span>
+
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Privacy">
+
+                Privacidade
+
+            </a>
+
+        </div>
+
     </footer>
+
+
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================= -->
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true">
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
+
 </html>
