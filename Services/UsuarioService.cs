@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Identity;
 public class UsuarioService : IUsuarioService
 {
     private readonly UserManager<Usuario> _userManager;
+    private readonly SignInManager<Usuario> _signInManager;
 
-    public UsuarioService(UserManager<Usuario> userManager)
+    public UsuarioService(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
     }
 
     public async Task<IdentityResult> CadastrarUsuario(
@@ -35,5 +37,24 @@ public class UsuarioService : IUsuarioService
                 Nome = usuario.Nome
             },
             usuario.Senha);
+    }
+
+    public async Task LogoutUsuario()
+    {
+        await _signInManager.SignOutAsync();
+    }
+
+    public async Task<SignInResult> LoginUsuario(UsuarioLoginViewModel usuario)
+    {
+        var usuarioExistente = await _userManager.FindByEmailAsync(usuario.Email);
+
+        if (usuarioExistente == null)
+        {
+            return SignInResult.Failed;
+        }
+
+        var resultado = await _signInManager.PasswordSignInAsync(usuarioExistente, usuario.Senha, false, false);
+
+        return resultado;
     }
 }
