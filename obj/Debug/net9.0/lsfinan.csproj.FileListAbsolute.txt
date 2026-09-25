@@ -22,7 +22,6 @@ C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\rjsmcshtml.dswa.cache.js
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\scopedcss\bundle\lsfinan.styles.css
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\scopedcss\projectbundle\lsfinan.bundle.scp.css
-C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\compressed\ldtk6k4q5u-b9sayid5wm.gz
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\compressed\8o7rxzsqkr-61n19gt1b8.gz
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\compressed\cnpuuue334-xtxxf3hu2r.gz
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\compressed\smkwh4qa5m-bqjiyaj88i.gz
@@ -186,3 +185,4 @@ C:\Users\Administrator\Desktop\lsfinan\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAn
 C:\Users\Administrator\Desktop\lsfinan\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\lsfinan.csproj.AssemblyReference.cache
 C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\lsfinan.csproj.Up2Date
+C:\Users\Administrator\Desktop\lsfinan\obj\Debug\net9.0\compressed\ldtk6k4q5u-t6p8rce1bs.gz
