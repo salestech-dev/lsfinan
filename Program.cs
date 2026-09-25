@@ -1,6 +1,7 @@
 using lsfinan.Data;
 using lsfinan.Interfaces;
 using lsfinan.Models;
+using lsfinan.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,11 @@ builder.Services.AddIdentity<Usuario, IdentityRole<int>>(opt =>
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IEntradaService, EntradasService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IContaService, ContaService>();
+
 
 var app = builder.Build();
 
