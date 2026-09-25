@@ -1,0 +1,255 @@
+@model dynamic
+@{
+    ViewData["Title"] = "Cadastrar Entrada";
+    Layout = "_Layout";
+}
+
+<div class="entrada-container">
+
+    <div class="entrada-header">
+        <h1>Cadastrar Entrada</h1>
+        <p>Registre uma nova entrada financeira.</p>
+    </div>
+
+    <form asp-controller="Entrada" asp-action="CadastrarEntrada" method="post" class="entrada-form">
+
+        <div class="form-group">
+            <label for="DescricaoEntrada">Descrição</label>
+            <input id="DescricaoEntrada" name="DescricaoEntrada" type="text"
+                   placeholder="Ex: Salário, Freelance, Venda..." autocomplete="off" />
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                <label for="ValorEntrada">Valor</label>
+                <input id="ValorEntrada" name="ValorEntrada" type="number" step="0.01" min="0" placeholder="0,00" />
+            </div>
+
+            <div class="form-group">
+                <label for="DataEntrada">Data</label>
+                <input id="DataEntrada" name="DataEntrada" type="date" />
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="CategoriaId">Categoria</label>
+
+            <select id="CategoriaId" name="CategoriaId">
+                <option value="">Selecione uma categoria</option>
+                @foreach (var categoria in Model.Categorias)
+                {
+                    <option value="@categoria.Id">
+                        @categoria.NomeCategoria
+                    </option>
+                }
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label for="ContaId">Conta</label>
+
+            <select id="ContaId" name="ContaId">
+                <option value="">Selecione uma conta</option>
+
+                @foreach (var conta in Model.Contas)
+                {
+                    <option value="@conta.Id">
+                        @conta.NomeConta
+                    </option>
+                }
+            </select>
+
+        </div>
+
+
+        <div class="checkbox-group">
+
+            <input name="ReceberDepois" type="checkbox" id="receberDepois" value="true" />
+
+            <label for="receberDepois">
+                Vou receber esse valor depois
+            </label>
+
+        </div>
+
+        <div class="form-actions">
+
+            <a asp-controller="Entrada" asp-action="Index" class="btn-secondary">
+                Cancelar
+            </a>
+
+            <button type="submit" class="btn-primary">
+                Cadastrar Entrada
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<style>
+    .entrada-container {
+        max-width: 850px;
+        margin: 40px auto;
+        padding: 30px;
+        background: #0F172A;
+        border-radius: 18px;
+        color: #fff;
+    }
+
+    .entrada-header {
+        margin-bottom: 30px;
+    }
+
+    .entrada-header h1 {
+        margin: 0;
+        font-size: 30px;
+    }
+
+    .entrada-header p {
+        margin-top: 8px;
+        color: #94A3B8;
+    }
+
+    .entrada-form {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #E2E8F0;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 15px;
+        border: 1px solid #1E293B;
+        border-radius: 10px;
+        background: #070B12;
+        color: #fff;
+        outline: none;
+        font-size: 15px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #3B82F6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .checkbox-group input {
+        width: 18px;
+        height: 18px;
+        accent-color: #2563EB;
+    }
+
+    .checkbox-group label {
+        color: #CBD5E1;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 12px 22px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        font-size: 15px;
+    }
+
+    .btn-primary {
+        background: #2563EB;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #1D4ED8;
+    }
+
+    .btn-secondary {
+        background: #1E293B;
+        color: #CBD5E1;
+    }
+
+    .btn-secondary:hover {
+        background: #334155;
+    }
+
+    .validation {
+        color: #F87171;
+    }
+
+    .form-group span {
+        color: #F87171;
+        font-size: 13px;
+    }
+
+    @@media (max-width: 700px) {
+
+        .entrada-container {
+            margin: 20px;
+            padding: 20px;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,282 @@
+@model List<lsfinan.Models.Entrada>
+
+@{
+    ViewData["Title"] = "Entradas";
+    Layout = "_Layout";
+}
+
+<style>
+    .entrada-container {
+        padding: 30px;
+        color: #fff;
+    }
+
+    .entrada-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .entrada-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    .entrada-header p {
+        margin: 6px 0 0;
+        color: #94a3b8;
+        font-size: 14px;
+    }
+
+    .btn-nova-entrada {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 18px;
+        background: #2563eb;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: 0.2s;
+    }
+
+    .btn-nova-entrada:hover {
+        background: #1d4ed8;
+        color: #fff;
+    }
+
+    .entradas-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .entrada-tabela {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .entrada-tabela thead {
+        background: #111827;
+    }
+
+    .entrada-tabela th {
+        padding: 16px;
+        text-align: left;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 500;
+        border-bottom: 1px solid #1e293b;
+    }
+
+    .entrada-tabela td {
+        padding: 16px;
+        border-bottom: 1px solid #1e293b;
+        color: #e2e8f0;
+        font-size: 14px;
+    }
+
+    .entrada-tabela tbody tr {
+        transition: 0.2s;
+    }
+
+    .entrada-tabela tbody tr:hover {
+        background: #111c30;
+    }
+
+    .entrada-nome {
+        font-weight: 500;
+        color: #fff;
+    }
+
+    .entrada-valor {
+        color: #60a5fa;
+        font-weight: 600;
+    }
+
+    .entrada-data {
+        color: #94a3b8;
+    }
+
+    .entrada-vazia {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .entrada-vazia h3 {
+        margin-bottom: 8px;
+        color: #fff;
+    }
+
+    .entrada-vazia p {
+        color: #64748b;
+        margin-bottom: 20px;
+    }
+
+    .acoes {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-acao {
+        padding: 7px 12px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+        border: 1px solid #334155;
+        color: #cbd5e1;
+        transition: 0.2s;
+    }
+
+    .btn-acao:hover {
+        background: #1e293b;
+        color: #fff;
+    }
+
+    @@media (max-width: 768px) {
+
+        .entrada-container {
+            padding: 20px;
+        }
+
+        .entrada-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .entradas-card {
+            overflow-x: auto;
+        }
+
+        .entrada-tabela {
+            min-width: 650px;
+        }
+    }
+</style>
+
+<div class="entrada-container">
+
+    <div class="entrada-header">
+
+        <div>
+            <h1>Entradas</h1>
+            <p>Gerencie todas as suas receitas financeiras.</p>
+        </div>
+
+        <a asp-controller="Entrada"
+           asp-action="CadastrarEntrada"
+           class="btn-nova-entrada">
+            + Nova entrada
+        </a>
+
+    </div>
+
+    <div class="entradas-card">
+
+        @if (Model != null && Model.Any())
+        {
+            <table class="entrada-tabela">
+
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var entrada in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <span class="entrada-nome">
+                                    @entrada.DescricaoEntrada
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="entrada-valor">
+                                    R$ @entrada.ValorEntrada.ToString("N2")
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="entrada-data">
+                                    @entrada.DataEntrada.ToString("dd/MM/yyyy")
+                                </span>
+                            </td>
+
+                            <td>
+
+                                @if (entrada.Recebido)
+                                {
+                                    <span>Recebido</span>
+                                }
+                                else if (entrada.ReceberDepois)
+                                {
+                                    <span>A receber</span>
+                                }
+                                else
+                                {
+                                    <span>Pendente</span>
+                                }
+
+                            </td>
+
+                            <td>
+
+                                <div class="acoes">
+
+                                    <a href="#"
+                                       class="btn-acao">
+                                        Editar
+                                    </a>
+
+                                    <a href="#"
+                                       class="btn-acao">
+                                        Excluir
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <div class="entrada-vazia">
+
+                <h3>Nenhuma entrada encontrada</h3>
+
+                <p>
+                    Você ainda não cadastrou nenhuma entrada financeira.
+                </p>
+
+                <a asp-controller="Entrada"
+                   asp-action="CadastrarEntrada"
+                   class="btn-nova-entrada">
+                    + Cadastrar primeira entrada
+                </a>
+
+            </div>
+        }
+
+    </div>
+
+</div>

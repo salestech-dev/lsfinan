@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - LS Finan</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <style>
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(37,99,235,.12),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(37,99,235,.08),
+                    transparent 35%
+                ),
+                #050911;
+
+            color: #e5e7eb;
+
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        .login-layout {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOPO */
+
+        .login-header {
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+
+            border-bottom: 1px solid rgba(255,255,255,.05);
+
+            background: rgba(5,9,17,.85);
+        }
+
+        .login-header-content {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 0 auto;
+
+            padding: 0 30px;
+        }
+
+        .login-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            text-decoration: none;
+        }
+
+        .login-logo-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #2563eb;
+            color: white;
+
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .login-logo-name {
+            color: white;
+
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .login-logo-name span {
+            color: #60a5fa;
+        }
+
+        /* CONTEÚDO */
+
+        .login-main {
+            flex: 1;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 40px 20px;
+        }
+
+        .login-content {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* FOOTER */
+
+        .login-footer {
+            padding: 18px;
+
+            border-top: 1px solid rgba(255,255,255,.05);
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-layout">
+
+        <!-- HEADER -->
+
+        <header class="login-header">
+
+            <div class="login-header-content">
+
+                <a class="login-logo"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <div class="login-logo-icon">
+                        $
+                    </div>
+
+                    <div class="login-logo-name">
+                        LS<span>Finan</span>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTEÚDO -->
+
+        <main class="login-main">
+
+            <div class="login-content">
+
+                @RenderBody()
+
+            </div>
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer class="login-footer">
+
+            © 2026 LS Finan · Controle financeiro simples e inteligente.
+
+        </footer>
+
+    </div>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

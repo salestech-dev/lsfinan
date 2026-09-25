@@ -66,81 +66,6 @@
     }
 
     /* =========================
-       NAVBAR
-       ========================= */
-
-    .navbar-custom {
-        position: relative;
-        z-index: 10;
-        width: 100%;
-        padding: 24px 7%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        background: rgba(7, 11, 18, 0.65);
-        backdrop-filter: blur(18px);
-    }
-
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        color: #F8FAFC;
-    }
-
-    .brand-icon {
-        width: 43px;
-        height: 43px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        background: #172554;
-        border: 1px solid #1E40AF;
-        color: #60A5FA;
-        font-size: 20px;
-        font-weight: 700;
-        box-shadow: 0 0 25px rgba(37, 99, 235, 0.18);
-    }
-
-    .brand-name {
-        font-size: 21px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-    }
-
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-    }
-
-    .nav-links a {
-        color: #94A3B8;
-        text-decoration: none;
-        font-size: 14px;
-        transition: 0.25s ease;
-    }
-
-    .nav-links a:hover {
-        color: #60A5FA;
-    }
-
-    .nav-login {
-        padding: 10px 19px;
-        border: 1px solid #263244;
-        border-radius: 9px;
-        color: #CBD5E1 !important;
-    }
-
-    .nav-login:hover {
-        border-color: #3B82F6;
-        background: rgba(59, 130, 246, 0.08);
-    }
-
-    /* =========================
        HERO
        ========================= */
 
@@ -620,6 +545,13 @@
         font-size: 14px;
     }
 
+    .cta-buttons {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     /* =========================
        FOOTER
        ========================= */
@@ -660,14 +592,6 @@
     }
 
     @@media (max-width: 700px) {
-
-        .navbar-custom {
-            padding: 20px 5%;
-        }
-
-        .nav-links a:not(.nav-login) {
-            display: none;
-        }
 
         .hero {
             padding: 70px 5%;
@@ -724,9 +648,6 @@
     <div class="background-glow glow-two"></div>
 
 
-   
-
-
     <!-- HERO -->
 
     <section class="hero">
@@ -762,9 +683,10 @@
                     Criar minha conta
                 </a>
 
-                <a href="#recursos"
+                <a asp-controller="Usuario"
+                   asp-action="Login"
                    class="secondary-button">
-                    Conhecer o sistema
+                    Já tenho conta
                 </a>
 
             </div>
@@ -1126,22 +1048,24 @@
             sua vida financeira de maneira simples e eficiente.
         </p>
 
-        <a asp-controller="Usuario"
-           asp-action="Cadastro"
-           class="primary-button">
-            Começar agora
-        </a>
+        <div class="cta-buttons">
+
+            <a asp-controller="Usuario"
+               asp-action="Cadastro"
+               class="primary-button">
+                Começar agora
+            </a>
+
+            <a asp-controller="Usuario"
+               asp-action="Login"
+               class="secondary-button">
+                Entrar
+            </a>
+
+        </div>
 
     </section>
 
 
     <!-- FOOTER -->
-
-    <footer class="footer">
-
-        © @DateTime.Now.Year LS Finan.
-        Controle financeiro pessoal.
-
-    </footer>
-
 </div>

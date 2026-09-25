@@ -1,0 +1,299 @@
+@model List<lsfinan.Models.Conta>
+
+@{
+    ViewData["Title"] = "Minhas Contas";
+    Layout = "_Layout";
+}
+
+<style>
+    .conta-page {
+        padding: 30px;
+        color: #fff;
+    }
+
+    .conta-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .conta-header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .conta-header p {
+        margin-top: 6px;
+        color: #94a3b8;
+    }
+
+    .btn-primary {
+        background: #2563EB;
+        color: white;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn-primary:hover {
+        background: #3B82F6;
+    }
+
+    .contas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .conta-card {
+        background: #0F172A;
+        border: 1px solid #1e293b;
+        border-radius: 16px;
+        padding: 22px;
+        transition: 0.2s;
+    }
+
+    .conta-card:hover {
+        border-color: #2563EB;
+        transform: translateY(-2px);
+    }
+
+    .conta-icon {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(37, 99, 235, 0.15);
+        color: #60A5FA;
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .conta-nome {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .conta-tipo {
+        color: #94a3b8;
+        font-size: 14px;
+        margin-bottom: 18px;
+    }
+
+    .conta-saldo-label {
+        color: #64748b;
+        font-size: 13px;
+        margin-bottom: 4px;
+    }
+
+    .conta-saldo {
+        font-size: 24px;
+        font-weight: 700;
+        color: #60A5FA;
+    }
+
+    .empty-state {
+        background: #0F172A;
+        border: 1px dashed #334155;
+        border-radius: 16px;
+        padding: 60px 20px;
+        text-align: center;
+        color: #94a3b8;
+    }
+
+    .empty-state h2 {
+        color: #fff;
+        margin-bottom: 10px;
+    }
+
+    .empty-state p {
+        margin-bottom: 25px;
+    }
+
+    @@media (max-width: 700px) {
+        .conta-page {
+            padding: 20px;
+        }
+
+        .conta-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 20px;
+        }
+    }
+
+    .toast-conta {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        min-width: 300px;
+        max-width: 380px;
+
+        padding: 16px 20px;
+
+        background: #0F172A;
+        border: 1px solid #2563EB;
+        border-radius: 14px;
+
+        color: white;
+
+        box-shadow:
+            0 10px 35px rgba(0, 0, 0, 0.45),
+            0 0 25px rgba(37, 99, 235, 0.18);
+
+        z-index: 9999;
+
+        animation:
+            toastEntrada 0.5s ease-out,
+            toastSaida 0.5s ease-in 3.5s forwards;
+    }
+
+    .toast-icon {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #2563EB;
+        border-radius: 50%;
+
+        font-size: 20px;
+        font-weight: bold;
+
+        box-shadow: 0 0 18px rgba(37, 99, 235, 0.5);
+    }
+
+    .toast-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .toast-content strong {
+        font-size: 15px;
+    }
+
+    .toast-content span {
+        color: #94A3B8;
+        font-size: 13px;
+    }
+
+    @@keyframes toastEntrada {
+
+        0% {
+            opacity: 0;
+            transform: translateY(80px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes toastSaida {
+
+        0% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    }
+</style>
+
+<div class="conta-page">
+
+    <div class="conta-header">
+        <div>
+            <h1>Minhas Contas</h1>
+            <p>Gerencie suas contas e acompanhe seus saldos.</p>
+        </div>
+
+        <a asp-action="CadastrarConta" class="btn-primary">
+            + Nova conta
+        </a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="contas-grid">
+
+            @foreach (var conta in Model)
+            {
+                <div class="conta-card">
+
+                    <div class="conta-icon">
+                        $
+                    </div>
+
+                    <div class="conta-nome">
+                        @conta.NomeConta
+                    </div>
+
+                    <div class="conta-tipo">
+                        @conta.TipoConta
+                    </div>
+
+                    <div class="conta-saldo-label">
+                        Saldo inicial
+                    </div>
+
+                    <div class="conta-saldo">
+                        @conta.SaldoInicial.ToString("C2")
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+
+            <h2>Nenhuma conta cadastrada</h2>
+
+            <p>
+                Cadastre sua primeira conta para começar a organizar suas finanças.
+            </p>
+
+            <a asp-action="CadastrarConta" class="btn-primary">
+                Cadastrar minha primeira conta
+            </a>
+
+        </div>
+    }
+
+</div>
+
+@if (TempData["ContaCriada"] != null)
+{
+    <div id="toastConta" class="toast-conta">
+        <div class="toast-icon">
+            ✓
+        </div>
+
+        <div class="toast-content">
+            <strong>Conta criada!</strong>
+            <span>@TempData["ContaCriada"]</span>
+        </div>
+    </div>
+}

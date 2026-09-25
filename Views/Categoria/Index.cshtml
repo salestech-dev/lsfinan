@@ -1,0 +1,497 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+<style>
+
+    .categorias-page {
+        min-height: 100vh;
+
+        padding: 50px 30px;
+
+        font-family: "Inter", "Segoe UI", Arial, sans-serif;
+
+        color: #F8FAFC;
+
+        background:
+            radial-gradient(
+                circle at 15% 20%,
+                rgba(37, 99, 235, 0.10),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 85% 80%,
+                rgba(59, 130, 246, 0.08),
+                transparent 30%
+            ),
+            #070B12;
+    }
+
+
+    /* =========================
+       CONTAINER
+       ========================= */
+
+    .categorias-container {
+        max-width: 1000px;
+
+        margin: 0 auto;
+
+        background: #111827;
+
+        border: 1px solid #1F2937;
+
+        border-radius: 24px;
+
+        padding: 45px 50px;
+
+        box-shadow:
+            0 30px 90px rgba(0, 0, 0, 0.55),
+            0 0 80px rgba(37, 99, 235, 0.05);
+    }
+
+
+    /* =========================
+       HEADER
+       ========================= */
+
+    .categorias-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        margin-bottom: 35px;
+
+        gap: 20px;
+
+        flex-wrap: wrap;
+    }
+
+    .categorias-header h2 {
+        margin: 0 0 8px;
+
+        font-size: 28px;
+        font-weight: 700;
+
+        letter-spacing: -0.6px;
+
+        color: #F8FAFC;
+    }
+
+    .categorias-header p {
+        margin: 0;
+
+        color: #64748B;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+    }
+
+
+    /* =========================
+       BOTÃO NOVA CATEGORIA
+       ========================= */
+
+    .btn-nova-categoria {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 48px;
+
+        padding: 0 22px;
+
+        border: none;
+        border-radius: 11px;
+
+        background: linear-gradient(
+            135deg,
+            #2563EB,
+            #3B82F6
+        );
+
+        color: #FFFFFF;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        text-decoration: none;
+
+        white-space: nowrap;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 30px rgba(37, 99, 235, 0.25);
+
+        transition: all 0.25s ease;
+    }
+
+    .btn-nova-categoria:hover {
+        background: linear-gradient(
+            135deg,
+            #1D4ED8,
+            #2563EB
+        );
+
+        color: #FFFFFF;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 15px 35px rgba(37, 99, 235, 0.35);
+    }
+
+
+    /* =========================
+       TABELA
+       ========================= */
+
+    .categorias-table-wrapper {
+        border: 1px solid #1F2937;
+
+        border-radius: 16px;
+
+        overflow: hidden;
+    }
+
+    table.categorias-table {
+        width: 100%;
+
+        border-collapse: collapse;
+    }
+
+    .categorias-table thead th {
+        text-align: left;
+
+        padding: 16px 20px;
+
+        background: #0F172A;
+
+        color: #94A3B8;
+
+        font-size: 12px;
+        font-weight: 600;
+
+        text-transform: uppercase;
+
+        letter-spacing: 0.5px;
+
+        border-bottom: 1px solid #1F2937;
+    }
+
+    .categorias-table tbody td {
+        padding: 18px 20px;
+
+        font-size: 14px;
+
+        color: #E2E8F0;
+
+        border-bottom: 1px solid #1F2937;
+    }
+
+    .categorias-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .categorias-table tbody tr {
+        background: #111827;
+
+        transition: background 0.2s ease;
+    }
+
+    .categorias-table tbody tr:hover {
+        background: #151F32;
+    }
+
+
+    /* =========================
+       STATUS
+       ========================= */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 7px;
+
+        padding: 5px 12px;
+
+        border-radius: 20px;
+
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-badge.ativa {
+        background: #0B2A1E;
+
+        border: 1px solid #14532D;
+
+        color: #4ADE80;
+    }
+
+    .status-badge.inativa {
+        background: #2A1115;
+
+        border: 1px solid #7F1D1D;
+
+        color: #FCA5A5;
+    }
+
+    .status-dot {
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: currentColor;
+    }
+
+
+    /* =========================
+       AÇÕES
+       ========================= */
+
+    .acoes-cell {
+        display: flex;
+
+        gap: 10px;
+    }
+
+    .btn-acao {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 34px;
+
+        padding: 0 14px;
+
+        border-radius: 8px;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        text-decoration: none;
+
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+
+        border: 1px solid transparent;
+    }
+
+    .btn-editar {
+        background: #172554;
+
+        border-color: #1E40AF;
+
+        color: #60A5FA;
+    }
+
+    .btn-editar:hover {
+        background: #1E3A8A;
+
+        color: #93C5FD;
+    }
+
+    .btn-excluir {
+        background: transparent;
+
+        border-color: #7F1D1D;
+
+        color: #F87171;
+    }
+
+    .btn-excluir:hover {
+        background: #2A1115;
+
+        color: #FCA5A5;
+    }
+
+
+    /* =========================
+       ESTADO VAZIO
+       ========================= */
+
+    .categorias-vazio {
+        padding: 60px 20px;
+
+        text-align: center;
+
+        color: #64748B;
+
+        font-size: 14px;
+    }
+
+    .categorias-vazio strong {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #CBD5E1;
+
+        font-size: 16px;
+    }
+
+
+    /* =========================
+       RESPONSIVO
+       ========================= */
+
+    @@media (max-width: 700px) {
+
+        .categorias-page {
+            padding: 25px 15px;
+        }
+
+        .categorias-container {
+            padding: 30px 22px;
+        }
+
+        .categorias-table thead {
+            display: none;
+        }
+
+        .categorias-table,
+        .categorias-table tbody,
+        .categorias-table tr,
+        .categorias-table td {
+            display: block;
+
+            width: 100%;
+        }
+
+        .categorias-table tbody tr {
+            padding: 16px 18px;
+
+            margin-bottom: 12px;
+
+            border: 1px solid #1F2937;
+
+            border-radius: 12px;
+        }
+
+        .categorias-table tbody td {
+            border-bottom: none;
+
+            padding: 6px 0;
+        }
+
+        .categorias-table tbody td::before {
+            content: attr(data-label);
+
+            display: block;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            color: #64748B;
+
+            text-transform: uppercase;
+
+            margin-bottom: 4px;
+        }
+
+        .acoes-cell {
+            margin-top: 8px;
+        }
+    }
+
+</style>
+
+
+<div class="categorias-page">
+
+    <div class="categorias-container">
+
+        <div class="categorias-header">
+
+            <div>
+                <h2>Categorias</h2>
+                <p>Organize suas entradas e saídas por categoria.</p>
+            </div>
+
+            <a asp-action="CadastrarCategoria" class="btn-nova-categoria">
+                Nova categoria
+            </a>
+
+        </div>
+
+
+        <div class="categorias-table-wrapper">
+
+            @if (Model != null && Model.Count > 0)
+            {
+                <table class="categorias-table">
+
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var categoria in Model)
+                        {
+                            <tr>
+                                <td data-label="Nome">@categoria.NomeCategoria</td>
+
+                                <td data-label="Status">
+                                    @if (categoria.Ativa)
+                                    {
+                                        <span class="status-badge ativa">
+                                            <span class="status-dot"></span>
+                                            Ativa
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge inativa">
+                                            <span class="status-dot"></span>
+                                            Inativa
+                                        </span>
+                                    }
+                                </td>
+
+                                <td data-label="Ações">
+                                    <div class="acoes-cell">
+                                        <a asp-action="Editar"
+                                           asp-route-id="@categoria.Id"
+                                           class="btn-acao btn-editar">
+                                            Editar
+                                        </a>
+
+                                        <a asp-action="Excluir"
+                                           asp-route-id="@categoria.Id"
+                                           class="btn-acao btn-excluir">
+                                            Excluir
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            }
+            else
+            {
+                <div class="categorias-vazio">
+                    <strong>Nenhuma categoria cadastrada</strong>
+                    Clique em "Nova categoria" para criar a primeira.
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

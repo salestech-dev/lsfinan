@@ -1,0 +1,347 @@
+@model lsfinan.ViewModel.CategoriaViewModel
+
+@{
+    ViewData["Title"] = "Nova Categoria";
+    Layout = "_Layout";
+}
+
+<style>
+    .categoria-page {
+        min-height: calc(100vh - 80px);
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background:
+            radial-gradient(
+                circle at 15% 20%,
+                rgba(37, 99, 235, 0.10),
+                transparent 30%
+            ),
+            radial-gradient(
+                circle at 85% 80%,
+                rgba(59, 130, 246, 0.08),
+                transparent 30%
+            ),
+            #070B12;
+        color: #F8FAFC;
+    }
+
+    .categoria-card {
+        width: 100%;
+        max-width: 600px;
+        background: #111827;
+        border: 1px solid #1F2937;
+        border-radius: 22px;
+        padding: 40px;
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.45),
+            0 0 60px rgba(37, 99, 235, 0.05);
+    }
+
+    .categoria-header {
+        margin-bottom: 35px;
+    }
+
+    .categoria-header h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .categoria-header p {
+        margin: 0;
+        color: #64748B;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 9px;
+        color: #CBD5E1;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .form-control-custom {
+        width: 100%;
+        height: 48px;
+        padding: 0 15px;
+        box-sizing: border-box;
+        background: #0F172A;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        outline: none;
+        color: #F8FAFC;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .form-control-custom::placeholder {
+        color: #475569;
+    }
+
+    .form-control-custom:focus {
+        border-color: #2563EB;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .campo-erro {
+        display: block;
+        margin-top: 7px;
+        color: #F87171;
+        font-size: 12px;
+    }
+
+    .ativo-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px;
+        background: #0F172A;
+        border: 1px solid #1F2937;
+        border-radius: 12px;
+    }
+
+    .ativo-info strong {
+        display: block;
+        margin-bottom: 4px;
+        color: #E2E8F0;
+        font-size: 14px;
+    }
+
+    .ativo-info span {
+        color: #64748B;
+        font-size: 12px;
+    }
+
+    .switch {
+        position: relative;
+        width: 48px;
+        height: 26px;
+        flex-shrink: 0;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        inset: 0;
+        cursor: pointer;
+        background: #334155;
+        border-radius: 30px;
+        transition: 0.25s;
+    }
+
+    .slider::before {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        left: 3px;
+        top: 3px;
+        background: #F8FAFC;
+        border-radius: 50%;
+        transition: 0.25s;
+    }
+
+    .switch input:checked + .slider {
+        background: #2563EB;
+    }
+
+    .switch input:checked + .slider::before {
+        transform: translateX(22px);
+    }
+
+    .botoes {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-top: 35px;
+    }
+
+    .btn-voltar {
+        height: 46px;
+        padding: 0 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        color: #CBD5E1;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn-voltar:hover {
+        background: #1E293B;
+        color: #FFFFFF;
+    }
+
+    .btn-cadastrar {
+        height: 46px;
+        padding: 0 24px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(
+            135deg,
+            #2563EB,
+            #3B82F6
+        );
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.22);
+        transition: all 0.2s ease;
+    }
+
+    .btn-cadastrar:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(
+            135deg,
+            #1D4ED8,
+            #2563EB
+        );
+        box-shadow: 0 14px 35px rgba(37, 99, 235, 0.32);
+    }
+
+    .validation-summary {
+        margin-bottom: 20px;
+        padding: 12px 15px;
+        border: 1px solid #7F1D1D;
+        border-radius: 10px;
+        background: #2A1115;
+        color: #FCA5A5;
+        font-size: 13px;
+    }
+
+    .validation-summary ul {
+        margin: 0;
+        padding-left: 18px;
+    }
+
+    @@media (max-width: 600px) {
+
+        .categoria-page {
+            padding: 25px 15px;
+        }
+
+        .categoria-card {
+            padding: 28px 22px;
+            border-radius: 18px;
+        }
+
+        .categoria-header h1 {
+            font-size: 24px;
+        }
+
+        .botoes {
+            flex-direction: column-reverse;
+        }
+
+        .btn-voltar,
+        .btn-cadastrar {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="categoria-page">
+
+    <div class="categoria-card">
+
+        <div class="categoria-header">
+            <h1>Nova categoria</h1>
+
+            <p>
+                Crie uma categoria para organizar melhor suas
+                entradas e saídas financeiras.
+            </p>
+        </div>
+
+        <form asp-action="CadastrarCategoria" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary"></div>
+
+            <div class="form-group">
+
+                <label asp-for="NomeDaCategoria">
+                    Nome da categoria
+                </label>
+
+                <input asp-for="NomeDaCategoria"
+                       class="form-control-custom"
+                       placeholder="Ex: Salário, Alimentação, Transporte..."
+                       autocomplete="off" />
+
+                <span asp-validation-for="NomeDaCategoria"
+                      class="campo-erro">
+                </span>
+
+            </div>
+
+            <div class="form-group">
+
+                <div class="ativo-box">
+
+                    <div class="ativo-info">
+                        <strong>Categoria ativa</strong>
+
+                        <span>
+                            Categorias ativas podem ser utilizadas
+                            em novas movimentações.
+                        </span>
+                    </div>
+
+                    <label class="switch">
+
+                        <input asp-for="Ativa" />
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+            <div class="botoes">
+
+                <a asp-action="Index"
+                   class="btn-voltar">
+                    Voltar
+                </a>
+
+                <button type="submit"
+                        class="btn-cadastrar">
+                    Cadastrar categoria
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

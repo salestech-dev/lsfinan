@@ -2,10 +2,14 @@
 @model UsuarioLoginViewModel
 
 @{
-    ViewData["Title"] = "Entrar";
+    Layout = "_LayoutLogin";
+
+    var mostrarDespedida = TempData["MostrarDespedida"] != null;
+    var nomeUsuario = TempData["NomeUsuarioLogout"]?.ToString() ?? "usuário";
 }
 
 <style>
+
     * {
         box-sizing: border-box;
     }
@@ -19,28 +23,37 @@
         overflow-x: hidden;
     }
 
+
     /* =========================
        PÁGINA
        ========================= */
 
     .login-page {
         position: relative;
-        HEIGHT: 100vh;
+        height: 100vh;
+
         display: flex;
         align-items: center;
         justify-content: center;
+
         padding: 30px 20px;
+
         overflow: hidden;
 
         background:
-            radial-gradient(circle at 15% 20%,
+            radial-gradient(
+                circle at 15% 20%,
                 rgba(37, 99, 235, 0.10),
-                transparent 28%),
-            radial-gradient(circle at 85% 80%,
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 85% 80%,
                 rgba(59, 130, 246, 0.08),
-                transparent 30%),
+                transparent 30%
+            ),
             #070B12;
     }
+
 
     /* =========================
        GLOW
@@ -48,12 +61,18 @@
 
     .background-glow {
         position: absolute;
+
         width: 450px;
         height: 450px;
+
         border-radius: 50%;
+
         background: rgba(37, 99, 235, 0.08);
+
         filter: blur(120px);
+
         pointer-events: none;
+
         animation: floatingGlow 8s ease-in-out infinite alternate;
     }
 
@@ -65,10 +84,12 @@
     .glow-two {
         bottom: -250px;
         right: -150px;
+
         animation-delay: 2s;
     }
 
     @@keyframes floatingGlow {
+
         from {
             transform: translateY(0) scale(1);
         }
@@ -77,6 +98,7 @@
             transform: translateY(35px) scale(1.12);
         }
     }
+
 
     /* =========================
        CONTAINER
@@ -94,8 +116,11 @@
         grid-template-columns: 1fr 1fr;
 
         background: #111827;
+
         border: 1px solid #1F2937;
+
         border-radius: 24px;
+
         overflow: hidden;
 
         box-shadow:
@@ -106,6 +131,7 @@
     }
 
     @@keyframes pageAppear {
+
         from {
             opacity: 0;
             transform: translateY(25px);
@@ -117,12 +143,14 @@
         }
     }
 
+
     /* =========================
        LADO ESQUERDO
        ========================= */
 
     .login-brand {
         position: relative;
+
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -132,6 +160,7 @@
         background: #080C14;
 
         border-right: 1px solid #1F2937;
+
         overflow: hidden;
     }
 
@@ -172,6 +201,7 @@
         z-index: 2;
     }
 
+
     /* =========================
        LOGO
        ========================= */
@@ -179,6 +209,7 @@
     .brand-logo {
         display: flex;
         align-items: center;
+
         gap: 12px;
 
         margin-bottom: 70px;
@@ -195,6 +226,7 @@
         border-radius: 12px;
 
         background: #172554;
+
         border: 1px solid #1E40AF;
 
         color: #60A5FA;
@@ -209,8 +241,10 @@
     .brand-name {
         font-size: 23px;
         font-weight: 700;
+
         letter-spacing: -0.5px;
     }
+
 
     /* =========================
        TEXTO
@@ -242,8 +276,10 @@
         color: #94A3B8;
 
         font-size: 15px;
+
         line-height: 1.8;
     }
+
 
     /* =========================
        FEATURES
@@ -281,12 +317,14 @@
         border-radius: 50%;
 
         background: #172554;
+
         border: 1px solid #1E40AF;
 
         color: #60A5FA;
 
         font-size: 12px;
     }
+
 
     /* =========================
        ÁREA DO LOGIN
@@ -306,6 +344,7 @@
         width: 100%;
         max-width: 380px;
     }
+
 
     /* =========================
        HEADER
@@ -332,8 +371,10 @@
         color: #64748B;
 
         font-size: 14px;
+
         line-height: 1.6;
     }
+
 
     /* =========================
        CAMPOS
@@ -380,11 +421,13 @@
         padding: 0 15px 0 45px;
 
         border: 1px solid #263244;
+
         border-radius: 11px;
 
         outline: none;
 
         background: #0F172A;
+
         color: #F1F5F9;
 
         font-size: 14px;
@@ -410,43 +453,6 @@
             0 0 20px rgba(59, 130, 246, 0.04);
     }
 
-    /* =========================
-       CHECKBOX / ESQUECI
-       ========================= */
-
-    .login-options {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        margin: 8px 0 25px;
-
-        font-size: 13px;
-    }
-
-    .remember {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-
-        color: #64748B;
-    }
-
-    .remember input {
-        accent-color: #2563EB;
-    }
-
-    .forgot-password {
-        color: #60A5FA;
-
-        text-decoration: none;
-
-        transition: 0.2s ease;
-    }
-
-    .forgot-password:hover {
-        color: #93C5FD;
-    }
 
     /* =========================
        ERROS
@@ -470,12 +476,14 @@
         border-radius: 10px;
 
         background: #2A1115;
+
         border: 1px solid #7F1D1D;
 
         color: #FCA5A5;
 
         font-size: 13px;
     }
+
 
     /* =========================
        BOTÃO
@@ -486,9 +494,14 @@
         height: 52px;
 
         border: none;
+
         border-radius: 11px;
 
-        background: #2563EB;
+        background: linear-gradient(
+            135deg,
+            #2563EB,
+            #3B82F6
+        );
 
         color: #FFFFFF;
 
@@ -504,7 +517,11 @@
     }
 
     .login-button:hover {
-        background: #1D4ED8;
+        background: linear-gradient(
+            135deg,
+            #1D4ED8,
+            #2563EB
+        );
 
         transform: translateY(-2px);
 
@@ -516,12 +533,14 @@
         transform: translateY(0);
     }
 
+
     /* =========================
        CADASTRO
        ========================= */
 
     .register-area {
         margin-top: 27px;
+
         padding-top: 23px;
 
         border-top: 1px solid #1F2937;
@@ -549,6 +568,350 @@
         text-decoration: underline;
     }
 
+
+    /* =========================
+       ANIMAÇÃO DE LOGOUT
+       ========================= */
+
+     /* =====================================================
+       TELA DE DESPEDIDA
+       ===================================================== */
+
+    .goodbye-screen {
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 99999;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        overflow: hidden;
+
+        background: #070B12;
+
+        pointer-events: none;
+
+        animation:
+            goodbyeScreenExit
+            3.4s
+            ease
+            forwards;
+    }
+
+
+    /* =====================================================
+       LÍQUIDO PRINCIPAL
+       ===================================================== */
+
+    .goodbye-screen::before {
+        content: "";
+
+        position: absolute;
+
+        width: 180%;
+        height: 180%;
+
+        left: -40%;
+        top: -40%;
+
+        background:
+            radial-gradient(
+                ellipse at center,
+                #60A5FA 0%,
+                #3B82F6 20%,
+                #2563EB 42%,
+                #1D4ED8 60%,
+                #0F172A 85%
+            );
+
+        border-radius:
+            48% 52% 55% 45%;
+
+        filter: blur(5px);
+
+        transform: scale(0);
+
+        animation:
+            goodbyeLiquidEnter
+            2.2s
+            cubic-bezier(.65, 0, .35, 1)
+            forwards;
+    }
+
+
+    /* =====================================================
+       BRILHO
+       ===================================================== */
+
+    .goodbye-screen::after {
+        content: "";
+
+        position: absolute;
+
+        width: 140%;
+        height: 140%;
+
+        left: -20%;
+        top: -20%;
+
+        background:
+            radial-gradient(
+                circle at center,
+                rgba(147, 197, 253, 0.95) 0%,
+                rgba(96, 165, 250, 0.60) 25%,
+                rgba(37, 99, 235, 0.25) 45%,
+                transparent 70%
+            );
+
+        filter: blur(45px);
+
+        opacity: 0;
+
+        transform: scale(0.2);
+
+        animation:
+            goodbyeGlow
+            2.4s
+            ease-out
+            forwards;
+    }
+
+
+    /* =====================================================
+       TEXTO
+       ===================================================== */
+
+    .goodbye-content {
+        position: relative;
+
+        z-index: 10;
+
+        text-align: center;
+
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.90);
+
+        animation:
+            goodbyeText
+            3s
+            ease
+            forwards;
+    }
+
+
+    .goodbye-content h1 {
+        margin: 0;
+
+        color: #FFFFFF;
+
+        font-size: 46px;
+
+        font-weight: 700;
+
+        letter-spacing: -1.5px;
+
+        text-shadow:
+            0 0 30px
+            rgba(255, 255, 255, 0.25);
+    }
+
+
+    .goodbye-content h1 span {
+        color: #DBEAFE;
+
+        text-shadow:
+            0 0 35px
+            rgba(147, 197, 253, 0.75);
+    }
+
+
+    .goodbye-content p {
+        margin-top: 14px;
+
+        color: #EFF6FF;
+
+        font-size: 19px;
+
+        opacity: 0.95;
+    }
+
+
+    /* =====================================================
+       ANIMAÇÕES DO LOGOUT
+       ===================================================== */
+
+    @@keyframes goodbyeLiquidEnter {
+
+        0% {
+            transform:
+                scale(0)
+                rotate(-20deg);
+
+            border-radius: 50%;
+        }
+
+        35% {
+            transform:
+                scale(0.55)
+                rotate(8deg);
+
+            border-radius:
+                55% 45% 50% 50%;
+        }
+
+        65% {
+            transform:
+                scale(1.05)
+                rotate(-4deg);
+
+            border-radius:
+                42% 58% 55% 45%;
+        }
+
+        100% {
+            transform:
+                scale(1)
+                rotate(0deg);
+
+            border-radius:
+                48% 52% 50% 50%;
+        }
+    }
+
+
+    @@keyframes goodbyeGlow {
+
+        0% {
+            opacity: 0;
+
+            transform:
+                scale(0.2);
+        }
+
+        30% {
+            opacity: 1;
+
+            transform:
+                scale(0.65);
+        }
+
+        65% {
+            opacity: 0.8;
+
+            transform:
+                scale(1);
+        }
+
+        100% {
+            opacity: 0;
+
+            transform:
+                scale(1.2);
+        }
+    }
+
+
+    @@keyframes goodbyeText {
+
+        0% {
+            opacity: 0;
+
+            transform:
+                translateY(25px)
+                scale(0.90);
+        }
+
+        22% {
+            opacity: 1;
+
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+        72% {
+            opacity: 1;
+
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+        100% {
+            opacity: 0;
+
+            transform:
+                translateY(-15px)
+                scale(1.03);
+        }
+    }
+
+
+    /*
+       CORREÇÃO PRINCIPAL DO LOGOUT
+
+       A tela azul também desaparece.
+    */
+
+    @@keyframes goodbyeScreenExit {
+
+        0% {
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+        72% {
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+        88% {
+            opacity: 0;
+
+            visibility: visible;
+        }
+
+        100% {
+            opacity: 0;
+
+            visibility: hidden;
+        }
+    }
+
+
+    /* =====================================================
+       RESPONSIVO
+       ===================================================== */
+
+    @@media (max-width: 600px) {
+
+        .login-container {
+            padding: 30px 22px;
+        }
+
+        .goodbye-content {
+            width: 90%;
+        }
+
+        .goodbye-content h1 {
+            font-size: 32px;
+        }
+
+        .goodbye-content p {
+            font-size: 16px;
+        }
+    }
+
+
     /* =========================
        RESPONSIVIDADE
        ========================= */
@@ -567,6 +930,7 @@
             padding: 40px;
 
             border-right: none;
+
             border-bottom: 1px solid #1F2937;
         }
 
@@ -597,6 +961,7 @@
             min-height: 100vh;
 
             border: none;
+
             border-radius: 0;
 
             box-shadow: none;
@@ -615,17 +980,47 @@
         .form-header h2 {
             font-size: 26px;
         }
+
+        .goodbye-content h1 {
+            font-size: 32px;
+        }
     }
+
 </style>
 
 
 <div class="login-page">
+
+    @if (mostrarDespedida)
+    {
+        <div class="goodbye-screen">
+
+            <div class="goodbye-content">
+
+                <div class="goodbye-icon">
+                    <span></span>
+                </div>
+
+                <h1>
+                    Tchau, <span>@nomeUsuario!</span>
+                </h1>
+
+                <p>
+                    Até mais tarde! Volte sempre que quiser.
+                </p>
+
+            </div>
+
+        </div>
+    }
+
 
     <div class="background-glow glow-one"></div>
     <div class="background-glow glow-two"></div>
 
 
     <div class="login-container">
+
 
         <!-- =========================
              LADO ESQUERDO
@@ -728,10 +1123,11 @@
                 </div>
 
 
-               
-
-
                 <form asp-action="Login" method="post">
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="validation-summary">
+                    </div>
 
 
                     <!-- EMAIL -->
@@ -742,20 +1138,20 @@
                             E-mail
                         </label>
 
-
                         <div class="input-wrapper">
 
                             <span class="input-icon">
-
+                                
                             </span>
 
-
-                            <input asp-for="Email" class="form-control-custom" placeholder="seuemail@exemplo.com" />
+                            <input asp-for="Email"
+                                   class="form-control-custom"
+                                   placeholder="seuemail@exemplo.com" />
 
                         </div>
 
-
-                        <span asp-validation-for="Email" class="validation-message">
+                        <span asp-validation-for="Email"
+                              class="validation-message">
                         </span>
 
                     </div>
@@ -769,42 +1165,28 @@
                             Senha
                         </label>
 
-
                         <div class="input-wrapper">
 
                             <span class="input-icon">
-
+                                
                             </span>
 
-
-                            <input asp-for="Senha" type="password" class="form-control-custom"
+                            <input asp-for="Senha"
+                                   type="password"
+                                   class="form-control-custom"
                                    placeholder="Digite sua senha" />
 
                         </div>
 
-
-                        <span asp-validation-for="Senha" class="validation-message">
+                        <span asp-validation-for="Senha"
+                              class="validation-message">
                         </span>
 
                     </div>
 
 
-                    <!-- OPÇÕES -->
-
-                    <div class="login-options">
-
-
-
-                        <a href="#" class="forgot-password">
-                            Esqueci minha senha
-                        </a>
-
-                    </div>
-
-
-                    <!-- BOTÃO -->
-
-                    <button type="submit" class="login-button">
+                    <button type="submit"
+                            class="login-button">
 
                         Entrar na minha conta
 
@@ -813,13 +1195,13 @@
                 </form>
 
 
-                <!-- CADASTRO -->
-
                 <div class="register-area">
 
                     Ainda não possui uma conta?
 
-                    <a asp-controller="Usuario" asp-action="Cadastro" class="register-link">
+                    <a asp-controller="Usuario"
+                       asp-action="Cadastro"
+                       class="register-link">
 
                         Criar conta
 

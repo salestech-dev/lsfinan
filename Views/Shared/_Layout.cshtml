@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,90 +8,45 @@
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lsfinan.styles.css" asp-append-version="true" />
 
     <style>
 
-        /* =========================================================
-           BASE
-        ========================================================= */
-
-        html {
-            font-size: 16px;
+        html, body {
+            margin: 0;
+            padding: 0;
             min-height: 100%;
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
-
-            display: flex;
-            flex-direction: column;
-
-            background:
-                radial-gradient(
-                    circle at 15% 20%,
-                    rgba(37, 99, 235, 0.08),
-                    transparent 30%
-                ),
-                radial-gradient(
-                    circle at 85% 80%,
-                    rgba(37, 99, 235, 0.05),
-                    transparent 30%
-                ),
-                #060a12;
-
+            background: #070b12;
             color: #e5e7eb;
-
-            font-family:
-                Inter,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
+            font-family: "Segoe UI", sans-serif;
         }
 
-
-        /* =========================================================
+        /* =========================
            NAVBAR
-        ========================================================= */
+           ========================= */
 
         .ls-navbar {
             height: 72px;
-            min-height: 72px;
-
+            background: #080d16;
+            border-bottom: 1px solid rgba(255,255,255,.06);
             display: flex;
             align-items: center;
-
-            background: rgba(5, 9, 17, 0.94);
-
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-
-            box-shadow:
-                0 8px 30px rgba(0, 0, 0, 0.20);
-
-            backdrop-filter: blur(12px);
-
-            position: relative;
-            z-index: 1000;
         }
 
         .ls-navbar-container {
             width: 100%;
-            max-width: 1250px;
-
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 28px;
+            padding: 0 30px;
 
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-
-        /* =========================================================
-           LOGO
-        ========================================================= */
+        /* LOGO */
 
         .ls-logo {
             display: flex;
@@ -100,19 +54,7 @@
             gap: 12px;
 
             text-decoration: none;
-
-            color: #f8fafc;
-
-            font-size: 20px;
-            font-weight: 700;
-
-            letter-spacing: -0.4px;
-
-            transition: 0.25s ease;
-        }
-
-        .ls-logo:hover {
-            color: #60a5fa;
+            color: white;
         }
 
         .ls-logo-icon {
@@ -123,24 +65,20 @@
             align-items: center;
             justify-content: center;
 
-            border-radius: 12px;
+            border-radius: 11px;
 
-            background: linear-gradient(
-                135deg,
-                #1d4ed8,
-                #2563eb
-            );
-
+            background: #2563eb;
             color: white;
 
-            font-size: 20px;
+            font-size: 21px;
             font-weight: 700;
 
-            box-shadow:
-                0 8px 22px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 6px 20px rgba(37,99,235,.25);
         }
 
         .ls-logo-name {
+            font-size: 20px;
+            font-weight: 700;
             color: #f8fafc;
         }
 
@@ -148,17 +86,13 @@
             color: #60a5fa;
         }
 
+        /* MENU */
 
-        /* =========================================================
-           LINKS
-        ========================================================= */
-
-        .ls-nav-links {
+        .ls-nav {
             display: flex;
             align-items: center;
-            gap: 8px;
-
-            margin-left: 45px;
+            gap: 6px;
+            margin-left: 40px;
             margin-right: auto;
         }
 
@@ -168,297 +102,200 @@
             border-radius: 8px;
 
             color: #94a3b8;
-
             text-decoration: none;
 
             font-size: 14px;
             font-weight: 500;
 
-            transition: all 0.25s ease;
+            transition: .2s;
         }
 
         .ls-nav-link:hover {
-            color: #f8fafc;
-            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            background: rgba(255,255,255,.05);
         }
 
         .ls-nav-link.active {
             color: #60a5fa;
-            background: rgba(37, 99, 235, 0.08);
+            background: rgba(37,99,235,.10);
         }
 
+        /* USUÁRIO */
 
-        /* =========================================================
-           NAVBAR BUTTONS
-        ========================================================= */
-
-        .ls-nav-actions {
+        .ls-user-area {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .ls-btn-login {
-            padding: 9px 17px;
+        .ls-account {
+            padding: 9px 15px;
 
-            border: 1px solid rgba(59, 130, 246, 0.35);
+            border: 1px solid rgba(59,130,246,.25);
+            border-radius: 8px;
 
-            border-radius: 9px;
-
-            color: #dbeafe;
-
-            background: rgba(15, 23, 42, 0.65);
-
+            color: #cbd5e1;
             text-decoration: none;
 
             font-size: 14px;
-            font-weight: 600;
 
-            transition: all 0.25s ease;
+            transition: .2s;
         }
 
-        .ls-btn-login:hover {
+        .ls-account:hover {
             color: white;
-
             border-color: #3b82f6;
-
-            background: rgba(37, 99, 235, 0.12);
+            background: rgba(37,99,235,.08);
         }
 
-        .ls-btn-register {
-            padding: 10px 18px;
+        .ls-logout {
+            padding: 9px 16px;
 
-            border-radius: 9px;
+            border: none;
+            border-radius: 8px;
 
             background: #2563eb;
-
             color: white;
-
-            text-decoration: none;
 
             font-size: 14px;
             font-weight: 600;
 
-            box-shadow:
-                0 7px 18px rgba(37, 99, 235, 0.20);
+            cursor: pointer;
 
-            transition: all 0.25s ease;
+            transition: .2s;
         }
 
-        .ls-btn-register:hover {
+        .ls-logout:hover {
             background: #3b82f6;
-
-            color: white;
-
-            transform: translateY(-1px);
-
-            box-shadow:
-                0 10px 25px rgba(37, 99, 235, 0.30);
         }
 
-
-        /* =========================================================
-           CONTEÚDO
-        ========================================================= */
+        /* CONTEÚDO */
 
         .ls-main {
-            flex: 1;
-
-            width: 100%;
-
-            padding: 0;
-
-            margin: 0;
+            min-height: calc(100vh - 72px);
+            padding: 30px;
         }
 
+        .ls-content {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-        /* =========================================================
-           FOOTER
-        ========================================================= */
+        /* FOOTER */
 
         .ls-footer {
-            width: 100%;
-
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-
+            border-top: 1px solid rgba(255,255,255,.05);
             background: #050911;
 
+            padding: 18px 30px;
+
             color: #64748b;
-
-            padding: 18px 0;
-
             font-size: 13px;
         }
 
         .ls-footer-container {
-            max-width: 1250px;
-
+            max-width: 1400px;
             margin: 0 auto;
 
-            padding: 0 28px;
-
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .ls-footer a {
-            color: #64748b;
+        /* RESPONSIVO */
 
-            text-decoration: none;
+        @@media (max-width: 900px) {
 
-            transition: 0.2s ease;
-        }
-
-        .ls-footer a:hover {
-            color: #60a5fa;
-        }
-
-
-        /* =========================================================
-           MOBILE
-        ========================================================= */
-
-        @@media (max-width: 768px) {
-
-            .ls-navbar {
-                height: auto;
-                min-height: 68px;
-            }
-
-            .ls-navbar-container {
-                padding: 12px 18px;
-            }
-
-            .ls-nav-links {
+            .ls-nav {
                 display: none;
             }
 
-            .ls-nav-actions {
-                gap: 6px;
-            }
-
-            .ls-btn-login,
-            .ls-btn-register {
-                padding: 8px 12px;
-                font-size: 13px;
-            }
-
-            .ls-footer-container {
+            .ls-navbar-container {
                 padding: 0 18px;
+            }
+
+            .ls-main {
+                padding: 20px;
             }
         }
 
     </style>
 </head>
 
-
 <body>
-
-    <!-- =========================================================
-         NAVBAR
-    ========================================================= -->
 
     <header class="ls-navbar">
 
         <div class="ls-navbar-container">
 
+            <!-- LOGO -->
+
             <a class="ls-logo"
-               asp-area=""
                asp-controller="Home"
                asp-action="Index">
 
                 <div class="ls-logo-icon">
                     $
-                </div>
+                </div> 
 
                 <div class="ls-logo-name">
-                    LS<span>Finan</span>
+                    Wise<span>Wallet</span>
                 </div>
 
             </a>
 
 
-            <nav class="ls-nav-links">
+            <!-- MENU -->
 
-                <a class="ls-nav-link"
-                   asp-area=""
-                   asp-controller="Home"
-                   asp-action="Index">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <nav class="ls-nav">
 
-                    Início
-
-                </a>
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
                     <a class="ls-nav-link"
                        asp-controller="Home"
-                       asp-action="Dashboard">
+                       asp-action="Index">
+                        Início
+                    </a>
 
+                    <a class="ls-nav-link"
+                       asp-controller="Dashboard"
+                       asp-action="Index">
                         Dashboard
-
                     </a>
 
                     <a class="ls-nav-link"
                        asp-controller="Conta"
                        asp-action="Index">
-
                         Contas
-
                     </a>
 
                     <a class="ls-nav-link"
                        asp-controller="Entrada"
                        asp-action="Index">
-
                         Entradas
-
                     </a>
 
                     <a class="ls-nav-link"
                        asp-controller="Saida"
                        asp-action="Index">
-
                         Saídas
-
                     </a>
 
                     <a class="ls-nav-link"
                        asp-controller="Categoria"
                        asp-action="Index">
-
                         Categorias
-
-                    </a>
-                }
-
-            </nav>
-
-
-            <div class="ls-nav-actions">
-
-                @if (User.Identity?.IsAuthenticated != true)
-                {
-                    <a class="ls-btn-login"
-                       asp-controller="Usuario"
-                       asp-action="Login">
-
-                        Entrar
-
                     </a>
 
-                    <a class="ls-btn-register"
-                       asp-controller="Usuario"
-                       asp-action="Cadastro">
+                </nav>
 
-                        Criar conta
 
-                    </a>
-                }
-                else
-                {
-                    <a class="ls-btn-login"
+                <!-- USUÁRIO -->
+
+                <div class="ls-user-area">
+
+                    <a class="ls-account"
                        asp-controller="Usuario"
                        asp-action="Perfil">
 
@@ -466,36 +303,42 @@
 
                     </a>
 
-                    <a class="ls-btn-register"
-                       asp-controller="Usuario"
-                       asp-action="Logout">
+                    <form asp-controller="Usuario"
+                          asp-action="Logout"
+                          method="post"
+                          style="margin:0;">
 
-                        Sair
+                        <button type="submit"
+                                class="ls-logout">
 
-                    </a>
-                }
+                            Sair
 
-            </div>
+                        </button>
+
+                    </form>
+
+                </div>
+            }
 
         </div>
 
     </header>
 
 
-    <!-- =========================================================
-         CONTEÚDO DAS VIEWS
-    ========================================================= -->
+    <!-- CONTEÚDO DAS PÁGINAS -->
 
-    <main role="main" class="ls-main">
+    <main class="ls-main">
 
-        @RenderBody()
+        <div class="ls-content">
+
+            @RenderBody()
+
+        </div>
 
     </main>
 
 
-    <!-- =========================================================
-         FOOTER
-    ========================================================= -->
+    <!-- FOOTER -->
 
     <footer class="ls-footer">
 
@@ -509,33 +352,22 @@
                 Controle financeiro simples e inteligente.
             </span>
 
-            <a asp-area=""
-               asp-controller="Home"
-               asp-action="Privacy">
-
+            <span>
                 Privacidade
-
-            </a>
+            </span>
 
         </div>
 
     </footer>
 
 
-    <!-- =========================================================
-         SCRIPTS
-    ========================================================= -->
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="~/js/site.js"
-            asp-append-version="true">
-    </script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
-
 </html>
