@@ -1,0 +1,86 @@
+@model lsfinan.ViewModel.AlertasContasPagarViewModel
+@using lsfinan.Services
+@using lsfinan.Enum
+@{
+    // O aviso só aparece uma vez, logo depois do login (flag colocada pelo UsuarioController).
+    var mostrar = TempData["MostrarAlertaContas"] != null && Model.TemAlerta;
+
+    string Chip(EnumStatusContaPagar s) => s switch
+    {
+        EnumStatusContaPagar.Atrasada => "cp-chip-atrasada",
+        EnumStatusContaPagar.VenceHoje => "cp-chip-hoje",
+        _ => "cp-chip-breve"
+    };
+}
+
+@if (mostrar)
+{
+    <div class="aviso-overlay" id="avisoContas" role="dialog" aria-modal="true" aria-labelledby="avisoContasTitulo">
+        <div class="aviso-box">
+
+            <div class="aviso-topo @(Model.TemAtraso ? "aviso-topo-atraso" : "")">
+                <span class="aviso-icone">!</span>
+                <div>
+                    <h2 id="avisoContasTitulo">
+                        @(Model.TemAtraso ? "Você tem contas atrasadas" : "Contas para pagar em breve")
+                    </h2>
+                    <p>
+                        @{
+                            var partes = new List<string>();
+                            if (Model.QtdAtrasadas > 0)
+                            {
+                                partes.Add($"{Model.QtdAtrasadas} {(Model.QtdAtrasadas == 1 ? "atrasada" : "atrasadas")} ({RegrasFinanceiras.Moeda(Model.TotalAtrasadas)})");
+                            }
+                            if (Model.QtdHoje > 0)
+                            {
+                                partes.Add($"{Model.QtdHoje} {(Model.QtdHoje == 1 ? "vence hoje" : "vencem hoje")} ({RegrasFinanceiras.Moeda(Model.TotalHoje)})");
+                            }
+                            if (Model.QtdProximos > 0)
+                            {
+                                partes.Add($"{Model.QtdProximos} {(Model.QtdProximos == 1 ? "vence" : "vencem")} nos próximos {Model.JanelaDias} dias ({RegrasFinanceiras.Moeda(Model.TotalProximos)})");
+                            }
+                        }
+                        @string.Join(" · ", partes)
+                    </p>
+                </div>
+            </div>
+
+            <ul class="aviso-lista">
+                @foreach (var item in Model.Itens)
+                {
+                    <li>
+                        <div class="aviso-item-info">
+                            <strong>@item.Nome</strong>
+                            <span class="cp-chip @Chip(item.Status)">@item.TextoVencimento</span>
+                        </div>
+                        <div class="aviso-item-valor">
+                            <span>@RegrasFinanceiras.Moeda(item.Valor)</span>
+                            <a asp-controller="ContaPagar" asp-action="Pagar" asp-route-id="@item.Id">Pagar</a>
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            <div class="aviso-acoes">
+                <button type="button" class="aviso-btn-sec" id="avisoFechar">Agora não</button>
+                <a asp-controller="ContaPagar" asp-action="Index" class="aviso-btn">Ver contas a pagar</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var overlay = document.getElementById('avisoContas');
+            function fechar() {
+                overlay.classList.add('aviso-saindo');
+                document.body.classList.remove('aviso-aberto');
+                setTimeout(function () { overlay.remove(); }, 200);
+            }
+            document.body.classList.add('aviso-aberto');
+            document.getElementById('avisoFechar').addEventListener('click', fechar);
+            overlay.addEventListener('click', function (e) { if (e.target === overlay) fechar(); });
+            document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.getElementById('avisoContas')) fechar(); });
+        })();
+    </script>
+}

@@ -1,0 +1,307 @@
+
+@model lsfinan.ViewModel.TodasSaidasViewModel
+
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Todas as Saídas";
+    Layout = "_Layout";
+    <link rel="stylesheet" href="~/css/saida.css" asp-append-version="true" />
+
+    var cultura = new CultureInfo("pt-BR");
+
+    var dataSelecionada = new DateTime(
+        Model.AnoSelecionado,
+        Model.MesSelecionado,
+        1
+    );
+
+    var nomeMes = cultura.TextInfo.ToTitleCase(
+        dataSelecionada.ToString("MMMM 'de' yyyy", cultura)
+    );
+
+    var totalPagina = Model.Saidas?.Sum(x => x.ValorSaida) ?? 0;
+
+    var gruposPorDia = (Model.Saidas ?? new List<lsfinan.Models.Saida>())
+        .GroupBy(x => x.DataSaida.Date)
+        .OrderByDescending(g => g.Key);
+}
+
+<div class="saidas-page">
+
+    <div class="saidas-container">
+
+        <!-- CABEÇALHO -->
+
+        <header class="saidas-hero">
+
+            <div>
+
+                <p class="saidas-kicker">
+                    Histórico financeiro
+                </p>
+
+                <h1>
+                    Saídas
+                </h1>
+
+                <p class="saidas-sub">
+                    Tudo o que você pagou, organizado por dia.
+                </p>
+
+            </div>
+
+            <div class="saidas-hero-actions">
+
+                <a asp-action="Index" class="saidas-btn ghost">
+                    Saídas de hoje
+                </a>
+
+                <a asp-action="CadastrarSaida" class="saidas-btn solid">
+                    Nova saída
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- RESUMO -->
+
+        <section class="saidas-summary">
+
+            <div class="saidas-summary-stat">
+                <span>Período</span>
+                <strong style="font-size:16px;">@nomeMes</strong>
+            </div>
+
+            <div class="saidas-divider-v"></div>
+
+            <div class="saidas-summary-stat valor">
+                <span>Total nesta página</span>
+                <strong>- @totalPagina.ToString("C")</strong>
+            </div>
+
+            <div class="saidas-divider-v"></div>
+
+            <div class="saidas-summary-stat">
+                <span>Registros</span>
+                <strong>@Model.Saidas.Count</strong>
+            </div>
+
+            <div class="saidas-month-picker">
+
+                <select id="mesAno" class="month-select" onchange="alterarMes(this.value)">
+
+                    @foreach (var data in Model.MesesDisponiveis.OrderByDescending(x => x))
+                    {
+                        var valor = $"{data.Month}-{data.Year}";
+
+                        var selecionado =
+                            data.Month == Model.MesSelecionado &&
+                            data.Year == Model.AnoSelecionado;
+
+                        if (selecionado)
+                        {
+                            <option value="@valor" selected>
+                                @cultura.TextInfo.ToTitleCase(
+                                    data.ToString("MMMM 'de' yyyy", cultura)
+                                )
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@valor">
+                                @cultura.TextInfo.ToTitleCase(
+                                    data.ToString("MMMM 'de' yyyy", cultura)
+                                )
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+        <!-- LINHA DO TEMPO -->
+
+        @if (Model.Saidas != null && Model.Saidas.Any())
+        {
+            <section class="saidas-timeline">
+
+                @foreach (var dia in gruposPorDia)
+                {
+                    var totalDia = dia.Sum(x => x.ValorSaida);
+
+                    <div class="saidas-day">
+
+                        <div class="saidas-day-marker">
+                            <span class="num">@dia.Key.ToString("dd")</span>
+                            <span class="dow">@cultura.TextInfo.ToTitleCase(dia.Key.ToString("ddd", cultura))</span>
+                        </div>
+
+                        <div class="saidas-day-card">
+
+                            <div class="saidas-day-card-header">
+                                <span>@cultura.TextInfo.ToTitleCase(dia.Key.ToString("dddd, d 'de' MMMM", cultura))</span>
+                                <span class="saidas-day-total">- @totalDia.ToString("C")</span>
+                            </div>
+
+                            @foreach (var saida in dia.OrderByDescending(x => x.DataSaida))
+                            {
+                                <div class="saidas-row">
+
+                                    <div class="saidas-row-main">
+
+                                        <strong>@saida.NomeSaida</strong>
+
+                                        @if (!string.IsNullOrWhiteSpace(saida.DescricaoSaida))
+                                        {
+                                            <span class="desc">@saida.DescricaoSaida</span>
+                                        }
+
+                                        <span class="saida-meta">
+                                            @saida.NomeConta
+                                            @if (saida.SaldoRestante != null)
+                                            {
+                                                <text> · Saldo restante: <b>@saida.SaldoRestante.Value.ToString("C2")</b></text>
+                                            }
+                                        </span>
+
+                                    </div>
+
+                                    <div class="saidas-row-right">
+                                        <span class="saidas-row-value">- @saida.ValorSaida.ToString("C")</span>
+                                        <span class="saidas-row-time">@saida.DataSaida.ToString("HH:mm")</span>
+
+                                        <div class="saida-acoes">
+                                                                @if (saida.ContaPagarId == null)
+                                                                {
+                                                                    <a asp-action="EditarSaida"
+                                                                       asp-route-id="@saida.Id"
+                                                                       class="saida-acao">
+                                                                        Editar
+                                                                    </a>
+
+                                                                    <form asp-action="ExcluirSaida"
+                                                                          asp-route-id="@saida.Id"
+                                                                          method="post"
+                                                                          class="form-inline-acao"
+                                                                          data-confirmar="Excluir a saída &quot;@saida.NomeSaida&quot;? O valor volta para a conta."
+                                                                          onsubmit="return confirm(this.dataset.confirmar)">
+                                                                        <input type="hidden" name="retorno" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                                                                        <button type="submit" class="saida-acao saida-acao-perigo">Excluir</button>
+                                                                    </form>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span class="saida-origem" title="Para desfazer, use Contas a pagar">Conta a pagar</span>
+                                                                }
+                                                            </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+
+                    </div>
+                }
+
+            </section>
+        }
+        else
+        {
+            <!-- ESTADO VAZIO -->
+
+            <section class="saidas-empty">
+
+                <h2>
+                    Nenhuma saída encontrada
+                </h2>
+
+                <p>
+                    Não existem saídas registradas em
+                    <strong>@nomeMes</strong>.
+                </p>
+
+                <a asp-action="CadastrarSaida" class="saidas-btn solid">
+                    Registrar saída
+                </a>
+
+            </section>
+        }
+
+
+        <!-- PAGINAÇÃO -->
+
+        @if (Model.TotalPaginas > 1)
+        {
+            <nav class="saidas-pagination">
+
+                @if (Model.PaginaAtual > 1)
+                {
+                    <a asp-action="TodasSaidas" asp-route-mes="@Model.MesSelecionado" asp-route-ano="@Model.AnoSelecionado"
+                       asp-route-pagina="@(Model.PaginaAtual - 1)" class="saidas-page-btn">
+                        Anterior
+                    </a>
+                }
+                else
+                {
+                    <span class="saidas-page-btn disabled">
+                        Anterior
+                    </span>
+                }
+
+                @for (int pagina = 1; pagina <= Model.TotalPaginas; pagina++)
+                {
+                    if (pagina == Model.PaginaAtual)
+                    {
+                        <span class="saidas-page-number active">
+                            @pagina
+                        </span>
+                    }
+                    else
+                    {
+                        <a asp-action="TodasSaidas" asp-route-mes="@Model.MesSelecionado" asp-route-ano="@Model.AnoSelecionado"
+                           asp-route-pagina="@pagina" class="saidas-page-number">
+                            @pagina
+                        </a>
+                    }
+                }
+
+                @if (Model.PaginaAtual < Model.TotalPaginas)
+                {
+                    <a asp-action="TodasSaidas" asp-route-mes="@Model.MesSelecionado" asp-route-ano="@Model.AnoSelecionado"
+                       asp-route-pagina="@(Model.PaginaAtual + 1)" class="saidas-page-btn">
+                        Próxima
+                    </a>
+                }
+                else
+                {
+                    <span class="saidas-page-btn disabled">
+                        Próxima
+                    </span>
+                }
+
+            </nav>
+        }
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        function alterarMes(valor) {
+            var partes = valor.split('-');
+            var mes = partes[0];
+            var ano = partes[1];
+
+            window.location.href = '@Url.Action("TodasSaidas")' + '?mes=' + mes + '&ano=' + ano;
+        }
+    </script>
+}

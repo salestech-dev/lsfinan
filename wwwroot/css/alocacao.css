@@ -1,0 +1,120 @@
+/* Painel "de onde sai o dinheiro" (escolher conta ou dividir entre contas) */
+
+.divisao { display: flex; flex-direction: column; gap: 14px; }
+
+.divisao-resumo {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.divisao-resumo > div {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.divisao-resumo span { display: block; font-size: 12px; color: #64748b; margin-bottom: 4px; }
+.divisao-resumo strong { font-size: 16px; color: #0f172a; }
+
+.divisao-falta { color: #dc2626 !important; }
+.divisao-ok { color: #0d7a55 !important; }
+
+.divisao-aviso {
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.divisao-aviso-erro {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+.divisao-contas { display: flex; flex-direction: column; gap: 10px; }
+
+.divisao-conta {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px 14px;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.divisao-conta:focus-within { border-color: #1d4380; box-shadow: 0 0 0 3px rgba(15, 37, 71, .08); }
+.divisao-conta.divisao-estourou { border-color: #dc2626; background: #fef2f2; }
+.divisao-sem-saldo { opacity: .6; }
+
+.divisao-conta-info strong { display: block; color: #0f172a; font-size: 15px; }
+.divisao-conta-info small { color: #64748b; font-size: 12px; }
+
+.divisao-conta-saldo span { display: block; font-size: 12px; color: #64748b; }
+.divisao-conta-saldo strong { font-size: 14px; color: #0f172a; }
+
+.divisao-conta-valor { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+
+.divisao-input {
+    width: 110px;
+    height: 40px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    background: #f8fafc;
+    padding: 0 10px;
+    font-size: 14px;
+    text-align: right;
+    color: #0f172a;
+}
+
+.divisao-input:focus { outline: none; border-color: #1d4380; background: #fff; }
+.divisao-input[readonly] { background: #eef2f7; color: #94a3b8; }
+
+.divisao-tudo {
+    border: 1px solid #d3dcec;
+    background: #e8edf6;
+    color: #0f2547;
+    border-radius: 10px;
+    height: 40px;
+    padding: 0 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.divisao-tudo:hover { background: #d3dcec; }
+.divisao-sem-saldo-texto { color: #94a3b8; font-size: 12px; }
+
+.divisao-acoes { display: flex; gap: 18px; }
+
+.divisao-link {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: #1d4380;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.divisao-link:hover { text-decoration: underline; }
+
+/* modal mais largo para caber a divisão */
+.saldo-modal.saldo-modal-largo { max-width: 680px; width: calc(100% - 32px); max-height: 92vh; overflow-y: auto; }
+
+.modal-buttons button:disabled { opacity: .45; cursor: not-allowed; }
+
+@media (max-width: 640px) {
+    .divisao-resumo { grid-template-columns: 1fr; }
+    .divisao-conta { grid-template-columns: 1fr 1fr; }
+    .divisao-conta-valor { grid-column: 1 / -1; justify-content: space-between; }
+    .divisao-input { flex: 1; width: auto; }
+}
+
+.modal-buttons { margin-top: 18px; }

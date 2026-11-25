@@ -22,5 +22,16 @@ namespace lsfinan.Data
         public DbSet<Categoria> Categorias { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<ContaPagar> ContasPagar { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ContaPagar>()
+                .Property(x => x.ValorContaPagar)
+                .HasPrecision(18, 2);
+        }
     }
 }

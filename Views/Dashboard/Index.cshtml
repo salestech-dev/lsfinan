@@ -10,18 +10,23 @@
 <style>
 
     :root {
-        --blue: #2563EB;
-        --blue-light: #3B82F6;
-        --blue-soft: #60A5FA;
+        --blue: #0F2547;
+        --blue-light: #173A73;
+        --blue-soft: #1D4380;
 
-        --background: #070B12;
-        --surface: #0F172A;
-        --surface-light: #111827;
+        /* Paleta clara: branco acinzentado + azul marinho */
+        --background: #F4F6F9;
+        --surface: #FFFFFF;
+        --surface-light: #F8FAFC;
 
-        --border: #1E293B;
+        --border: #E2E8F0;
 
-        --text: #F8FAFC;
-        --muted: #94A3B8;
+        --text: #0F172A;
+        --muted: #64748B;
+
+        --balance: #0F2547;
+        --income: #0D7A55;
+        --expense: #DC2626;
     }
 
 
@@ -33,18 +38,7 @@
         min-height: 100vh;
         padding: 35px;
 
-        background:
-            radial-gradient(
-                circle at 10% 10%,
-                rgba(37, 99, 235, 0.10),
-                transparent 25%
-            ),
-            radial-gradient(
-                circle at 90% 90%,
-                rgba(59, 130, 246, 0.07),
-                transparent 30%
-            ),
-            var(--background);
+        background: var(--background);
 
         color: var(--text);
     }
@@ -107,8 +101,8 @@
         background:
             linear-gradient(
                 145deg,
-                rgba(17, 24, 39, 0.95),
-                rgba(15, 23, 42, 0.95)
+                #ffffff,
+                #ffffff
             );
 
         border: 1px solid var(--border);
@@ -133,7 +127,7 @@
 
         border-radius: 50%;
 
-        background: rgba(37, 99, 235, 0.08);
+        background: rgba(100, 116, 139, 0.032);
 
         filter: blur(35px);
 
@@ -144,12 +138,9 @@
     .dashboard-card:hover {
         transform: translateY(-4px);
 
-        border-color:
-            rgba(59, 130, 246, 0.40);
+        border-color: #cbd5e1;
 
-        box-shadow:
-            0 15px 40px rgba(0, 0, 0, 0.25),
-            0 0 25px rgba(37, 99, 235, 0.08);
+        box-shadow: 0 14px 32px rgba(15, 23, 42, 0.045);
     }
 
 
@@ -182,11 +173,9 @@
 
         border-radius: 10px;
 
-        background:
-            rgba(37, 99, 235, 0.12);
+        background: rgba(15, 37, 71, 0.072);
 
-        border:
-            1px solid rgba(59, 130, 246, 0.20);
+        border: 1px solid rgba(100, 116, 139, 0.18);
 
         color: var(--blue-soft);
 
@@ -207,15 +196,15 @@
     }
 
     .card-value.blue {
-        color: var(--blue-soft);
+        color: var(--balance);
     }
 
     .card-value.green {
-        color: #34D399;
+        color: var(--income);
     }
 
     .card-value.red {
-        color: #F87171;
+        color: var(--expense);
     }
 
 
@@ -238,11 +227,9 @@
        ===================================================== */
 
     .movements-card {
-        background:
-            rgba(15, 23, 42, 0.85);
+        background: #ffffff;
 
-        border:
-            1px solid var(--border);
+        border: 1px solid var(--border);
 
         border-radius: 18px;
 
@@ -303,10 +290,9 @@
 
         border-radius: 50%;
 
-        background:
-            rgba(37, 99, 235, 0.10);
+        background: rgba(100, 116, 139, 0.063);
 
-        color: var(--blue-soft);
+        color: #64748b;
 
         font-size: 25px;
 
@@ -340,12 +326,11 @@
         background:
             linear-gradient(
                 145deg,
-                #0F172A,
-                #0B1220
+                #ffffff,
+                #ffffff
             );
 
-        border:
-            1px solid rgba(59, 130, 246, 0.20);
+        border: 1px solid var(--border);
 
         border-radius: 18px;
 
@@ -363,7 +348,7 @@
         border-radius: 50%;
 
         background:
-            rgba(37, 99, 235, 0.10);
+            rgba(15, 37, 71, 0.041);
 
         filter: blur(45px);
 
@@ -394,7 +379,7 @@
 
         font-weight: 700;
 
-        color: var(--blue-soft);
+        color: var(--balance);
     }
 
     .result-description {
@@ -430,12 +415,14 @@
 
         overflow: hidden;
 
-        background: #070B12;
+        background: #0a1a33;
 
         pointer-events: none;
 
         animation:
             welcomeScreenExit 3.4s ease forwards;
+
+        color: #f8fafc;
     }
 
 
@@ -457,11 +444,11 @@
         background:
             radial-gradient(
                 ellipse at center,
-                #60A5FA 0%,
-                #3B82F6 20%,
-                #2563EB 42%,
-                #1D4ED8 60%,
-                #0F172A 85%
+                #3f6fb8 0%,
+                #2d5ba3 20%,
+                #1d4380 42%,
+                #173a73 60%,
+                #0f2547 85%
             );
 
         border-radius: 48% 52% 55% 45%;
@@ -496,9 +483,9 @@
         background:
             radial-gradient(
                 circle at center,
-                rgba(147, 197, 253, 0.95) 0%,
-                rgba(96, 165, 250, 0.60) 25%,
-                rgba(37, 99, 235, 0.25) 45%,
+                rgba(150, 178, 225, 0.95) 0%,
+                rgba(63, 111, 184, 0.6) 25%,
+                rgba(29, 67, 128, 0.25) 45%,
                 transparent 70%
             );
 
@@ -543,7 +530,7 @@
     .welcome-content h1 {
         margin: 0;
 
-        color: #FFFFFF;
+        color: #ffffff;
 
         font-size: 46px;
 
@@ -557,17 +544,17 @@
     }
 
     .welcome-content h1 span {
-        color: #DBEAFE;
+        color: #e6edf8;
 
         text-shadow:
             0 0 35px
-            rgba(147, 197, 253, 0.75);
+            rgba(150, 178, 225, 0.75);
     }
 
     .welcome-content p {
         margin-top: 14px;
 
-        color: #EFF6FF;
+        color: #f1f5fb;
 
         font-size: 19px;
 
@@ -770,6 +757,112 @@
         }
     }
 
+    /* ---- aviso de contas a pagar no topo ---- */
+    .dash-aviso {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        margin-bottom: 22px;
+        border-radius: 16px;
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        color: #92400e;
+        text-decoration: none;
+        transition: box-shadow .15s;
+    }
+
+    .dash-aviso:hover { box-shadow: 0 8px 24px rgba(15, 23, 42, .08); color: #92400e; }
+
+    .dash-aviso-atraso { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+    .dash-aviso-atraso:hover { color: #b91c1c; }
+
+    .dash-aviso-icone {
+        flex: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 18px;
+        color: #fff;
+        background: #d97706;
+    }
+
+    .dash-aviso-atraso .dash-aviso-icone { background: #dc2626; }
+
+    .dash-aviso strong { display: block; font-size: 15px; }
+    .dash-aviso span.dash-aviso-texto { font-size: 13px; opacity: .9; }
+    .dash-aviso-link { margin-left: auto; font-size: 13px; font-weight: 700; white-space: nowrap; }
+
+    /* ---- últimas movimentações ---- */
+    .mov-lista { display: flex; flex-direction: column; }
+
+    .mov-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .mov-item:last-child { border-bottom: 0; }
+
+    .mov-icone {
+        flex: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        background: #f1f5f9;
+        color: #334155;
+    }
+
+    .mov-icone.entrada { background: #f0fdf4; color: #15803d; }
+    .mov-icone.saida { background: #fef2f2; color: #dc2626; }
+
+    .mov-info { flex: 1; min-width: 0; }
+    .mov-info strong { display: block; font-size: 15px; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mov-info small { color: #64748b; font-size: 12px; }
+
+    .mov-valor { font-weight: 700; font-size: 15px; white-space: nowrap; }
+    .mov-valor.entrada { color: #0d7a55; }
+    .mov-valor.saida { color: #dc2626; }
+
+    /* ---- coluna da direita ---- */
+    .dashboard-side { display: flex; flex-direction: column; gap: 20px; }
+
+    .venc-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 22px;
+        padding: 24px;
+    }
+
+    .venc-card h3 { margin: 0 0 14px; font-size: 17px; color: #0f172a; }
+
+    .venc-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .venc-item:last-of-type { border-bottom: 0; }
+    .venc-item strong { display: block; font-size: 14px; color: #0f172a; margin-bottom: 4px; }
+    .venc-item .venc-valor { font-weight: 700; font-size: 14px; color: #0f172a; white-space: nowrap; }
+
+    .venc-vazio { color: #64748b; font-size: 14px; line-height: 1.5; margin: 0 0 12px; }
+
+    .venc-link { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; color: #1d4380; text-decoration: none; }
+    .venc-link:hover { text-decoration: underline; }
 </style>
 
 
@@ -804,6 +897,38 @@
 
 <div class="dashboard-page">
 
+
+    @* AVISO DE CONTAS A PAGAR (atrasadas / vencendo) *@
+    @if (Model.Alertas != null && Model.Alertas.TemAlerta)
+    {
+        var alerta = Model.Alertas;
+        var textos = new List<string>();
+
+        if (alerta.QtdAtrasadas > 0)
+        {
+            textos.Add($"{alerta.QtdAtrasadas} {(alerta.QtdAtrasadas == 1 ? "conta atrasada" : "contas atrasadas")}");
+        }
+
+        if (alerta.QtdHoje > 0)
+        {
+            textos.Add($"{alerta.QtdHoje} {(alerta.QtdHoje == 1 ? "vence hoje" : "vencem hoje")}");
+        }
+
+        if (alerta.QtdProximos > 0)
+        {
+            textos.Add($"{alerta.QtdProximos} {(alerta.QtdProximos == 1 ? "vence" : "vencem")} nos próximos {alerta.JanelaDias} dias");
+        }
+
+        <a asp-controller="ContaPagar" asp-action="Index"
+           class="dash-aviso @(alerta.TemAtraso ? "dash-aviso-atraso" : "")">
+            <span class="dash-aviso-icone">!</span>
+            <div>
+                <strong>@(alerta.TemAtraso ? "Você tem contas atrasadas" : "Contas para pagar em breve")</strong>
+                <span class="dash-aviso-texto">@string.Join(" · ", textos)</span>
+            </div>
+            <span class="dash-aviso-link">Ver contas →</span>
+        </a>
+    }
 
     @* HEADER *@
 
@@ -884,7 +1009,7 @@
 
         @* SAÍDAS *@
 
-        <div class="dashboard-card">
+        <div class="dashboard-card">    
 
             <div class="card-header-custom">
 
@@ -952,8 +1077,8 @@
                     Últimas movimentações
                 </h2>
 
-                <button type="button">
-                    Ver todas
+                <button type="button" onclick="location.href='@Url.Action("TodasSaidas", "Saida")'">
+                    Ver saídas
                 </button>
 
             </div>
@@ -984,20 +1109,30 @@
             else
             {
 
-                <div>
-
+                <div class="mov-lista">
                     @foreach (var movimentacao in Model.UltimasMovimentacoes)
                     {
+                        var entrada = movimentacao.Tipo == "Entrada";
 
-                        <div>
-                            @* 
-                               As movimentações serão estilizadas
-                               quando o ViewModel delas estiver completo.
-                            *@
+                        <div class="mov-item">
+                            <span class="mov-icone @(entrada ? "entrada" : "saida")">@(entrada ? "↑" : "↓")</span>
+
+                            <div class="mov-info">
+                                <strong>@movimentacao.Descricao</strong>
+                                <small>
+                                    @movimentacao.Data.ToString("dd/MM 'às' HH:mm")
+                                    @if (!string.IsNullOrEmpty(movimentacao.Conta))
+                                    {
+                                        <text> · @movimentacao.Conta</text>
+                                    }
+                                </small>
+                            </div>
+
+                            <span class="mov-valor @(entrada ? "entrada" : "saida")">
+                                @(entrada ? "+" : "-") @movimentacao.Valor.ToString("C2")
+                            </span>
                         </div>
-
                     }
-
                 </div>
 
             }
@@ -1005,8 +1140,8 @@
         </div>
 
 
+        <div class="dashboard-side">
         @* RESULTADO *@
-
         <div class="result-card">
 
             <h3>
@@ -1023,9 +1158,40 @@
 
                 Diferença entre tudo que foi recebido
                 e tudo que foi pago.
-
             </div>
+        </div>
 
+        @* PRÓXIMOS VENCIMENTOS *@
+        <div class="venc-card">
+            <h3>Contas a pagar</h3>
+
+            @if (Model.Alertas == null || !Model.Alertas.TemAlerta)
+            {
+                <p class="venc-vazio">
+                    Nenhuma conta atrasada ou vencendo nos próximos
+                    @(Model.Alertas?.JanelaDias ?? 7) dias.
+                </p>
+            }
+            else
+            {
+                foreach (var item in Model.Alertas.Itens)
+                {
+                    var chip = item.Status == lsfinan.Enum.EnumStatusContaPagar.Atrasada ? "cp-chip-atrasada"
+                             : item.Status == lsfinan.Enum.EnumStatusContaPagar.VenceHoje ? "cp-chip-hoje"
+                             : "cp-chip-breve";
+
+                    <div class="venc-item">
+                        <div>
+                            <strong>@item.Nome</strong>
+                            <span class="cp-chip @chip">@item.TextoVencimento</span>
+                        </div>
+                        <span class="venc-valor">@item.Valor.ToString("C2")</span>
+                    </div>
+                }
+            }
+
+            <a asp-controller="ContaPagar" asp-action="Index" class="venc-link">Ver todas as contas a pagar →</a>
+        </div>
         </div>
 
 

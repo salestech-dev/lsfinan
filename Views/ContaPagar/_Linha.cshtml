@@ -1,0 +1,78 @@
+@model lsfinan.ViewModel.ContaPagarItemViewModel
+@using lsfinan.Enum
+@using lsfinan.Services
+@{
+    var (linha, chip) = Model.Status switch
+    {
+        EnumStatusContaPagar.Atrasada => ("cp-linha-atrasada", "cp-chip-atrasada"),
+        EnumStatusContaPagar.VenceHoje => ("cp-linha-hoje", "cp-chip-hoje"),
+        EnumStatusContaPagar.VenceEmBreve => ("cp-linha-breve", "cp-chip-breve"),
+        EnumStatusContaPagar.Paga => ("cp-linha-paga", "cp-chip-paga"),
+        _ => ("cp-linha-pendente", "cp-chip-pendente")
+    };
+}
+
+<div class="cp-linha @linha">
+
+    <div>
+        <div class="cp-linha-nome">@Model.Nome</div>
+
+        <div class="cp-linha-meta">
+            <span class="cp-chip @chip">@Model.TextoVencimento</span>
+
+            @if (Model.Pago)
+            {
+                <span>Paga em @Model.DataPagamento?.ToString("dd/MM/yyyy 'às' HH:mm")</span>
+                @if (!string.IsNullOrEmpty(Model.ContasPagamento))
+                {
+                    <span>· Paga com: @Model.ContasPagamento</span>
+                }
+            }
+            else
+            {
+                <span>Vencimento: @Model.DataVencimento.ToString("dd/MM/yyyy")</span>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.NomeCategoria))
+            {
+                <span>· @Model.NomeCategoria</span>
+            }
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Descricao))
+        {
+            <div class="cp-linha-desc">@Model.Descricao</div>
+        }
+    </div>
+
+    <div class="cp-linha-valor">@RegrasFinanceiras.Moeda(Model.Valor)</div>
+
+    <div class="cp-linha-acoes">
+        @if (Model.Pago)
+        {
+            <form asp-action="DesfazerPagamento"
+                  asp-route-id="@Model.Id"
+                  method="post"
+                  class="cp-form-inline"
+                  data-confirmar="Desfazer o pagamento de &quot;@Model.Nome&quot;? O valor volta para as contas e a conta fica pendente de novo."
+                  onsubmit="return confirm(this.dataset.confirmar)">
+                <button type="submit" class="cp-acao">Desfazer pagamento</button>
+            </form>
+        }
+        else
+        {
+            <a asp-action="Pagar" asp-route-id="@Model.Id" class="cp-acao cp-acao-pagar">Pagar</a>
+            <a asp-action="Editar" asp-route-id="@Model.Id" class="cp-acao">Editar</a>
+
+            <form asp-action="Excluir"
+                  asp-route-id="@Model.Id"
+                  method="post"
+                  class="cp-form-inline"
+                  data-confirmar="Excluir a conta &quot;@Model.Nome&quot;? Isso não pode ser desfeito."
+                  onsubmit="return confirm(this.dataset.confirmar)">
+                <button type="submit" class="cp-acao cp-acao-perigo">Excluir</button>
+            </form>
+        }
+    </div>
+
+</div>

@@ -1,0 +1,614 @@
+/* =========================
+   PÁGINA
+   ========================= */
+
+.saidas-page {
+    min-height: 100vh;
+    padding: 40px 40px 70px;
+    color: #0f172a;
+}
+
+.saidas-container {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+
+/* =========================
+   HERO / CABEÇALHO
+   ========================= */
+
+.saidas-hero {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    margin-bottom: 30px;
+}
+
+.saidas-kicker {
+    margin: 0 0 6px;
+
+    color: #1d4380;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.saidas-hero h1 {
+    margin: 0;
+
+    font-size: 34px;
+    font-weight: 700;
+
+    letter-spacing: -0.8px;
+}
+
+.saidas-sub {
+    margin: 8px 0 0;
+
+    color: #64748b;
+
+    font-size: 14px;
+}
+
+.saidas-hero-actions {
+    display: flex;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+}
+
+.saidas-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 42px;
+
+    padding: 0 18px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition: .2s ease;
+}
+
+.saidas-btn.solid {
+    background: #0f2547;
+    border: 1px solid #1d4380;
+    color: #ffffff;
+}
+
+.saidas-btn.solid:hover {
+    background: #173a73;
+    border-color: #1d4380;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.saidas-btn.ghost {
+    background: transparent;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+}
+
+.saidas-btn.ghost:hover {
+    border-color: #1d4380;
+    color: #0f172a;
+}
+
+
+/* =========================
+   RESUMO
+   ========================= */
+
+.saidas-summary {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 24px;
+
+    padding: 20px 24px;
+
+    margin-bottom: 30px;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+}
+
+.saidas-summary-stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.saidas-summary-stat span {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.saidas-summary-stat strong {
+    margin-top: 4px;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.saidas-summary-stat.valor strong {
+    color: #dc2626;
+}
+
+.saidas-divider-v {
+    width: 1px;
+    align-self: stretch;
+    background: #e2e8f0;
+}
+
+.saidas-month-picker {
+    min-width: 230px;
+}
+
+.month-select {
+    width: 100%;
+    height: 42px;
+
+    padding: 0 13px;
+
+    box-sizing: border-box;
+
+    background: #f8fafc;
+    color: #1e293b;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.month-select:hover {
+    border-color: #cbd5e1;
+}
+
+.month-select:focus {
+    border-color: #1d4380;
+    box-shadow: 0 0 0 3px rgba(15, 37, 71, 0.07);
+}
+
+
+/* =========================
+   LINHA DO TEMPO
+   ========================= */
+
+.saidas-timeline {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.saidas-timeline::before {
+    content: "";
+
+    position: absolute;
+
+    top: 4px;
+    bottom: 4px;
+    left: 27px;
+
+    width: 1px;
+
+    background: #e2e8f0;
+}
+
+.saidas-day {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    grid-template-columns: 56px 1fr;
+
+    gap: 18px;
+}
+
+.saidas-day-marker {
+    width: 56px;
+    height: 56px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+}
+
+.saidas-day-marker .num {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.saidas-day-marker .dow {
+    margin-top: 1px;
+
+    font-size: 10px;
+    color: #64748b;
+}
+
+.saidas-day-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    overflow: hidden;
+}
+
+.saidas-day-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 13px 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.saidas-day-card-header span:first-child {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.saidas-day-total {
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 700;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.saidas-row {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 14px 18px;
+
+    border-bottom: 1px solid #e2e8f0;
+
+    transition: background .15s ease;
+}
+
+.saidas-row:last-child {
+    border-bottom: none;
+}
+
+.saidas-row:hover {
+    background: #f8fafc;
+}
+
+.saidas-row-main {
+    min-width: 0;
+}
+
+.saidas-row-main strong {
+    display: block;
+
+    overflow: hidden;
+
+    color: #1e293b;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.saidas-row-main .desc {
+    display: block;
+
+    margin-top: 3px;
+
+    overflow: hidden;
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.saidas-row-right {
+    flex-shrink: 0;
+
+    text-align: right;
+}
+
+.saidas-row-value {
+    display: block;
+
+    color: #dc2626;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    font-variant-numeric: tabular-nums;
+}
+
+.saidas-row-time {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #64748b;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   ESTADO VAZIO
+   ========================= */
+
+.saidas-empty {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 260px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+}
+
+.saidas-empty h2 {
+    margin: 0;
+
+    color: #1e293b;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.saidas-empty p {
+    max-width: 380px;
+
+    margin: 8px 0 22px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+.saidas-empty p strong {
+    color: #64748b;
+}
+
+
+/* =========================
+   PAGINAÇÃO
+   ========================= */
+
+.saidas-pagination {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    margin-top: 28px;
+}
+
+.saidas-page-number,
+.saidas-page-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 36px;
+    height: 36px;
+
+    padding: 0 10px;
+
+    box-sizing: border-box;
+
+    border-radius: 8px;
+
+    background: transparent;
+    border: 1px solid transparent;
+
+    color: #64748b;
+
+    text-decoration: none;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition: .2s ease;
+}
+
+.saidas-page-number:hover,
+.saidas-page-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+.saidas-page-number.active {
+    background: #0f2547;
+    border-color: #1d4380;
+    color: #ffffff;
+}
+
+.saidas-page-btn.disabled {
+    opacity: .3;
+    cursor: default;
+}
+
+
+/* =========================
+   RESPONSIVO
+   ========================= */
+
+@media (max-width: 700px) {
+
+    .saidas-page {
+        padding: 24px 16px 50px;
+    }
+
+    .saidas-hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .saidas-hero-actions {
+        width: 100%;
+    }
+
+    .saidas-hero-actions a {
+        flex: 1;
+    }
+
+    .saidas-summary {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .saidas-divider-v {
+        display: none;
+    }
+
+    .saidas-month-picker {
+        min-width: 0;
+    }
+
+    .saidas-day {
+        grid-template-columns: 44px 1fr;
+        gap: 12px;
+    }
+
+    .saidas-day-marker {
+        width: 44px;
+        height: 44px;
+    }
+
+    .saidas-timeline::before {
+        left: 21px;
+    }
+
+    .saidas-row {
+        flex-direction: column;
+    }
+
+    .saidas-row-right {
+        text-align: left;
+    }
+}
+
+    /* conta / saldo restante e ações de cada saída */
+    .saida-meta {
+        display: block;
+        margin-top: 4px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .saida-meta b {
+        color: #0f172a;
+        font-weight: 600;
+    }
+
+    .saida-acoes {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .saida-acao {
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background: #ffffff;
+        color: #334155;
+        text-decoration: none;
+        cursor: pointer;
+        line-height: 1.2;
+    }
+
+    .saida-acao:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+    .saida-acao-perigo {
+        color: #dc2626;
+        border-color: #fecaca;
+    }
+
+    .saida-acao-perigo:hover {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .saida-origem {
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: #e8edf6;
+        border: 1px solid #d3dcec;
+        color: #0f2547;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .form-inline-acao {
+        display: inline;
+        margin: 0;
+    }

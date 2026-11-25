@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrator\\Desktop\\lsfinan\\lsfinan.csproj": {}
+    "C:\\Users\\Administrator\\Downloads\\lsfinan\\lsfinan.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrator\\Desktop\\lsfinan\\lsfinan.csproj": {
+    "C:\\Users\\Administrator\\Downloads\\lsfinan\\lsfinan.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrator\\Desktop\\lsfinan\\lsfinan.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Downloads\\lsfinan\\lsfinan.csproj",
         "projectName": "lsfinan",
-        "projectPath": "C:\\Users\\Administrator\\Desktop\\lsfinan\\lsfinan.csproj",
+        "projectPath": "C:\\Users\\Administrator\\Downloads\\lsfinan\\lsfinan.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrator\\Desktop\\lsfinan\\obj\\",
+        "outputPath": "C:\\Users\\Administrator\\Downloads\\lsfinan\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config"

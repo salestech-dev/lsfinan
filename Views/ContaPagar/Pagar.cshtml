@@ -1,0 +1,102 @@
+@model lsfinan.ViewModel.PagarContaPagarViewModel
+@using lsfinan.Enum
+@using lsfinan.Services
+@{
+    ViewData["Title"] = "Pagar Conta";
+    Layout = "_Layout";
+
+    var chip = Model.Conta.Status switch
+    {
+        EnumStatusContaPagar.Atrasada => "cp-chip-atrasada",
+        EnumStatusContaPagar.VenceHoje => "cp-chip-hoje",
+        EnumStatusContaPagar.VenceEmBreve => "cp-chip-breve",
+        _ => "cp-chip-pendente"
+    };
+
+    var divisao = new lsfinan.ViewModel.DivisaoPagamentoViewModel
+    {
+        Valor = Model.Conta.Valor,
+        Contas = Model.ContasAtivas,
+        Alocacoes = Model.Alocacoes
+    };
+
+    ViewData["FormId"] = "formPagar";
+    ViewData["BotaoConfirmar"] = "btnConfirmarPagamento";
+}
+
+<link rel="stylesheet" href="~/css/contapagar.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/alocacao.css" asp-append-version="true" />
+
+<div class="cp-page cp-page-estreita">
+
+    <div class="cp-header">
+        <div>
+            <span class="cp-label">CONTAS A PAGAR</span>
+            <h1>Pagar conta</h1>
+            <p>Escolha de qual conta o dinheiro sai. Se uma conta só não bastar, divida entre duas ou mais.</p>
+        </div>
+
+        <a asp-action="Index" class="cp-btn-sec">Voltar</a>
+    </div>
+
+    <div class="cp-card">
+        <div class="cp-conta-info">
+            <div>
+                <h2>@Model.Conta.Nome</h2>
+                <div class="cp-linha-meta">
+                    <span class="cp-chip @chip">@Model.Conta.TextoVencimento</span>
+                    <span>Vencimento: @Model.Conta.DataVencimento.ToString("dd/MM/yyyy")</span>
+                    @if (!string.IsNullOrEmpty(Model.Conta.NomeCategoria))
+                    {
+                        <span>· @Model.Conta.NomeCategoria</span>
+                    }
+                </div>
+            </div>
+
+            <div class="cp-conta-valor">
+                <span>Valor a pagar</span>
+                <strong>@RegrasFinanceiras.Moeda(Model.Conta.Valor)</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="cp-card">
+
+        <h2 class="cp-titulo-secao">De onde sai o dinheiro?</h2>
+        <p class="cp-sub">
+            O saldo de nenhuma conta pode ficar negativo. Preencha quanto sai de cada conta até completar o valor.
+        </p>
+
+        @if (Model.ContasAtivas.Count == 0)
+        {
+            <div class="cp-dica">
+                <span>ℹ</span>
+                <div>
+                    Você não tem nenhuma conta ativa para pagar.
+                    <a asp-controller="Conta" asp-action="CadastrarConta">Cadastre uma conta</a> primeiro.
+                </div>
+            </div>
+        }
+        else
+        {
+            <form asp-action="Pagar" asp-route-id="@Model.Id" method="post" id="formPagar">
+
+                <div asp-validation-summary="ModelOnly" class="cp-erro"></div>
+
+                <partial name="_DivisaoPagamento" model="divisao" view-data="ViewData" />
+
+                <div class="cp-rodape">
+                    <a asp-action="Index" class="cp-btn-sec">Cancelar</a>
+                    <button type="submit" class="cp-btn" id="btnConfirmarPagamento" disabled>Confirmar pagamento</button>
+                </div>
+
+            </form>
+        }
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/alocacao.js" asp-append-version="true"></script>
+}

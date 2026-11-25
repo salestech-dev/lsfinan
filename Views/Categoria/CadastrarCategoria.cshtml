@@ -1,7 +1,8 @@
 @model lsfinan.ViewModel.CategoriaViewModel
 
 @{
-    ViewData["Title"] = "Nova Categoria";
+    var edicao = Model.Id > 0;
+    ViewData["Title"] = edicao ? "Editar Categoria" : "Nova Categoria";
     Layout = "_Layout";
 }
 
@@ -15,28 +16,28 @@
         background:
             radial-gradient(
                 circle at 15% 20%,
-                rgba(37, 99, 235, 0.10),
+                rgba(15, 37, 71, 0.025),
                 transparent 30%
             ),
             radial-gradient(
                 circle at 85% 80%,
-                rgba(59, 130, 246, 0.08),
+                rgba(15, 37, 71, 0.02),
                 transparent 30%
             ),
-            #070B12;
-        color: #F8FAFC;
+            #f4f6f9;
+        color: #0f172a;
     }
 
     .categoria-card {
         width: 100%;
         max-width: 600px;
-        background: #111827;
-        border: 1px solid #1F2937;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 22px;
         padding: 40px;
         box-shadow:
-            0 25px 70px rgba(0, 0, 0, 0.45),
-            0 0 60px rgba(37, 99, 235, 0.05);
+            0 25px 70px rgba(15, 23, 42, 0.113),
+            0 0 60px rgba(15, 37, 71, 0.035);
     }
 
     .categoria-header {
@@ -52,7 +53,7 @@
 
     .categoria-header p {
         margin: 0;
-        color: #64748B;
+        color: #64748b;
         font-size: 14px;
         line-height: 1.6;
     }
@@ -64,7 +65,7 @@
     .form-group label {
         display: block;
         margin-bottom: 9px;
-        color: #CBD5E1;
+        color: #334155;
         font-size: 14px;
         font-weight: 600;
     }
@@ -74,28 +75,28 @@
         height: 48px;
         padding: 0 15px;
         box-sizing: border-box;
-        background: #0F172A;
-        border: 1px solid #334155;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
         border-radius: 10px;
         outline: none;
-        color: #F8FAFC;
+        color: #0f172a;
         font-size: 14px;
         transition: all 0.2s ease;
     }
 
     .form-control-custom::placeholder {
-        color: #475569;
+        color: #94a3b8;
     }
 
     .form-control-custom:focus {
-        border-color: #2563EB;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+        border-color: #1d4380;
+        box-shadow: 0 0 0 3px rgba(15, 37, 71, 0.084);
     }
 
     .campo-erro {
         display: block;
         margin-top: 7px;
-        color: #F87171;
+        color: #dc2626;
         font-size: 12px;
     }
 
@@ -104,20 +105,20 @@
         align-items: center;
         justify-content: space-between;
         padding: 16px;
-        background: #0F172A;
-        border: 1px solid #1F2937;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
     }
 
     .ativo-info strong {
         display: block;
         margin-bottom: 4px;
-        color: #E2E8F0;
+        color: #1e293b;
         font-size: 14px;
     }
 
     .ativo-info span {
-        color: #64748B;
+        color: #64748b;
         font-size: 12px;
     }
 
@@ -138,7 +139,7 @@
         position: absolute;
         inset: 0;
         cursor: pointer;
-        background: #334155;
+        background: #cbd5e1;
         border-radius: 30px;
         transition: 0.25s;
     }
@@ -150,13 +151,13 @@
         height: 20px;
         left: 3px;
         top: 3px;
-        background: #F8FAFC;
+        background: #ffffff;
         border-radius: 50%;
         transition: 0.25s;
     }
 
     .switch input:checked + .slider {
-        background: #2563EB;
+        background: #0f2547;
     }
 
     .switch input:checked + .slider::before {
@@ -177,9 +178,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #334155;
+        border: 1px solid #cbd5e1;
         border-radius: 10px;
-        color: #CBD5E1;
+        color: #334155;
         text-decoration: none;
         font-size: 14px;
         font-weight: 600;
@@ -187,8 +188,8 @@
     }
 
     .btn-voltar:hover {
-        background: #1E293B;
-        color: #FFFFFF;
+        background: #eef2f7;
+        color: #0f172a;
     }
 
     .btn-cadastrar {
@@ -198,14 +199,14 @@
         border-radius: 10px;
         background: linear-gradient(
             135deg,
-            #2563EB,
-            #3B82F6
+            #0f2547,
+            #173a73
         );
-        color: #FFFFFF;
+        color: #ffffff;
         font-size: 14px;
         font-weight: 600;
         cursor: pointer;
-        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.22);
+        box-shadow: 0 10px 30px rgba(15, 37, 71, 0.154);
         transition: all 0.2s ease;
     }
 
@@ -213,19 +214,19 @@
         transform: translateY(-2px);
         background: linear-gradient(
             135deg,
-            #1D4ED8,
-            #2563EB
+            #173a73,
+            #0f2547
         );
-        box-shadow: 0 14px 35px rgba(37, 99, 235, 0.32);
+        box-shadow: 0 14px 35px rgba(15, 37, 71, 0.224);
     }
 
     .validation-summary {
         margin-bottom: 20px;
         padding: 12px 15px;
-        border: 1px solid #7F1D1D;
+        border: 1px solid #fecaca;
         border-radius: 10px;
-        background: #2A1115;
-        color: #FCA5A5;
+        background: #fef2f2;
+        color: #b91c1c;
         font-size: 13px;
     }
 
@@ -265,15 +266,18 @@
     <div class="categoria-card">
 
         <div class="categoria-header">
-            <h1>Nova categoria</h1>
+            <h1>@(edicao ? "Editar categoria" : "Nova categoria")</h1>
 
             <p>
-                Crie uma categoria para organizar melhor suas
-                entradas e saídas financeiras.
+                @(edicao
+                    ? "Altere o nome ou deixe a categoria inativa para ela não aparecer mais nos novos cadastros."
+                    : "Crie uma categoria para organizar melhor suas entradas e saídas financeiras.")
             </p>
         </div>
 
-        <form asp-action="CadastrarCategoria" method="post">
+        <form asp-action="@(edicao ? "Editar" : "CadastrarCategoria")"
+              asp-route-id="@(edicao ? Model.Id.ToString() : null)"
+              method="post">
 
             @Html.AntiForgeryToken()
 
@@ -331,7 +335,7 @@
 
                 <button type="submit"
                         class="btn-cadastrar">
-                    Cadastrar categoria
+                    @(edicao ? "Salvar alterações" : "Cadastrar categoria")
                 </button>
 
             </div>

@@ -1,0 +1,372 @@
+@model List<lsfinan.Models.Saida>
+
+@{
+    ViewData["Title"] = "Saídas de Hoje";
+    Layout = "_Layout";
+
+    var hoje = DateTime.Today;
+}
+
+<div class="saida-page">
+
+    <div class="saida-header">
+
+        <div>
+            <span class="saida-label">MOVIMENTAÇÕES</span>
+
+            <h1>Saídas de hoje</h1>
+
+            <p>
+                @hoje.ToString("dd/MM/yyyy")
+            </p>
+        </div>
+
+        <div class="header-buttons">
+
+            <a asp-action="CadastrarSaida" class="btn-primary">
+                + Nova saída
+            </a>
+
+            <a asp-action="TodasSaidas" class="btn-secondary">
+                Ver todas
+            </a>
+
+        </div>
+
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="saida-list">
+
+            @foreach (var saida in Model
+                .Where(x => x.DataSaida.Date == hoje)
+                .OrderByDescending(x => x.DataSaida))
+            {
+                <div class="saida-item">
+
+                    <div class="saida-icon">
+                        −
+                    </div>
+
+                    <div class="saida-info">
+
+                        <strong>@saida.NomeSaida</strong>
+
+                        <span>
+                            @saida.DataSaida.ToString("HH:mm")
+                        </span>
+
+                        @if (!string.IsNullOrWhiteSpace(saida.DescricaoSaida))
+                        {
+                            <small>@saida.DescricaoSaida</small>
+                        }
+
+                        <span class="saida-meta">
+                            @saida.NomeConta
+                            @if (saida.SaldoRestante != null)
+                            {
+                                <text> · Saldo restante: <b>@saida.SaldoRestante.Value.ToString("C2")</b></text>
+                            }
+                        </span>
+
+                    </div>
+
+                    <div class="saida-valor">
+                        - @saida.ValorSaida.ToString("C")
+                    </div>
+
+                    <div class="saida-acoes">
+                        @if (saida.ContaPagarId == null)
+                        {
+                            <a asp-action="EditarSaida"
+                               asp-route-id="@saida.Id"
+                               class="saida-acao">
+                                Editar
+                            </a>
+
+                            <form asp-action="ExcluirSaida"
+                                  asp-route-id="@saida.Id"
+                                  method="post"
+                                  class="form-inline-acao"
+                                  data-confirmar="Excluir a saída &quot;@saida.NomeSaida&quot;? O valor volta para a conta."
+                                  onsubmit="return confirm(this.dataset.confirmar)">
+                                <input type="hidden" name="retorno" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                                <button type="submit" class="saida-acao saida-acao-perigo">Excluir</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="saida-origem" title="Para desfazer, use Contas a pagar">Conta a pagar</span>
+                        }
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                −
+            </div>
+
+            <h2>Nenhuma saída hoje</h2>
+
+            <p>
+                Você ainda não registrou nenhuma saída hoje.
+            </p>
+
+            <a asp-action="CadastrarSaida" class="btn-primary">
+                Registrar saída
+            </a>
+
+        </div>
+    }
+
+</div>
+
+<style>
+
+    .saida-page {
+        min-height: 100vh;
+        padding: 40px;
+        color: #0f172a;
+    }
+
+    .saida-header {
+        max-width: 1000px;
+        margin: 0 auto 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .saida-label {
+        color: #1d4380;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+    .saida-header h1 {
+        margin: 6px 0;
+        font-size: 32px;
+    }
+
+    .saida-header p {
+        color: #64748b;
+        margin: 0;
+    }
+
+    .header-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 11px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .btn-primary {
+        background: #0f2547;
+        color: #ffffff;
+    }
+
+    .btn-primary:hover {
+        background: #173a73;
+    }
+
+    .btn-secondary {
+        border: 1px solid #cbd5e1;
+        color: #334155;
+    }
+
+    .btn-secondary:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+    .saida-list {
+        max-width: 1000px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .saida-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+    }
+
+    .saida-icon {
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: rgba(220, 38, 38, 0.1);
+        color: #dc2626;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .saida-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .saida-info strong {
+        font-size: 15px;
+    }
+
+    .saida-info span {
+        color: #1d4380;
+        font-size: 12px;
+    }
+
+    .saida-info small {
+        color: #64748b;
+    }
+
+    .saida-valor {
+        color: #dc2626;
+        font-weight: 700;
+        font-size: 16px;
+    }
+
+    .empty-state {
+        max-width: 600px;
+        margin: 70px auto;
+        padding: 50px 30px;
+        text-align: center;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 18px;
+    }
+
+    .empty-icon {
+        font-size: 40px;
+        color: #dc2626;
+        margin-bottom: 15px;
+    }
+
+    .empty-state h2 {
+        margin: 0 0 8px;
+    }
+
+    .empty-state p {
+        color: #64748b;
+        margin-bottom: 25px;
+    }
+
+    @@media (max-width: 700px) {
+
+        .saida-page {
+            padding: 20px;
+        }
+
+        .saida-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-buttons {
+            width: 100%;
+        }
+
+        .header-buttons a {
+            flex: 1;
+            text-align: center;
+        }
+
+        .saida-item {
+            flex-wrap: wrap;
+        }
+
+        .saida-valor {
+            width: 100%;
+            margin-left: 57px;
+        }
+    }
+
+    /* conta / saldo restante e ações de cada saída */
+    .saida-meta {
+        display: block;
+        margin-top: 4px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .saida-meta b {
+        color: #0f172a;
+        font-weight: 600;
+    }
+
+    .saida-acoes {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .saida-acao {
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background: #ffffff;
+        color: #334155;
+        text-decoration: none;
+        cursor: pointer;
+        line-height: 1.2;
+    }
+
+    .saida-acao:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+    .saida-acao-perigo {
+        color: #dc2626;
+        border-color: #fecaca;
+    }
+
+    .saida-acao-perigo:hover {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .saida-origem {
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: #e8edf6;
+        border: 1px solid #d3dcec;
+        color: #0f2547;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .form-inline-acao {
+        display: inline;
+        margin: 0;
+    }
+</style>

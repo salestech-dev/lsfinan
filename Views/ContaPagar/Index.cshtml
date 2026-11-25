@@ -1,0 +1,138 @@
+@model lsfinan.ViewModel.ContaPagarListagemViewModel
+@using lsfinan.Services
+@{
+    ViewData["Title"] = "Contas a Pagar";
+    Layout = "_Layout";
+
+    var pagas = Model.Filtro == "pagas";
+}
+
+<link rel="stylesheet" href="~/css/contapagar.css" asp-append-version="true" />
+
+<div class="cp-page">
+
+    <div class="cp-header">
+        <div>
+            <span class="cp-label">FINANCEIRO</span>
+            <h1>Contas a pagar</h1>
+            <p>Acompanhe os vencimentos e não deixe nenhuma conta atrasar.</p>
+        </div>
+
+        <a asp-action="Cadastrar" class="cp-btn">+ Nova conta a pagar</a>
+    </div>
+
+    <div class="cp-tabs">
+        <a asp-action="Index" asp-route-filtro="pendentes" class="cp-tab @(pagas ? "" : "ativa")">Pendentes</a>
+        <a asp-action="Index" asp-route-filtro="pagas" class="cp-tab @(pagas ? "ativa" : "")">Pagas</a>
+    </div>
+
+    @if (pagas)
+    {
+        @if (Model.Pagas.Any())
+        {
+            <div class="cp-lista">
+                @foreach (var item in Model.Pagas)
+                {
+                    <partial name="_Linha" model="item" />
+                }
+            </div>
+        }
+        else
+        {
+            <div class="cp-vazio">
+                <h2>Nenhuma conta paga ainda</h2>
+                <p>Quando você pagar uma conta, ela aparece aqui com o histórico.</p>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="cp-resumo">
+            <div class="cp-resumo-item cp-resumo-atrasada">
+                <span>Atrasadas</span>
+                <strong>@RegrasFinanceiras.Moeda(Model.TotalAtrasadas)</strong>
+                <small>@Model.Atrasadas.Count @(Model.Atrasadas.Count == 1 ? "conta" : "contas")</small>
+            </div>
+
+            <div class="cp-resumo-item cp-resumo-hoje">
+                <span>Vencem hoje</span>
+                <strong>@RegrasFinanceiras.Moeda(Model.TotalHoje)</strong>
+                <small>@Model.VencemHoje.Count @(Model.VencemHoje.Count == 1 ? "conta" : "contas")</small>
+            </div>
+
+            <div class="cp-resumo-item cp-resumo-breve">
+                <span>Próximos @Model.JanelaAlertaDias dias</span>
+                <strong>@RegrasFinanceiras.Moeda(Model.TotalProximos)</strong>
+                <small>@Model.ProximosDias.Count @(Model.ProximosDias.Count == 1 ? "conta" : "contas")</small>
+            </div>
+
+            <div class="cp-resumo-item cp-resumo-total">
+                <span>Total a pagar</span>
+                <strong>@RegrasFinanceiras.Moeda(Model.TotalPendente)</strong>
+                <small>@Model.QuantidadePendentes @(Model.QuantidadePendentes == 1 ? "conta pendente" : "contas pendentes")</small>
+            </div>
+        </div>
+
+        @if (Model.QuantidadePendentes == 0)
+        {
+            <div class="cp-vazio">
+                <h2>Tudo em dia</h2>
+                <p>Você não tem nenhuma conta pendente. Cadastre as próximas para receber lembretes.</p>
+                <a asp-action="Cadastrar" class="cp-btn">+ Nova conta a pagar</a>
+            </div>
+        }
+
+        @if (Model.Atrasadas.Any())
+        {
+            <section class="cp-secao cp-secao-atrasada">
+                <h2 class="cp-secao-titulo">Atrasadas <span class="cp-contagem">@Model.Atrasadas.Count</span></h2>
+                <div class="cp-lista">
+                    @foreach (var item in Model.Atrasadas)
+                    {
+                        <partial name="_Linha" model="item" />
+                    }
+                </div>
+            </section>
+        }
+
+        @if (Model.VencemHoje.Any())
+        {
+            <section class="cp-secao">
+                <h2 class="cp-secao-titulo">Vencem hoje <span class="cp-contagem">@Model.VencemHoje.Count</span></h2>
+                <div class="cp-lista">
+                    @foreach (var item in Model.VencemHoje)
+                    {
+                        <partial name="_Linha" model="item" />
+                    }
+                </div>
+            </section>
+        }
+
+        @if (Model.ProximosDias.Any())
+        {
+            <section class="cp-secao">
+                <h2 class="cp-secao-titulo">Próximos @Model.JanelaAlertaDias dias <span class="cp-contagem">@Model.ProximosDias.Count</span></h2>
+                <div class="cp-lista">
+                    @foreach (var item in Model.ProximosDias)
+                    {
+                        <partial name="_Linha" model="item" />
+                    }
+                </div>
+            </section>
+        }
+
+        @if (Model.Futuras.Any())
+        {
+            <section class="cp-secao">
+                <h2 class="cp-secao-titulo">Mais adiante <span class="cp-contagem">@Model.Futuras.Count</span></h2>
+                <div class="cp-lista">
+                    @foreach (var item in Model.Futuras)
+                    {
+                        <partial name="_Linha" model="item" />
+                    }
+                </div>
+            </section>
+        }
+    }
+
+</div>

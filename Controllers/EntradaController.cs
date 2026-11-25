@@ -1,3 +1,4 @@
+using lsfinan.Exceptions;
 using lsfinan.Interfaces;
 using lsfinan.Models;
 using lsfinan.ViewModel;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace lsfinan.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class EntradaController : Controller
     {
         private readonly IEntradaService _entradaService;
@@ -27,7 +30,6 @@ namespace lsfinan.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -37,13 +39,12 @@ namespace lsfinan.Controllers
                 return Challenge();
             }
 
-            var entradas = await _entradaService.ListarEntradas(usuario);
+            var entradas = await _entradaService.ListarTodasEntradas(usuario);
 
             return View(entradas);
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> CadastrarEntrada()
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -53,27 +54,67 @@ namespace lsfinan.Controllers
                 return Challenge();
             }
 
-            var categorias = await _categoriaService.ListarCategorias(usuario);
-
-            var contas = await _contaService.ListarContas(usuario);
-
-            var viewModel = new EntradaViewModel
-            {
-                Categorias = categorias,
-                Contas = contas
-            };
+            var viewModel = new EntradaViewModel();
+            await PreencherListas(viewModel, usuario);
 
             return View(viewModel);
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CadastrarEntrada(EntradaViewModel entrada)
         {
-            if (!ModelState.IsValid)
+            var usuario = await _userManager.GetUserAsync(User);
+
+            if (usuario == null)
             {
-                return View(entrada);
+                return Challenge();
             }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _entradaService.CadastrarEntrada(entrada, usuario);
+
+                    TempData["Sucesso"] = "Entrada cadastrada com sucesso.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (RegraDeNegocioException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+
+            await PreencherListas(entrada, usuario);
+            return View(entrada);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditarEntrada(int id)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            if (usuario == null)
+            {
+                return Challenge();
+            }
+
+            try
+            {
+                var entrada = await _entradaService.ObterParaEdicao(id, usuario);
+                return View("CadastrarEntrada", entrada);
+            }
+            catch (RegraDeNegocioException ex)
+            {
+                TempData["Erro"] = ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarEntrada(int id, EntradaViewModel entrada)
+        {
+            entrada.Id = id;
 
             var usuario = await _userManager.GetUserAsync(User);
 
@@ -82,9 +123,64 @@ namespace lsfinan.Controllers
                 return Challenge();
             }
 
-            await _entradaService.CadastrarEntrada(entrada, usuario);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _entradaService.EditarEntrada(id, entrada, usuario);
 
-            return RedirectToAction("Index");
+                    TempData["Sucesso"] = "Entrada atualizada.";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (RegraDeNegocioException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+
+            await PreencherListas(entrada, usuario);
+            return View("CadastrarEntrada", entrada);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExcluirEntrada(int id)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            if (usuario == null)
+            {
+                return Challenge();
+            }
+
+            try
+            {
+                await _entradaService.ExcluirEntrada(id, usuario);
+                TempData["Sucesso"] = "Entrada excluída.";
+            }
+            catch (RegraDeNegocioException ex)
+            {
+                TempData["Erro"] = ex.Message;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        /// <summary>
+        /// Só categorias e contas ativas aparecem. Na edição, a que já estava
+        /// escolhida continua na lista mesmo se tiver sido inativada depois.
+        /// </summary>
+        private async Task PreencherListas(EntradaViewModel viewModel, Usuario usuario)
+        {
+            var categorias = await _categoriaService.ListarCategorias(usuario);
+            var contas = await _contaService.ListarContas(usuario);
+
+            viewModel.Categorias = categorias
+                .Where(c => c.Ativa || c.Id == viewModel.CategoriaId)
+                .ToList();
+
+            viewModel.Contas = contas
+                .Where(c => c.Ativa || c.Id == viewModel.ContaId)
+                .ToList();
         }
     }
 }

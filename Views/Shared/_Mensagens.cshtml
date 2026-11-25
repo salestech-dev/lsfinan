@@ -1,0 +1,18 @@
+@* Mensagens de sucesso/erro vindas das ações (TempData) *@
+@if (TempData["Sucesso"] is string sucesso)
+{
+    <div class="ls-flash ls-flash-ok" role="status">
+        <span class="ls-flash-icone">✓</span>
+        <p>@sucesso</p>
+        <button type="button" class="ls-flash-x" aria-label="Fechar" onclick="this.parentElement.remove()">×</button>
+    </div>
+}
+
+@if (TempData["Erro"] is string erro)
+{
+    <div class="ls-flash ls-flash-erro" role="alert">
+        <span class="ls-flash-icone">!</span>
+        <p>@erro</p>
+        <button type="button" class="ls-flash-x" aria-label="Fechar" onclick="this.parentElement.remove()">×</button>
+    </div>
+}

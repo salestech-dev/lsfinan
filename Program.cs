@@ -1,4 +1,6 @@
+using System.Globalization;
 using lsfinan.Data;
+using lsfinan.Infrastructure;
 using lsfinan.Interfaces;
 using lsfinan.Models;
 using lsfinan.Services;
@@ -7,8 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Sistema em português do Brasil: R$, datas dd/MM/yyyy e vírgula decimal
+// iguais em qualquer servidor.
+var ptBr = new CultureInfo("pt-BR");
+CultureInfo.DefaultThreadCurrentCulture = ptBr;
+CultureInfo.DefaultThreadCurrentUICulture = ptBr;
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    // valores em dinheiro aceitam "100.50" e "100,50"
+    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
@@ -28,11 +40,20 @@ builder.Services.AddIdentity<Usuario, IdentityRole<int>>(opt =>
     })
     .AddEntityFrameworkStores<AppDbContext>();
 
+// Sem isso, quem não está logado era mandado para /Account/Login (que não existe).
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Usuario/Login";
+    options.AccessDeniedPath = "/Usuario/Login";
+});
+
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IEntradaService, EntradasService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IContaService, ContaService>();
+builder.Services.AddScoped<ISaidaService, SaidaService>();
+builder.Services.AddScoped<IContaPagarService, ContaPagarService>();
 
 
 var app = builder.Build();

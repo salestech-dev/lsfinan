@@ -1,0 +1,97 @@
+@model lsfinan.ViewModel.DivisaoPagamentoViewModel
+@using System.Globalization
+@using lsfinan.Services
+@{
+    // FormId: quando o painel fica fora do <form> (ex.: dentro do modal),
+    // os campos apontam para o formulário pelo atributo "form".
+    var formId = ViewData["FormId"] as string;
+    var botaoConfirmar = ViewData["BotaoConfirmar"] as string ?? "";
+    var inv = CultureInfo.InvariantCulture;
+    var faltaInicial = Model.Valor - Model.Alocacoes.Sum(a => a.Valor);
+}
+
+<div class="divisao"
+     data-valor="@Model.Valor.ToString("0.00", inv)"
+     data-confirmar="@botaoConfirmar">
+
+    @if (!string.IsNullOrEmpty(Model.Mensagem))
+    {
+        <div class="divisao-aviso divisao-aviso-erro">@Model.Mensagem</div>
+    }
+
+    <div class="divisao-resumo">
+        <div>
+            <span>Valor a pagar</span>
+            <strong>@RegrasFinanceiras.Moeda(Model.Valor)</strong>
+        </div>
+        <div>
+            <span>Já distribuído</span>
+            <strong data-role="distribuido">@RegrasFinanceiras.Moeda(Model.Alocacoes.Sum(a => a.Valor))</strong>
+        </div>
+        <div>
+            <span>Falta</span>
+            <strong data-role="falta" class="@(faltaInicial > 0 ? "divisao-falta" : "divisao-ok")">@RegrasFinanceiras.Moeda(Math.Max(0m, faltaInicial))</strong>
+        </div>
+    </div>
+
+    @if (!Model.ContasCobremValor)
+    {
+        <div class="divisao-aviso divisao-aviso-erro">
+            Somando todas as suas contas ativas há apenas
+            <strong>@RegrasFinanceiras.Moeda(Model.SaldoTotalDisponivel)</strong>
+            disponíveis, e o valor é <strong>@RegrasFinanceiras.Moeda(Model.Valor)</strong>.
+            Registre uma entrada antes ou reduza o valor.
+        </div>
+    }
+
+    <div class="divisao-contas">
+        @for (var i = 0; i < Model.Contas.Count; i++)
+        {
+            var conta = Model.Contas[i];
+            var disponivel = RegrasFinanceiras.Disponivel(conta.SaldoAtual);
+            var preenchido = Model.Alocacoes.FirstOrDefault(a => a.ContaId == conta.Id)?.Valor ?? 0m;
+            var semSaldo = disponivel <= 0m;
+
+            <div class="divisao-conta @(semSaldo ? "divisao-sem-saldo" : "")"
+                 data-saldo="@disponivel.ToString("0.00", inv)">
+                <div class="divisao-conta-info">
+                    <strong>@conta.NomeConta</strong>
+                    <small>@conta.TipoConta</small>
+                </div>
+
+                <div class="divisao-conta-saldo">
+                    <span>Saldo</span>
+                    <strong class="@(conta.SaldoAtual < 0 ? "divisao-falta" : "")">@RegrasFinanceiras.Moeda(conta.SaldoAtual)</strong>
+                </div>
+
+                <div class="divisao-conta-valor">
+                    <input type="hidden" form="@formId" name="Alocacoes[@i].ContaId" value="@conta.Id" />
+                    <input type="number"
+                           form="@formId"
+                           name="Alocacoes[@i].Valor"
+                           class="divisao-input"
+                           step="0.01"
+                           min="0"
+                           max="@disponivel.ToString("0.00", inv)"
+                           value="@preenchido.ToString("0.00", inv)"
+                           readonly="@semSaldo"
+                           aria-label="Valor a tirar da conta @conta.NomeConta" />
+
+                    @if (!semSaldo)
+                    {
+                        <button type="button" class="divisao-tudo" data-role="tudo">Usar o que falta</button>
+                    }
+                    else
+                    {
+                        <small class="divisao-sem-saldo-texto">Sem saldo</small>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="divisao-acoes">
+        <button type="button" class="divisao-link" data-role="sugerir">Sugerir divisão automática</button>
+        <button type="button" class="divisao-link" data-role="limpar">Limpar</button>
+    </div>
+</div>

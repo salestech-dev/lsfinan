@@ -8,7 +8,7 @@
 <style>
     .entrada-container {
         padding: 30px;
-        color: #fff;
+        color: #0f172a;
     }
 
     .entrada-header {
@@ -26,7 +26,7 @@
 
     .entrada-header p {
         margin: 6px 0 0;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 14px;
     }
 
@@ -35,8 +35,8 @@
         align-items: center;
         gap: 8px;
         padding: 11px 18px;
-        background: #2563eb;
-        color: #fff;
+        background: #0f2547;
+        color: #ffffff;
         text-decoration: none;
         border-radius: 8px;
         font-weight: 500;
@@ -44,13 +44,13 @@
     }
 
     .btn-nova-entrada:hover {
-        background: #1d4ed8;
-        color: #fff;
+        background: #173a73;
+        color: #ffffff;
     }
 
     .entradas-card {
-        background: #0f172a;
-        border: 1px solid #1e293b;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         overflow: hidden;
     }
@@ -61,22 +61,22 @@
     }
 
     .entrada-tabela thead {
-        background: #111827;
+        background: #f8fafc;
     }
 
     .entrada-tabela th {
         padding: 16px;
         text-align: left;
-        color: #94a3b8;
+        color: #64748b;
         font-size: 13px;
         font-weight: 500;
-        border-bottom: 1px solid #1e293b;
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .entrada-tabela td {
         padding: 16px;
-        border-bottom: 1px solid #1e293b;
-        color: #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        color: #1e293b;
         font-size: 14px;
     }
 
@@ -85,21 +85,21 @@
     }
 
     .entrada-tabela tbody tr:hover {
-        background: #111c30;
+        background: #f8fafc;
     }
 
     .entrada-nome {
         font-weight: 500;
-        color: #fff;
+        color: #0f172a;
     }
 
     .entrada-valor {
-        color: #60a5fa;
+        color: #1d4380;
         font-weight: 600;
     }
 
     .entrada-data {
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .entrada-vazia {
@@ -109,7 +109,7 @@
 
     .entrada-vazia h3 {
         margin-bottom: 8px;
-        color: #fff;
+        color: #0f172a;
     }
 
     .entrada-vazia p {
@@ -127,14 +127,14 @@
         border-radius: 6px;
         text-decoration: none;
         font-size: 13px;
-        border: 1px solid #334155;
-        color: #cbd5e1;
+        border: 1px solid #cbd5e1;
+        color: #334155;
         transition: 0.2s;
     }
 
     .btn-acao:hover {
-        background: #1e293b;
-        color: #fff;
+        background: #eef2f7;
+        color: #0f172a;
     }
 
     @@media (max-width: 768px) {
@@ -156,6 +156,23 @@
         .entrada-tabela {
             min-width: 650px;
         }
+    }
+
+    /* botões de ação que são <button> dentro de formulário (excluir) */
+    .form-inline-acao {
+        display: inline;
+        margin: 0;
+    }
+
+    button.btn-acao {
+        font-family: inherit;
+        cursor: pointer;
+        background: #ffffff;
+        line-height: normal;
+    }
+
+    button.btn-acao:hover {
+        background: #eef2f7;
     }
 </style>
 
@@ -187,7 +204,6 @@
                         <th>Descrição</th>
                         <th>Valor</th>
                         <th>Data</th>
-                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -215,37 +231,28 @@
                                     @entrada.DataEntrada.ToString("dd/MM/yyyy")
                                 </span>
                             </td>
-
-                            <td>
-
-                                @if (entrada.Recebido)
-                                {
-                                    <span>Recebido</span>
-                                }
-                                else if (entrada.ReceberDepois)
-                                {
-                                    <span>A receber</span>
-                                }
-                                else
-                                {
-                                    <span>Pendente</span>
-                                }
-
-                            </td>
+                            
 
                             <td>
 
                                 <div class="acoes">
 
-                                    <a href="#"
+                                    <a asp-action="EditarEntrada"
+                                       asp-route-id="@entrada.Id"
                                        class="btn-acao">
                                         Editar
                                     </a>
 
-                                    <a href="#"
-                                       class="btn-acao">
-                                        Excluir
-                                    </a>
+                                    <form asp-action="ExcluirEntrada"
+                                          asp-route-id="@entrada.Id"
+                                          method="post"
+                                          class="form-inline-acao"
+                                          data-confirmar="Excluir a entrada &quot;@entrada.DescricaoEntrada&quot;? Isso não pode ser desfeito."
+                                          onsubmit="return confirm(this.dataset.confirmar)">
+                                        <button type="submit" class="btn-acao">
+                                            Excluir
+                                        </button>
+                                    </form>
 
                                 </div>
 

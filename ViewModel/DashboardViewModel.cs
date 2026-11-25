@@ -13,5 +13,6 @@ public class DashboardViewModel
     public decimal Resultado { get; set; }
 
     public List<MovimentacaoViewModel> UltimasMovimentacoes { get; set; } = new();
-}
 
+    public AlertasContasPagarViewModel Alertas { get; set; } = new();
+}

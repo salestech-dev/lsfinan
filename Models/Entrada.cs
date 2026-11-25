@@ -20,12 +20,6 @@ namespace lsfinan.Models
 
     public string DescricaoEntrada { get; set; } = string.Empty;
 
-    public bool ReceberDepois { get; set; }
-
-    public bool Recebido { get; set; }
-
-    public DateTime? DataRecebimento { get; set; }
-
     public int UsuarioId { get; set; }
 }
 }

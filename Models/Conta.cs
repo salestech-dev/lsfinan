@@ -16,6 +16,7 @@ namespace lsfinan.Models
         public decimal SaldoInicial { get; set; }
 
         public EnumTipoConta TipoConta { get; set; }
+        public bool Ativa { get; set; } = true;
 
         public int UsuarioId { get; set; }
     }

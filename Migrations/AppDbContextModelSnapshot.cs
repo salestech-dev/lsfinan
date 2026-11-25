@@ -187,6 +187,9 @@ namespace lsfinan.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Ativa")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("NomeConta")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -207,6 +210,51 @@ namespace lsfinan.Migrations
                     b.ToTable("Contas");
                 });
 
+            modelBuilder.Entity("lsfinan.Models.ContaPagar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DataVencimento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DescricaoContaPagar")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NomeContaPagar")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Pago")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ValorContaPagar")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("ContasPagar");
+                });
+
             modelBuilder.Entity("lsfinan.Models.Entrada", b =>
                 {
                     b.Property<int>("Id")
@@ -224,9 +272,6 @@ namespace lsfinan.Migrations
                     b.Property<DateTime>("DataEntrada")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("DataRecebimento")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("DescricaoEntrada")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -234,12 +279,6 @@ namespace lsfinan.Migrations
                     b.Property<string>("NomeEntrada")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("ReceberDepois")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("Recebido")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
@@ -268,6 +307,9 @@ namespace lsfinan.Migrations
                     b.Property<int>("ContaId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ContaPagarId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DataPagamento")
                         .HasColumnType("datetime(6)");
 
@@ -281,9 +323,6 @@ namespace lsfinan.Migrations
                     b.Property<string>("NomeSaida")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("PagarDepois")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("Pago")
                         .HasColumnType("tinyint(1)");
@@ -315,6 +354,9 @@ namespace lsfinan.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("DataCadastro")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -441,6 +483,15 @@ namespace lsfinan.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("lsfinan.Models.ContaPagar", b =>
+                {
+                    b.HasOne("lsfinan.Models.Usuario", null)
+                        .WithMany("ContasPagar")
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("lsfinan.Models.Entrada", b =>
                 {
                     b.HasOne("lsfinan.Models.Usuario", null)
@@ -464,6 +515,8 @@ namespace lsfinan.Migrations
                     b.Navigation("Categorias");
 
                     b.Navigation("Contas");
+
+                    b.Navigation("ContasPagar");
 
                     b.Navigation("Entradas");
 

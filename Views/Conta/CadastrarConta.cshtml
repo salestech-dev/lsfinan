@@ -1,7 +1,8 @@
 @model lsfinan.ViewModel.ContaViewModel
 
 @{
-    ViewData["Title"] = "Nova Conta";
+    var edicao = Model.Id > 0;
+    ViewData["Title"] = edicao ? "Editar Conta" : "Nova Conta";
     Layout = "_Layout";
 }
 
@@ -10,7 +11,7 @@
         max-width: 650px;
         margin: 40px auto;
         padding: 0 20px;
-        color: #fff;
+        color: #0f172a;
     }
 
     .form-header {
@@ -23,12 +24,12 @@
     }
 
     .form-header p {
-        color: #94a3b8;
+        color: #64748b;
     }
 
     .form-card {
-        background: #0F172A;
-        border: 1px solid #1e293b;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 18px;
         padding: 30px;
     }
@@ -41,15 +42,15 @@
         display: block;
         margin-bottom: 8px;
         font-weight: 600;
-        color: #e2e8f0;
+        color: #1e293b;
     }
 
     .form-control {
         width: 100%;
         box-sizing: border-box;
-        background: #070B12;
-        border: 1px solid #334155;
-        color: #fff;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        color: #0f172a;
         padding: 13px 14px;
         border-radius: 10px;
         outline: none;
@@ -57,12 +58,12 @@
     }
 
     .form-control:focus {
-        border-color: #2563EB;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        border-color: #1d4380;
+        box-shadow: 0 0 0 3px rgba(15, 37, 71, 0.105);
     }
 
     .validation {
-        color: #f87171;
+        color: #dc2626;
         font-size: 13px;
         margin-top: 6px;
         display: block;
@@ -77,8 +78,8 @@
     }
 
     .btn-primary {
-        background: #2563EB;
-        color: white;
+        background: #0f2547;
+        color: #ffffff;
         border: none;
         padding: 13px 22px;
         border-radius: 10px;
@@ -89,13 +90,13 @@
     }
 
     .btn-primary:hover {
-        background: #3B82F6;
+        background: #173a73;
     }
 
     .btn-secondary {
         background: transparent;
-        color: #94a3b8;
-        border: 1px solid #334155;
+        color: #64748b;
+        border: 1px solid #cbd5e1;
         padding: 12px 20px;
         border-radius: 10px;
         text-decoration: none;
@@ -103,14 +104,14 @@
     }
 
     .btn-secondary:hover {
-        color: #fff;
-        border-color: #64748b;
+        color: #0f172a;
+        border-color: #94a3b8;
     }
 
     .error-summary {
-        background: rgba(239, 68, 68, 0.1);
-        border: 1px solid rgba(239, 68, 68, 0.3);
-        color: #f87171;
+        background: rgba(220, 38, 38, 0.1);
+        border: 1px solid rgba(220, 38, 38, 0.3);
+        color: #dc2626;
         padding: 12px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -131,20 +132,55 @@
             text-align: center;
         }
     }
+
+    .conta-ativa {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        background: #f8fafc;
+        cursor: pointer;
+    }
+
+    .conta-ativa input {
+        margin-top: 4px;
+        width: 18px;
+        height: 18px;
+        accent-color: #0f2547;
+    }
+
+    .conta-ativa strong {
+        display: block;
+        color: #0f172a;
+        font-size: 14px;
+    }
+
+    .conta-ativa small {
+        color: #64748b;
+        font-size: 13px;
+    }
 </style>
 
 <div class="conta-form-page">
 
     <div class="form-header">
-        <h1>Nova conta</h1>
-        <p>Cadastre uma conta para começar a controlar suas movimentações.</p>
+        <h1>@(edicao ? "Editar conta" : "Nova conta")</h1>
+        <p>
+            @(edicao
+                ? "Altere os dados da conta. Contas inativas não aceitam novas movimentações, mas o histórico continua."
+                : "Cadastre uma conta para começar a controlar suas movimentações.")
+        </p>
     </div>
 
     <div class="form-card">
 
         <div asp-validation-summary="ModelOnly" class="error-summary"></div>
 
-        <form asp-action="CadastrarConta" method="post">
+        <form asp-action="@(edicao ? "EditarConta" : "CadastrarConta")"
+              asp-route-id="@(edicao ? Model.Id.ToString() : null)"
+              method="post">
 
             <div class="form-group">
 
@@ -201,6 +237,16 @@
 
             </div>
 
+            <div class="form-group">
+                <label class="conta-ativa">
+                    <input asp-for="Ativa" />
+                    <span>
+                        <strong>Conta ativa</strong>
+                        <small>Só contas ativas aparecem ao cadastrar entradas, saídas e pagamentos.</small>
+                    </span>
+                </label>
+            </div>
+
             <div class="form-actions">
 
                 <a asp-action="Index" class="btn-secondary">
@@ -208,7 +254,7 @@
                 </a>
 
                 <button type="submit" class="btn-primary">
-                    Cadastrar conta
+                    @(edicao ? "Salvar alterações" : "Cadastrar conta")
                 </button>
 
             </div>

@@ -1,0 +1,704 @@
+@model lsfinan.ViewModel.SaidaViewModel
+@{
+    var edicao = Model.Id > 0;
+    ViewData["Title"] = edicao ? "Editar Saída" : "Cadastrar Saída";
+    Layout = "_Layout";
+
+    var divisao = ViewBag.Divisao as lsfinan.ViewModel.DivisaoPagamentoViewModel;
+}
+
+<link rel="stylesheet" href="~/css/alocacao.css" asp-append-version="true" />
+
+<div class="saida-page">
+
+    <div class="saida-header">
+
+        <div>
+            <span class="saida-label">MOVIMENTAÇÃO</span>
+
+            <h1>@(edicao ? "Editar saída" : "Nova saída")</h1>
+
+            <p>
+                @(edicao
+                    ? "Altere os dados da saída. A data original é mantida."
+                    : "Registre uma saída realizada hoje.")
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn-voltar">
+            Voltar
+        </a>
+
+    </div>
+
+    <div class="saida-card">
+
+        <form asp-action="@(edicao ? "EditarSaida" : "CadastrarSaida")"
+              asp-route-id="@(edicao ? Model.Id.ToString() : null)"
+              method="post"
+              id="formSaida">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation"></div>
+
+            <div class="form-group">
+                <label asp-for="NomeSaida">
+                    Nome da saída
+                </label>
+
+                <input asp-for="NomeSaida"
+                       class="form-control"
+                       placeholder="Ex: Mercado, combustível, internet..." />
+
+                <span asp-validation-for="NomeSaida"
+                      class="validation"></span>
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label asp-for="ValorSaida">
+                        Valor
+                    </label>
+
+                    <input asp-for="ValorSaida"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           class="form-control"
+                           placeholder="0,00" />
+
+                    <span asp-validation-for="ValorSaida"
+                          class="validation"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoriaId">
+                        Categoria
+                    </label>
+
+                    <select asp-for="CategoriaId"
+                            class="form-control">
+
+                        <option value="">
+                            Selecione uma categoria
+                        </option>
+
+                        @foreach (var categoria in Model.Categorias)
+                        {
+                            <option value="@categoria.Id">
+                                @categoria.NomeCategoria@(categoria.Ativa ? "" : " (inativa)")
+                            </option>
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="CategoriaId"
+                          class="validation"></span>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ContaId">
+                    Conta
+                </label>
+
+                <select asp-for="ContaId"
+                        class="form-control">
+
+                    <option value="">
+                        Selecione uma conta
+                    </option>
+
+                    @foreach (var conta in Model.Contas)
+                    {
+                        <option value="@conta.Id">
+                            @conta.NomeConta@(conta.Ativa ? "" : " (inativa)")
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="ContaId"
+                      class="validation"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DescricaoSaida">
+                    Descrição
+                </label>
+
+                <textarea asp-for="DescricaoSaida"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Adicione uma descrição, se necessário..."></textarea>
+
+                <span asp-validation-for="DescricaoSaida"
+                      class="validation"></span>
+            </div>
+
+            <div class="info-data">
+
+                <div class="info-data-icon">
+                    <span></span>
+                </div>
+
+                <div>
+                    @if (edicao)
+                    {
+                        <strong>Data mantida</strong>
+
+                        <p>
+                            A data e a hora originais desta saída não mudam.
+                        </p>
+                    }
+                    else
+                    {
+                        <strong>Data automática</strong>
+
+                        <p>
+                            A saída será registrada automaticamente
+                            com a data e hora atuais.
+                        </p>
+                    }
+                </div>
+
+            </div>
+
+            <button type="submit"
+                    class="btn-cadastrar">
+                @(edicao ? "Salvar alterações" : "Cadastrar saída")
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+@if (divisao != null)
+{
+    <div class="modal-overlay" id="saldoModal">
+
+        <div class="saldo-modal saldo-modal-largo">
+
+            <div class="modal-indicator"></div>
+
+            <div class="modal-content">
+
+                <span class="modal-label">
+                    ATENÇÃO
+                </span>
+
+                @if (!string.IsNullOrEmpty(divisao.NomeContaEscolhida))
+                {
+                    <h2>Saldo insuficiente</h2>
+
+                    <p class="modal-description">
+                        A conta <strong>@divisao.NomeContaEscolhida</strong> tem
+                        @lsfinan.Services.RegrasFinanceiras.Moeda(lsfinan.Services.RegrasFinanceiras.Disponivel(divisao.SaldoContaEscolhida))
+                        disponíveis e a saída é de
+                        @lsfinan.Services.RegrasFinanceiras.Moeda(divisao.Valor).
+                        Escolha outra conta ou divida o valor entre duas ou mais contas.
+                    </p>
+                }
+                else
+                {
+                    <h2>Divisão entre contas</h2>
+
+                    <p class="modal-description">
+                        Ajuste quanto sai de cada conta.
+                    </p>
+                }
+
+                @{
+                    ViewData["FormId"] = "formSaida";
+                    ViewData["BotaoConfirmar"] = "btnConfirmarDivisao";
+                }
+
+                <partial name="_DivisaoPagamento" model="divisao" view-data="ViewData" />
+
+                <div class="modal-buttons">
+
+                    <button type="button"
+                            class="btn-modal-cancelar"
+                            id="btnCancelarSaldo">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            form="formSaida"
+                            class="btn-modal-confirmar"
+                            id="btnConfirmarDivisao"
+                            disabled>
+                        Confirmar divisão
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="~/js/alocacao.js" asp-append-version="true"></script>
+
+    <script>
+        const modal = document.getElementById("saldoModal");
+        const btnCancelar = document.getElementById("btnCancelarSaldo");
+
+        if (modal) {
+
+            document.body.classList.add("modal-aberto");
+
+            btnCancelar.addEventListener("click", function () {
+
+                modal.classList.add("modal-fechando");
+
+                // remove o painel (e os campos de divisão) do formulário
+                setTimeout(function () {
+                    modal.remove();
+                    document.body.classList.remove("modal-aberto");
+                }, 200);
+            });
+        }
+    </script>
+}
+
+<style>
+
+    .saida-page {
+        min-height: 100vh;
+        padding: 40px;
+        color: #0f172a;
+    }
+
+
+    .saida-header {
+        max-width: 900px;
+        margin: 0 auto 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .saida-label {
+        color: #1d4380;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+
+    .saida-header h1 {
+        margin: 6px 0;
+        font-size: 32px;
+    }
+
+
+    .saida-header p {
+        margin: 0;
+        color: #64748b;
+    }
+
+
+    .btn-voltar {
+        text-decoration: none;
+        color: #334155;
+        padding: 10px 18px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+    }
+
+
+    .btn-voltar:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+
+    .saida-card {
+        max-width: 900px;
+        margin: auto;
+        padding: 30px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 18px;
+        box-shadow: 0 15px 40px rgba(15, 23, 42, 0.062);
+    }
+
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #334155;
+        font-weight: 600;
+    }
+
+
+    .form-control {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 14px;
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+        color: #0f172a;
+        outline: none;
+        font-size: 15px;
+    }
+
+
+    .form-control:focus {
+        border-color: #1d4380;
+        box-shadow: 0 0 0 3px rgba(15, 37, 71, 0.084);
+    }
+
+
+    textarea.form-control {
+        resize: vertical;
+    }
+
+
+    .info-data {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px;
+        margin-bottom: 25px;
+        background: rgba(15, 37, 71, 0.072);
+        border: 1px solid rgba(15, 37, 71, 0.14);
+        border-radius: 12px;
+    }
+
+
+    .info-data-icon {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #173a73;
+        box-shadow: 0 0 12px rgba(15, 37, 71, 0.56);
+        flex-shrink: 0;
+    }
+
+
+    .info-data strong {
+        display: block;
+        color: #0f172a;
+    }
+
+
+    .info-data p {
+        margin: 3px 0 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+
+    .btn-cadastrar {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background: #0f2547;
+        color: #ffffff;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+
+    .btn-cadastrar:hover {
+        background: #173a73;
+    }
+
+
+    .validation {
+        color: #dc2626;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+
+
+    /* MODAL */
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(8px);
+
+        animation: modalEntrada .2s ease;
+    }
+
+
+    .saldo-modal {
+        width: 100%;
+        max-width: 470px;
+
+        overflow: hidden;
+
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 20px;
+
+        box-shadow:
+            0 25px 80px rgba(15, 23, 42, 0.138),
+            0 0 40px rgba(15, 37, 71, 0.056);
+
+        animation: modalSubir .25s ease;
+    }
+
+
+    .modal-indicator {
+        width: 100%;
+        height: 3px;
+
+        background: linear-gradient(
+            90deg,
+            #0f2547,
+            #1d4380
+        );
+    }
+
+
+    .modal-content {
+        padding: 30px;
+    }
+
+
+    .modal-label {
+        color: #1d4380;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+    }
+
+
+    .modal-content h2 {
+        margin: 7px 0 8px;
+
+        color: #0f172a;
+        font-size: 25px;
+    }
+
+
+    .modal-description {
+        margin: 0 0 24px;
+
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+
+    .saldo-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+
+        margin-bottom: 22px;
+    }
+
+
+    .saldo-item {
+        padding: 16px;
+
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+    }
+
+
+    .saldo-item span {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: #64748b;
+        font-size: 12px;
+    }
+
+
+    .saldo-item strong {
+        color: #0f172a;
+        font-size: 17px;
+    }
+
+
+    .saldo-item .saldo-negativo {
+        color: #dc2626;
+    }
+
+
+    .modal-question {
+        margin: 0 0 20px;
+
+        color: #334155;
+        font-size: 14px;
+    }
+
+
+    .modal-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+
+    .modal-buttons button {
+        padding: 13px;
+
+        border-radius: 10px;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: .2s;
+    }
+
+
+    .btn-modal-cancelar {
+        border: 1px solid #cbd5e1;
+
+        background: #ffffff;
+
+        color: #334155;
+    }
+
+
+    .btn-modal-cancelar:hover {
+        background: #eef2f7;
+        color: #0f172a;
+    }
+
+
+    .btn-modal-confirmar {
+        border: 1px solid #1d4380;
+
+        background: #0f2547;
+
+        color: #ffffff;
+    }
+
+
+    .btn-modal-confirmar:hover {
+        background: #173a73;
+    }
+
+
+    .modal-fechando {
+        animation: modalSaida .2s ease forwards;
+    }
+
+
+    body.modal-aberto {
+        overflow: hidden;
+    }
+
+
+    @@keyframes modalEntrada {
+
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+
+    }
+
+
+    @@keyframes modalSubir {
+
+        from {
+            opacity: 0;
+            transform: translateY(15px) scale(.98);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+    }
+
+
+    @@keyframes modalSaida {
+
+        from {
+            opacity: 1;
+        }
+
+        to {
+            opacity: 0;
+        }
+
+    }
+
+
+    @@media (max-width: 700px) {
+
+        .saida-page {
+            padding: 20px;
+        }
+
+
+        .saida-header {
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+
+        .saldo-info {
+            grid-template-columns: 1fr;
+        }
+
+
+        .modal-buttons {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+</style>

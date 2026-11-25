@@ -1,4 +1,4 @@
-@model dynamic
+@model List<Categoria>
 
 @{
     ViewData["Title"] = "Categorias";
@@ -13,20 +13,20 @@
 
         font-family: "Inter", "Segoe UI", Arial, sans-serif;
 
-        color: #F8FAFC;
+        color: #0f172a;
 
         background:
             radial-gradient(
                 circle at 15% 20%,
-                rgba(37, 99, 235, 0.10),
+                rgba(15, 37, 71, 0.025),
                 transparent 28%
             ),
             radial-gradient(
                 circle at 85% 80%,
-                rgba(59, 130, 246, 0.08),
+                rgba(15, 37, 71, 0.02),
                 transparent 30%
             ),
-            #070B12;
+            #f4f6f9;
     }
 
 
@@ -39,17 +39,17 @@
 
         margin: 0 auto;
 
-        background: #111827;
+        background: #ffffff;
 
-        border: 1px solid #1F2937;
+        border: 1px solid #e2e8f0;
 
         border-radius: 24px;
 
         padding: 45px 50px;
 
         box-shadow:
-            0 30px 90px rgba(0, 0, 0, 0.55),
-            0 0 80px rgba(37, 99, 235, 0.05);
+            0 30px 90px rgba(15, 23, 42, 0.138),
+            0 0 80px rgba(15, 37, 71, 0.035);
     }
 
 
@@ -77,13 +77,13 @@
 
         letter-spacing: -0.6px;
 
-        color: #F8FAFC;
+        color: #0f172a;
     }
 
     .categorias-header p {
         margin: 0;
 
-        color: #64748B;
+        color: #64748b;
 
         font-size: 14px;
 
@@ -109,11 +109,11 @@
 
         background: linear-gradient(
             135deg,
-            #2563EB,
-            #3B82F6
+            #0f2547,
+            #173a73
         );
 
-        color: #FFFFFF;
+        color: #ffffff;
 
         font-size: 14px;
         font-weight: 600;
@@ -125,7 +125,7 @@
         cursor: pointer;
 
         box-shadow:
-            0 10px 30px rgba(37, 99, 235, 0.25);
+            0 10px 30px rgba(15, 37, 71, 0.175);
 
         transition: all 0.25s ease;
     }
@@ -133,16 +133,16 @@
     .btn-nova-categoria:hover {
         background: linear-gradient(
             135deg,
-            #1D4ED8,
-            #2563EB
+            #173a73,
+            #0f2547
         );
 
-        color: #FFFFFF;
+        color: #ffffff;
 
         transform: translateY(-2px);
 
         box-shadow:
-            0 15px 35px rgba(37, 99, 235, 0.35);
+            0 15px 35px rgba(15, 37, 71, 0.245);
     }
 
 
@@ -151,7 +151,7 @@
        ========================= */
 
     .categorias-table-wrapper {
-        border: 1px solid #1F2937;
+        border: 1px solid #e2e8f0;
 
         border-radius: 16px;
 
@@ -169,9 +169,9 @@
 
         padding: 16px 20px;
 
-        background: #0F172A;
+        background: #f8fafc;
 
-        color: #94A3B8;
+        color: #64748b;
 
         font-size: 12px;
         font-weight: 600;
@@ -180,7 +180,7 @@
 
         letter-spacing: 0.5px;
 
-        border-bottom: 1px solid #1F2937;
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .categorias-table tbody td {
@@ -188,9 +188,9 @@
 
         font-size: 14px;
 
-        color: #E2E8F0;
+        color: #1e293b;
 
-        border-bottom: 1px solid #1F2937;
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .categorias-table tbody tr:last-child td {
@@ -198,13 +198,13 @@
     }
 
     .categorias-table tbody tr {
-        background: #111827;
+        background: #ffffff;
 
         transition: background 0.2s ease;
     }
 
     .categorias-table tbody tr:hover {
-        background: #151F32;
+        background: #f8fafc;
     }
 
 
@@ -227,19 +227,19 @@
     }
 
     .status-badge.ativa {
-        background: #0B2A1E;
+        background: #f0fdf4;
 
-        border: 1px solid #14532D;
+        border: 1px solid #bbf7d0;
 
-        color: #4ADE80;
+        color: #15803d;
     }
 
     .status-badge.inativa {
-        background: #2A1115;
+        background: #fef2f2;
 
-        border: 1px solid #7F1D1D;
+        border: 1px solid #fecaca;
 
-        color: #FCA5A5;
+        color: #b91c1c;
     }
 
     .status-dot {
@@ -286,31 +286,31 @@
     }
 
     .btn-editar {
-        background: #172554;
+        background: #e8edf6;
 
-        border-color: #1E40AF;
+        border-color: #d3dcec;
 
-        color: #60A5FA;
+        color: #1d4380;
     }
 
     .btn-editar:hover {
-        background: #1E3A8A;
+        background: #d3dcec;
 
-        color: #93C5FD;
+        color: #0f2547;
     }
 
     .btn-excluir {
         background: transparent;
 
-        border-color: #7F1D1D;
+        border-color: #fecaca;
 
-        color: #F87171;
+        color: #dc2626;
     }
 
     .btn-excluir:hover {
-        background: #2A1115;
+        background: #fef2f2;
 
-        color: #FCA5A5;
+        color: #b91c1c;
     }
 
 
@@ -323,7 +323,7 @@
 
         text-align: center;
 
-        color: #64748B;
+        color: #64748b;
 
         font-size: 14px;
     }
@@ -333,7 +333,7 @@
 
         margin-bottom: 8px;
 
-        color: #CBD5E1;
+        color: #334155;
 
         font-size: 16px;
     }
@@ -371,7 +371,7 @@
 
             margin-bottom: 12px;
 
-            border: 1px solid #1F2937;
+            border: 1px solid #e2e8f0;
 
             border-radius: 12px;
         }
@@ -391,7 +391,7 @@
 
             font-weight: 600;
 
-            color: #64748B;
+            color: #64748b;
 
             text-transform: uppercase;
 
@@ -403,6 +403,16 @@
         }
     }
 
+    /* botões de ação que são <button> dentro de formulário (excluir) */
+    .form-inline-acao {
+        display: inline;
+        margin: 0;
+    }
+
+    button.btn-acao {
+        font-family: inherit;
+        cursor: pointer;
+    }
 </style>
 
 
@@ -469,11 +479,16 @@
                                             Editar
                                         </a>
 
-                                        <a asp-action="Excluir"
-                                           asp-route-id="@categoria.Id"
-                                           class="btn-acao btn-excluir">
-                                            Excluir
-                                        </a>
+                                        <form asp-action="Excluir"
+                                              asp-route-id="@categoria.Id"
+                                              method="post"
+                                              class="form-inline-acao"
+                                              data-confirmar="Excluir a categoria &quot;@categoria.NomeCategoria&quot;? Isso não pode ser desfeito."
+                                              onsubmit="return confirm(this.dataset.confirmar)">
+                                            <button type="submit" class="btn-acao btn-excluir">
+                                                Excluir
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

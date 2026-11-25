@@ -1,0 +1,115 @@
+@model lsfinan.ViewModel.PerfilViewModel
+@{
+    ViewData["Title"] = "Minha Conta";
+    Layout = "_Layout";
+}
+
+<div class="perfil-page">
+
+    <div class="perfil-header">
+        <span class="perfil-label">MINHA CONTA</span>
+        <h1>Seus dados</h1>
+        <p>Cadastrado desde @Model.DataCadastro.ToString("dd/MM/yyyy").</p>
+    </div>
+
+    <div class="perfil-card">
+        <h2>Dados pessoais</h2>
+
+        <form asp-controller="Usuario" asp-action="Perfil" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="perfil-erro"></div>
+
+            <div class="perfil-campo">
+                <label asp-for="Nome">Nome</label>
+                <input asp-for="Nome" autocomplete="name" />
+                <span asp-validation-for="Nome" class="perfil-erro-campo"></span>
+            </div>
+
+            <div class="perfil-campo">
+                <label for="Email">E-mail</label>
+                <input id="Email" value="@Model.Email" disabled />
+                <small>O e-mail é o seu acesso e não pode ser alterado aqui.</small>
+            </div>
+
+            <div class="perfil-rodape">
+                <button type="submit" class="perfil-btn">Salvar dados</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="perfil-card">
+        <h2>Alterar senha</h2>
+
+        <form asp-controller="Usuario" asp-action="AlterarSenha" method="post">
+
+            @if (ViewData.ModelState["Senha"]?.Errors.Count > 0)
+            {
+                <div class="perfil-erro">
+                    <ul>
+                        @foreach (var erro in ViewData.ModelState["Senha"]!.Errors)
+                        {
+                            <li>@erro.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            <input type="hidden" name="Nome" value="@Model.Nome" />
+
+            <div class="perfil-campo">
+                <label for="SenhaAtual">Senha atual</label>
+                <input id="SenhaAtual" name="SenhaAtual" type="password" autocomplete="current-password" />
+            </div>
+
+            <div class="perfil-linha">
+                <div class="perfil-campo">
+                    <label for="NovaSenha">Nova senha</label>
+                    <input id="NovaSenha" name="NovaSenha" type="password" autocomplete="new-password" />
+                </div>
+
+                <div class="perfil-campo">
+                    <label for="ConfirmarNovaSenha">Confirmar nova senha</label>
+                    <input id="ConfirmarNovaSenha" name="ConfirmarNovaSenha" type="password" autocomplete="new-password" />
+                </div>
+            </div>
+
+            <div class="perfil-rodape">
+                <button type="submit" class="perfil-btn">Alterar senha</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .perfil-page { max-width: 720px; margin: 0 auto; padding: 36px 20px 60px; color: #0f172a; }
+    .perfil-header { margin-bottom: 24px; }
+    .perfil-label { display: block; font-size: 12px; font-weight: 700; letter-spacing: .12em; color: #1d4380; margin-bottom: 6px; }
+    .perfil-header h1 { margin: 0; font-size: 30px; font-weight: 700; }
+    .perfil-header p { margin: 6px 0 0; color: #64748b; }
+
+    .perfil-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 28px; margin-bottom: 18px; box-shadow: 0 10px 30px rgba(15, 23, 42, .06); }
+    .perfil-card h2 { margin: 0 0 18px; font-size: 18px; }
+
+    .perfil-campo { margin-bottom: 18px; }
+    .perfil-campo label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #334155; }
+    .perfil-campo input { width: 100%; height: 48px; border: 1px solid #cbd5e1; border-radius: 12px; background: #f8fafc; padding: 0 14px; font-family: inherit; font-size: 15px; color: #0f172a; }
+    .perfil-campo input:focus { outline: none; border-color: #1d4380; background: #fff; box-shadow: 0 0 0 3px rgba(15, 37, 71, .08); }
+    .perfil-campo input:disabled { background: #eef2f7; color: #94a3b8; }
+    .perfil-campo small { display: block; margin-top: 6px; color: #94a3b8; font-size: 12px; }
+
+    .perfil-linha { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .perfil-erro-campo { display: block; margin-top: 6px; color: #dc2626; font-size: 13px; }
+    .perfil-erro { margin-bottom: 18px; }
+    .perfil-erro ul { margin: 0; padding: 12px 14px 12px 30px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; color: #b91c1c; font-size: 14px; }
+
+    .perfil-rodape { display: flex; justify-content: flex-end; }
+    .perfil-btn { height: 44px; padding: 0 20px; border-radius: 12px; border: 1px solid #0f2547; background: #0f2547; color: #fff; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .perfil-btn:hover { background: #173a73; }
+
+    @@media (max-width: 560px) { .perfil-linha { grid-template-columns: 1fr; } .perfil-card { padding: 20px; } }
+</style>

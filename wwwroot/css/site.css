@@ -1,4 +1,35 @@
 /* =========================================================
+   PALETA (branco acinzentado + azul marinho)
+   Tokens de referencia para novas telas/componentes.
+========================================================= */
+
+:root {
+    --ls-page:        #f4f6f9;
+    --ls-surface:     #ffffff;
+    --ls-surface-alt: #f8fafc;
+    --ls-border:      #e2e8f0;
+    --ls-border-strong: #cbd5e1;
+
+    --ls-navy-950:    #0a1a33;
+    --ls-navy-900:    #0f2547;
+    --ls-navy-800:    #173a73;
+    --ls-navy-700:    #1d4380;
+    --ls-navy-tint:   #e8edf6;
+
+    --ls-text:        #0f172a;
+    --ls-text-soft:   #334155;
+    --ls-muted:       #64748b;
+
+    --ls-income:      #0d7a55;
+    --ls-expense:     #dc2626;
+
+    /* links padrao do Bootstrap na cor da marca */
+    --bs-link-color-rgb: 29, 67, 128;
+    --bs-link-hover-color-rgb: 15, 37, 71;
+}
+
+
+/* =========================================================
    CONFIGURAÇÕES GERAIS
 ========================================================= */
 
@@ -29,17 +60,17 @@ body {
     background:
         radial-gradient(
             circle at 20% 10%,
-            rgba(37, 99, 235, 0.10),
+            rgba(15, 37, 71, 0.025),
             transparent 30%
         ),
         radial-gradient(
             circle at 80% 80%,
-            rgba(37, 99, 235, 0.07),
+            rgba(15, 37, 71, 0.018),
             transparent 30%
         ),
-        #050912;
+        #f4f6f9;
 
-    color: #e5e7eb;
+    color: #1e293b;
 
     font-family:
         Inter,
@@ -57,9 +88,9 @@ body {
 .main-header {
     width: 100%;
 
-    background: rgba(5, 9, 18, 0.88);
+    background: rgba(255, 255, 255, 0.92);
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.078);
 
     backdrop-filter: blur(18px);
 
@@ -86,7 +117,7 @@ body {
     align-items: center;
     gap: 10px;
 
-    color: #f8fafc !important;
+    color: #0f172a !important;
 
     font-size: 1.35rem;
     font-weight: 700;
@@ -102,7 +133,7 @@ body {
 
 .brand-logo span:last-child > span,
 .footer-brand > span:last-child {
-    color: #3b82f6;
+    color: #1d4380;
 }
 
 
@@ -118,16 +149,16 @@ body {
 
     background: linear-gradient(
         135deg,
-        #2563eb,
-        #1d4ed8
+        #0f2547,
+        #173a73
     );
 
-    color: white;
+    color: #ffffff;
 
     font-weight: 700;
 
     box-shadow:
-        0 8px 25px rgba(37, 99, 235, 0.28);
+        0 8px 25px rgba(15, 37, 71, 0.196);
 }
 
 
@@ -150,7 +181,7 @@ body {
 }
 
 .nav-link {
-    color: #9ca3af !important;
+    color: #64748b !important;
 
     font-size: 0.95rem;
     font-weight: 500;
@@ -163,9 +194,9 @@ body {
 }
 
 .nav-link:hover {
-    color: #ffffff !important;
+    color: #0f172a !important;
 
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(15, 23, 42, 0.05);
 
     transform: translateY(-1px);
 }
@@ -184,11 +215,11 @@ body {
 
 
 .btn-login {
-    color: #dbeafe;
+    color: #1d4380;
 
-    border: 1px solid rgba(59, 130, 246, 0.35);
+    border: 1px solid rgba(15, 37, 71, 0.245);
 
-    background: rgba(37, 99, 235, 0.08);
+    background: rgba(15, 37, 71, 0.072);
 
     padding: 9px 18px;
 
@@ -200,20 +231,20 @@ body {
 }
 
 .btn-login:hover {
-    color: white;
+    color: #0f172a;
 
-    background: rgba(37, 99, 235, 0.18);
+    background: rgba(15, 37, 71, 0.162);
 
-    border-color: rgba(59, 130, 246, 0.6);
+    border-color: rgba(15, 37, 71, 0.42);
 }
 
 
 .btn-register {
-    color: white;
+    color: #ffffff;
 
-    background: #2563eb;
+    background: #0f2547;
 
-    border: 1px solid #2563eb;
+    border: 1px solid #1d4380;
 
     padding: 9px 18px;
 
@@ -222,22 +253,22 @@ body {
     font-weight: 600;
 
     box-shadow:
-        0 6px 20px rgba(37, 99, 235, 0.22);
+        0 6px 20px rgba(15, 37, 71, 0.154);
 
     transition: 0.25s ease;
 }
 
 .btn-register:hover {
-    color: white;
+    color: #ffffff;
 
-    background: #1d4ed8;
+    background: #173a73;
 
-    border-color: #1d4ed8;
+    border-color: #173a73;
 
     transform: translateY(-1px);
 
     box-shadow:
-        0 9px 25px rgba(37, 99, 235, 0.32);
+        0 9px 25px rgba(15, 37, 71, 0.224);
 }
 
 
@@ -262,17 +293,17 @@ body {
 
     border-radius: 50%;
 
-    background: rgba(37, 99, 235, 0.18);
+    background: rgba(15, 37, 71, 0.162);
 
-    border: 1px solid rgba(59, 130, 246, 0.35);
+    border: 1px solid rgba(15, 37, 71, 0.245);
 
-    color: #60a5fa;
+    color: #1d4380;
 
     font-weight: 600;
 }
 
 .user-name {
-    color: #d1d5db;
+    color: #334155;
 
     font-size: 0.9rem;
 }
@@ -301,9 +332,9 @@ body {
 
     margin-top: auto;
 
-    background: #03060d;
+    background: #ffffff;
 
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid rgba(15, 23, 42, 0.078);
 
     padding: 35px 0 20px;
 }
@@ -320,7 +351,7 @@ body {
     padding-bottom: 25px;
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.06);
+        1px solid rgba(15, 23, 42, 0.078);
 }
 
 
@@ -330,7 +361,7 @@ body {
 
     gap: 9px;
 
-    color: #f8fafc;
+    color: #0f172a;
 
     font-size: 1.1rem;
 
@@ -341,7 +372,7 @@ body {
 .footer-description {
     margin: 10px 0 0;
 
-    color: #6b7280;
+    color: #64748b;
 
     font-size: 0.85rem;
 }
@@ -355,7 +386,7 @@ body {
 
 
 .footer-links a {
-    color: #6b7280;
+    color: #64748b;
 
     text-decoration: none;
 
@@ -365,7 +396,7 @@ body {
 }
 
 .footer-links a:hover {
-    color: #60a5fa;
+    color: #1d4380;
 }
 
 
@@ -378,7 +409,7 @@ body {
 
     padding-top: 20px;
 
-    color: #4b5563;
+    color: #64748b;
 
     font-size: 0.75rem;
 }
@@ -389,7 +420,7 @@ body {
 ========================================================= */
 
 .navbar-toggler {
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(15, 23, 42, 0.156);
 
     padding: 8px;
 
@@ -398,7 +429,7 @@ body {
 
 .navbar-toggler:focus {
     box-shadow:
-        0 0 0 3px rgba(37, 99, 235, 0.15);
+        0 0 0 3px rgba(15, 37, 71, 0.105);
 }
 
 
@@ -418,7 +449,7 @@ body {
         padding-top: 15px;
 
         border-top:
-            1px solid rgba(255, 255, 255, 0.06);
+            1px solid rgba(15, 23, 42, 0.078);
     }
 
 }
@@ -458,3 +489,233 @@ body {
 
 }
 
+
+
+/* =========================================================
+   MENSAGENS (sucesso / erro)
+========================================================= */
+
+.ls-flash {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 1100px;
+    margin: 0 auto 18px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    animation: lsFlashEntrada .25s ease;
+}
+
+.ls-flash p { margin: 0; flex: 1; line-height: 1.45; }
+
+.ls-flash-ok {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    animation: lsFlashEntrada .25s ease, lsFlashSaida .4s ease 7s forwards;
+}
+
+.ls-flash-erro {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+.ls-flash-icone {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: #15803d;
+}
+
+.ls-flash-erro .ls-flash-icone { background: #dc2626; }
+
+.ls-flash-x {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: .6;
+}
+
+.ls-flash-x:hover { opacity: 1; }
+
+@keyframes lsFlashEntrada { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@keyframes lsFlashSaida { to { opacity: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; max-height: 0; border-width: 0; overflow: hidden; } }
+
+
+/* =========================================================
+   CONTAS A PAGAR: etiquetas de situação e contador do menu
+========================================================= */
+
+.cp-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.cp-chip-atrasada { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.cp-chip-hoje     { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+.cp-chip-breve    { background: #fffbeb; border-color: #fde68a; color: #b45309; }
+.cp-chip-pendente { background: #f1f5f9; border-color: #e2e8f0; color: #475569; }
+.cp-chip-paga     { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+
+.ls-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+}
+
+.ls-badge-atraso { background: #dc2626; }
+.ls-badge-aviso  { background: #d97706; }
+
+
+/* =========================================================
+   AVISO DE CONTAS AO ENTRAR NO SISTEMA
+========================================================= */
+
+.aviso-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    animation: avisoEntrada .3s ease 3.7s forwards; /* espera a animação de boas-vindas */
+}
+
+.aviso-overlay.aviso-saindo { animation: avisoSaida .2s ease forwards; }
+
+@keyframes avisoEntrada { from { opacity: 0; } to { opacity: 1; } }
+@keyframes avisoSaida { to { opacity: 0; } }
+
+body.aviso-aberto { overflow: hidden; }
+
+.aviso-box {
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 30px 80px rgba(15, 23, 42, .35);
+}
+
+.aviso-topo {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 22px 24px;
+    background: #fffbeb;
+    border-bottom: 1px solid #fde68a;
+    border-radius: 20px 20px 0 0;
+}
+
+.aviso-topo-atraso { background: #fef2f2; border-bottom-color: #fecaca; }
+
+.aviso-topo h2 { margin: 0 0 4px; font-size: 19px; color: #0f172a; }
+.aviso-topo p { margin: 0; font-size: 14px; color: #475569; line-height: 1.5; }
+
+.aviso-icone {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    background: #d97706;
+}
+
+.aviso-topo-atraso .aviso-icone { background: #dc2626; }
+
+.aviso-lista { list-style: none; margin: 0; padding: 8px 24px; }
+
+.aviso-lista li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.aviso-lista li:last-child { border-bottom: 0; }
+
+.aviso-item-info { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.aviso-item-info strong { color: #0f172a; font-size: 15px; }
+
+.aviso-item-valor { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; font-weight: 700; color: #0f172a; font-size: 15px; }
+.aviso-item-valor a { font-size: 12px; font-weight: 600; color: #1d4380; text-decoration: none; }
+.aviso-item-valor a:hover { text-decoration: underline; }
+
+.aviso-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px 22px;
+}
+
+.aviso-btn, .aviso-btn-sec {
+    height: 44px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.aviso-btn { background: #0f2547; color: #fff; border: 1px solid #0f2547; }
+.aviso-btn:hover { background: #173a73; color: #fff; }
+.aviso-btn-sec { background: #fff; color: #334155; border: 1px solid #cbd5e1; }
+.aviso-btn-sec:hover { background: #f1f5f9; }
+
+
+/* =========================================================
+   Campos de valor sem as setinhas do navegador
+========================================================= */
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
