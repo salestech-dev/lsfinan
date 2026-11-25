@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lsfinan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b0d7b717f4c16749dc0d2a17c199a60b2fc4d64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b50ae489eacf588fa0cbbbb738427dc14b15122f")]
 [assembly: System.Reflection.AssemblyProductAttribute("lsfinan")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lsfinan")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
