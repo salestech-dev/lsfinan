@@ -379,3 +379,5 @@ C:\Users\Administrator\Downloads\lsfinan\obj\Debug\net9.0\refint\lsfinan.dll
 C:\Users\Administrator\Downloads\lsfinan\obj\Debug\net9.0\lsfinan.pdb
 C:\Users\Administrator\Downloads\lsfinan\obj\Debug\net9.0\lsfinan.genruntimeconfig.cache
 C:\Users\Administrator\Downloads\lsfinan\obj\Debug\net9.0\ref\lsfinan.dll
+C:\Users\Administrator\Downloads\lsfinan\bin\Debug\net9.0\Npgsql.dll
+C:\Users\Administrator\Downloads\lsfinan\bin\Debug\net9.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
