@@ -6,7 +6,7 @@ namespace lsfinan.Models
     {
         public string Nome { get; set; } = string.Empty;
 
-        public DateTime DataCadastro { get; set; }
+        public DateTime DataCadastro { get; set; } = DateTime.UtcNow;
 
         public ICollection<Conta> Contas { get; set; } = new List<Conta>();
 

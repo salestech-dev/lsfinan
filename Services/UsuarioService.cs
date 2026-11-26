@@ -35,7 +35,7 @@ public class UsuarioService : IUsuarioService
                 UserName = usuario.Email,
                 Email = usuario.Email,
                 Nome = usuario.Nome,
-                DataCadastro = DateTime.Now
+                DataCadastro = DateTime.UtcNow
             },
             usuario.Senha);
     }
