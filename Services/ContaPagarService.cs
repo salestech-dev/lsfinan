@@ -109,7 +109,7 @@ namespace lsfinan.Services
 
         public async Task<AlertasContasPagarViewModel> ObterAlertas(int usuarioId)
         {
-            var hoje = DateTime.Today;
+            var hoje = DateTime.UtcNow.Date;
             var limiteExclusivo = hoje.AddDays(RegrasFinanceiras.JanelaAlertaDias + 1);
 
             var abertas = await _context.ContasPagar
@@ -214,7 +214,7 @@ namespace lsfinan.Services
                 DataVencimento = viewModel.DataVencimento!.Value.Date,
                 CategoriaId = viewModel.CategoriaId,
                 Pago = false,
-                DataCadastro = DateTime.Now,
+                DataCadastro = DateTime.UtcNow,
                 UsuarioId = usuario.Id
             };
 
@@ -281,7 +281,7 @@ namespace lsfinan.Services
             var viewModel = new PagarContaPagarViewModel
             {
                 Id = conta.Id,
-                Conta = Mapear(conta, categorias, DateTime.Today),
+                Conta = Mapear(conta, categorias, DateTime.UtcNow),
                 ContasAtivas = contasAtivas
             };
 
@@ -321,7 +321,7 @@ namespace lsfinan.Services
             });
 
             conta.Pago = true;
-            conta.DataPagamento = DateTime.Now;
+            conta.DataPagamento = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
         }

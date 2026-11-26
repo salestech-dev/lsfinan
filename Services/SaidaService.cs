@@ -111,7 +111,7 @@ namespace lsfinan.Services
                 RegrasFinanceiras.ValidarAlocacoes(valor, alocacoes, contasPorId);
             }
 
-            var agora = DateTime.Now;
+            var agora = DateTime.UtcNow;
             var criadas = new List<Saida>();
             var dividida = alocacoes.Count > 1;
             var descricaoBase = dados.Descricao?.Trim() ?? string.Empty;

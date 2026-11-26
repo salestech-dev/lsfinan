@@ -13,11 +13,13 @@ namespace lsfinan.Controllers
 
         private readonly IDashboardService _dashboardService;
         private readonly UserManager<Usuario> _userManager;
+         private readonly ILogger<DashboardController> _logger;
 
-        public DashboardController(IDashboardService dashboardService, UserManager<Usuario> userManager)
+        public DashboardController(IDashboardService dashboardService, UserManager<Usuario> userManager, ILogger<DashboardController> logger)
         {
             _dashboardService = dashboardService;
             _userManager = userManager;
+            _logger = logger;
         }
         [HttpGet]
         [Authorize]

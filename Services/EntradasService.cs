@@ -55,7 +55,7 @@ namespace lsfinan.Services
                 NomeEntrada = descricao,
                 DescricaoEntrada = descricao,
                 ValorEntrada = valor,
-                DataEntrada = DateTime.Now,
+                DataEntrada = DateTime.UtcNow,
                 CategoriaId = entrada.CategoriaId,
                 ContaId = entrada.ContaId,
                 UsuarioId = usuario.Id

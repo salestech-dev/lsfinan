@@ -1,6 +1,5 @@
 using lsfinan.Data;
 using lsfinan.Interfaces;
-using lsfinan.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace lsfinan.Services
@@ -85,7 +84,7 @@ namespace lsfinan.Services
                 Resultado = userEntradas - userSaidas,
                 NomeUsuario = nomeUsuario,
                 UltimasMovimentacoes = movimentacoes,
-                Alertas = new AlertasContasPagarViewModel()
+                Alertas = await _contaPagarService.ObterAlertas(usuarioId)
             };
         }
     }
