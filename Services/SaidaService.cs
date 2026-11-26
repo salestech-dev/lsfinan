@@ -287,7 +287,7 @@ namespace lsfinan.Services
 
         public async Task<List<Saida>> ListarSaidasDeHoje(Usuario usuario)
         {
-            var hoje = DateTime.Today;
+            var hoje = DateTime.UtcNow.Date;
             var amanha = hoje.AddDays(1);
 
             var saidas = await _context.Saidas
