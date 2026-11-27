@@ -11,17 +11,20 @@ namespace lsfinan.Controllers
     public class UsuarioController : Controller
     {
         private readonly IUsuarioService _usuarioService;
+        private readonly ICadastroPendenteService _cadastroPendenteService;
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
 
         public UsuarioController(
             IUsuarioService usuarioService,
             UserManager<Usuario> userManager,
-            SignInManager<Usuario> signInManager)
+            SignInManager<Usuario> signInManager,
+            ICadastroPendenteService cadastroPendenteService)
         {
             _usuarioService = usuarioService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _cadastroPendenteService = cadastroPendenteService;
         }
 
         [HttpGet("Login")]
@@ -36,36 +39,84 @@ namespace lsfinan.Controllers
             return View();
         }
 
+        [HttpGet("VerificarEmail")]
+        public IActionResult VerificarEmail()
+        {
+            var email = TempData.Peek("EmailConfirmacao")?.ToString();
+
+            if (string.IsNullOrEmpty(email))
+                return RedirectToAction(nameof(Cadastro));
+
+            return View(new VerificarEmailViewModel
+            {
+                Email = email
+            });
+        }
+
         [HttpPost("Cadastro")]
-        public async Task<IActionResult> Cadastro(
-         UsuarioCadastroViewModel usuario)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cadastro(UsuarioCadastroViewModel usuario)
         {
             if (!ModelState.IsValid)
-            {
                 return View(usuario);
-            }
 
-            var resultado = await _usuarioService.CadastrarUsuario(usuario);
+            var resultado = await _cadastroPendenteService
+                .IniciarCadastroAsync(usuario);
 
             if (resultado.Succeeded)
             {
-                TempData["MostrarBoasVindas"] = true;
-                var usuarioCadastrado = await _usuarioService.LoginUsuario(new UsuarioLoginViewModel
-                {
-                    Email = usuario.Email,
-                    Senha = usuario.Senha
-                });
-                return RedirectToAction("Index", "Dashboard");
+                TempData["EmailConfirmacao"] = usuario.Email;
+                return RedirectToAction(nameof(VerificarEmail));
             }
 
             foreach (var erro in resultado.Errors)
-            {
                 ModelState.AddModelError(string.Empty, erro.Description);
-            }
 
             return View(usuario);
         }
 
+        [HttpPost("VerificarEmail")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerificarEmail(
+    VerificarEmailViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var resultado = await _cadastroPendenteService
+                .ConfirmarCadastroAsync(model.Email, model.Codigo);
+
+            if (!resultado.Succeeded)
+            {
+                foreach (var erro in resultado.Errors)
+                    ModelState.AddModelError(string.Empty, erro.Description);
+
+                return View(model);
+            }
+
+            TempData["Sucesso"] = "E-mail confirmado! Agora você já pode entrar.";
+
+            return RedirectToAction(nameof(Login));
+        }
+
+        [HttpPost("ReenviarCodigo")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReenviarCodigo(string email)
+        {
+            try
+            {
+                await _cadastroPendenteService.ReenviarCodigoAsync(email);
+                TempData["Sucesso"] = "Um novo código foi enviado.";
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["Erro"] = ex.Message;
+            }
+
+            TempData["EmailConfirmacao"] = email;
+
+            return RedirectToAction(nameof(VerificarEmail));
+        }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromForm] UsuarioLoginViewModel usuario)

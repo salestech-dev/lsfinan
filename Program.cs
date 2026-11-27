@@ -6,8 +6,25 @@ using lsfinan.Models;
 using lsfinan.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Resend;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var resendApiKey = Environment.GetEnvironmentVariable("RESEND_APITOKEN");
+
+if (string.IsNullOrWhiteSpace(resendApiKey))
+{
+    throw new InvalidOperationException("A chave da API do Resend não foi configurada.");
+}
+
+builder.Services.AddOptions();
+builder.Services.AddHttpClient<IResend, ResendClient>();
+builder.Services.Configure<ResendClientOptions>(options =>
+{
+    options.ApiToken = resendApiKey;
+});
+
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Sistema em português do Brasil: R$, datas dd/MM/yyyy e vírgula decimal
 // iguais em qualquer servidor.
@@ -36,6 +53,7 @@ builder.Services.AddIdentity<Usuario, IdentityRole<int>>(opt =>
         opt.Password.RequireNonAlphanumeric = false;
         opt.Password.RequireUppercase = false;
         opt.Password.RequiredLength = 6;
+        opt.SignIn.RequireConfirmedEmail = true;
     })
     .AddEntityFrameworkStores<AppDbContext>();
 
@@ -53,6 +71,7 @@ builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IContaService, ContaService>();
 builder.Services.AddScoped<ISaidaService, SaidaService>();
 builder.Services.AddScoped<IContaPagarService, ContaPagarService>();
+builder.Services.AddScoped<ICadastroPendenteService, CadastroPendenteService>();
 
 
 var app = builder.Build();

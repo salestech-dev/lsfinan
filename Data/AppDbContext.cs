@@ -5,7 +5,7 @@ using lsfinan.Models;
 
 namespace lsfinan.Data
 {
-    public class AppDbContext 
+    public class AppDbContext
         : IdentityDbContext<Usuario, IdentityRole<int>, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -13,6 +13,7 @@ namespace lsfinan.Data
         {
         }
 
+        public DbSet<CadastroPendente> CadastrosPendentes { get; set; }
         public DbSet<Saida> Saidas { get; set; }
 
         public DbSet<Entrada> Entradas { get; set; }
