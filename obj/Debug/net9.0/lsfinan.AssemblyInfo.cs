@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lsfinan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61bc29e2f4c5ef8ad27162882f4d2de96e565eea")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+269fc025dab8396162cc2f3c8923d6398e24896b")]
 [assembly: System.Reflection.AssemblyProductAttribute("lsfinan")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lsfinan")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
